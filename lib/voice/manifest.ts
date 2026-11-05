@@ -18,5 +18,6 @@ export function allVoicedLines(): VoicedLine[] {
   story.scenes.forEach((s) => add(s.lines));
   Object.values(story.decisions).forEach((d) => d.options.forEach((o) => add(o.beat)));
   Object.values(story.endings).forEach((e) => add(e.lines));
+  story.debrief.slides.forEach((s) => add(s.narration));
   return out;
 }

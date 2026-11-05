@@ -57,6 +57,7 @@ export type Action =
   | { t: 'feedbackTap'; value: string; ts: number }
   | { t: 'feedbackExplain' }
   | { t: 'feedbackDone'; ts: number }
+  | { t: 'debriefDone'; ts: number; skipped?: boolean }
   | { t: 'reflectAccept'; ts: number }
   | { t: 'reflectDecline'; ts: number }
   | { t: 'settings'; patch: Partial<Settings> }
@@ -191,7 +192,9 @@ export function reducer(s: SessionState, a: Action): SessionState {
     case 'feedbackExplain':
       return { ...s, feedback: { ...s.feedback, phase: 'explain' } };
     case 'feedbackDone':
-      return one({ ...s, step: 'reflect', reflect: freshAnswer(story, 'reflect', true) }, 'reflect_offer', {}, a.ts);
+      return one({ ...s, step: 'debrief' }, 'debrief_start', {}, a.ts);
+    case 'debriefDone':
+      return withLog({ ...s, step: 'reflect', reflect: freshAnswer(story, 'reflect', true) }, [['debrief_done', { skipped: !!a.skipped }], ['reflect_offer', {}]], a.ts);
     case 'reflectAccept':
       return one({ ...s, reflect: { ...s.reflect, phase: 'ask' } }, 'reflect_start', {}, a.ts);
     case 'reflectDecline':
@@ -235,5 +238,5 @@ export function rehydrate(raw: unknown): SessionState | null {
 
 export const STEP_ROUTE: Record<SessionState['step'], '/start' | '/play'> = {
   age_gate: '/start', content_note: '/start', input: '/start', emotion: '/start', appraisal: '/start', match: '/start',
-  play: '/play', feedback: '/play', reflect: '/play', end: '/play',
+  play: '/play', feedback: '/play', debrief: '/play', reflect: '/play', end: '/play',
 };

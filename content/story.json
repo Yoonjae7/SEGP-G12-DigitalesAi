@@ -252,6 +252,179 @@
     "d3_hold": "You held Lisa responsible, so she had to face it. The friendship felt shaky for a while."
   },
   "closing": "There's no single right path. Someone else might choose differently and still have good reasons. What matters here is being able to say who's responsible for what, and why.",
+  "debrief": {
+    "title": "How it could have gone",
+    "slides": [
+      {
+        "id": "db1",
+        "kind": "recap",
+        "title": "What happened",
+        "items": [
+          {
+            "title": "Posted",
+            "text": "Lisa shared the photo in a chat of 12."
+          },
+          {
+            "title": "Forwarded",
+            "text": "Marco and Dev sent it on to two more chats."
+          },
+          {
+            "title": "Found out",
+            "text": "Sarah saw people staring and had no idea why."
+          }
+        ],
+        "narration": [
+          {
+            "id": "db1_01",
+            "speaker": "narrator",
+            "kind": "narration",
+            "text": "Let's look back. Someone posted a photo of Sarah asleep, and it reached three chats before she even knew.",
+            "voiced": true
+          },
+          {
+            "id": "db1_02",
+            "speaker": "narrator",
+            "kind": "narration",
+            "text": "It can happen to anyone, and it happens fast. A joke gets forwarded, and nobody stops to think how it feels for the person in the photo.",
+            "voiced": true
+          }
+        ]
+      },
+      {
+        "id": "db2",
+        "kind": "people",
+        "title": "Who should have seen it coming?",
+        "people": [
+          {
+            "id": "lisa",
+            "name": "Lisa",
+            "role": "Posted it",
+            "should": "Ask Sarah first, or don't post it. She had the first chance to stop it."
+          },
+          {
+            "id": "marco",
+            "name": "Marco and Dev",
+            "role": "Forwarded it",
+            "should": "Say no. Every forward puts it in front of more people."
+          },
+          {
+            "id": "group",
+            "name": "Everyone in the chat",
+            "role": "Laughed and stayed quiet",
+            "should": "One person saying \"delete this\" could have changed it."
+          },
+          {
+            "id": "you",
+            "name": "You",
+            "role": "Noticed first",
+            "should": "Speak up early, and tell Sarah before she hears it from strangers."
+          }
+        ],
+        "narration": [
+          {
+            "id": "db2_01",
+            "speaker": "narrator",
+            "kind": "narration",
+            "text": "Some people should have sensed how serious this was much sooner.",
+            "voiced": true
+          },
+          {
+            "id": "db2_02",
+            "speaker": "narrator",
+            "kind": "narration",
+            "text": "Lisa made the photo public, so she was the first who could have stopped it. Marco and Dev made it spread further. And the people who laughed along and said nothing made it feel okay.",
+            "voiced": true,
+            "focus": [
+              "lisa",
+              "marco",
+              "group"
+            ]
+          },
+          {
+            "id": "db2_03",
+            "speaker": "narrator",
+            "kind": "narration",
+            "text": "You were the one who noticed. Speaking up early, and telling Sarah yourself, was the strongest move anyone had.",
+            "voiced": true,
+            "focus": [
+              "you"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "db3",
+        "kind": "steps",
+        "title": "How it could have gone",
+        "items": [
+          {
+            "title": "Ask first",
+            "text": "Would Sarah be okay with this? If you don't know, ask her, or don't post it."
+          },
+          {
+            "title": "Don't pass it on",
+            "text": "Every forward is a new choice. You can stop it with one tap."
+          },
+          {
+            "title": "Speak up",
+            "text": "Say it's not okay and ask for it to be deleted. Tell Sarah yourself, before she hears it from someone else."
+          },
+          {
+            "title": "Make it right",
+            "text": "Delete it, say sorry and mean it, and ask Sarah what she needs."
+          }
+        ],
+        "narration": [
+          {
+            "id": "db3_01",
+            "speaker": "narrator",
+            "kind": "narration",
+            "text": "Here is how it could have gone. Before posting, ask. If it's already posted, say it's not okay and ask for it to be deleted.",
+            "voiced": true,
+            "focus": [
+              "1",
+              "2",
+              "3"
+            ]
+          },
+          {
+            "id": "db3_02",
+            "speaker": "narrator",
+            "kind": "narration",
+            "text": "Tell Sarah yourself, before she hears it from someone else. Then say sorry, and ask her what she needs.",
+            "voiced": true,
+            "focus": [
+              "3",
+              "4"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "db4",
+        "kind": "moral",
+        "title": "The moral",
+        "moral": "Ask before you share. If it goes wrong, own it and make it right.",
+        "note": "A joke is only a joke if the person in it agrees.",
+        "narration": [
+          {
+            "id": "db4_01",
+            "speaker": "narrator",
+            "kind": "narration",
+            "text": "Remember this. A joke is only a joke if the person in it agrees.",
+            "voiced": true
+          },
+          {
+            "id": "db4_02",
+            "speaker": "narrator",
+            "kind": "narration",
+            "text": "Ask before you share. And if it goes wrong, own it and make it right.",
+            "voiced": true
+          }
+        ]
+      }
+    ]
+  },
   "reflect": {
     "offer": "Want to try one more? It's a short, similar situation.",
     "scenario": "A friend sends you a screenshot of a private chat. In it, a classmate says something personal. Your friend says: \"Send it to the class group, just for a laugh.\"",

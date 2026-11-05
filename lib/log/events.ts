@@ -22,6 +22,8 @@ export type EventName =
   | 'fallback_2d'
   | 'fallback_to_mock'
   | 'exit'
+  | 'debrief_start'
+  | 'debrief_done'
   | `reflect_${string}`;
 
 export interface LogEvent {

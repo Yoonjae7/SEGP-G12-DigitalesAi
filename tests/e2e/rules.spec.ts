@@ -27,6 +27,8 @@ test('9 and 10. no score, level, rule id or reward appears in the learner UI', a
   await page.getByRole('button', { name: 'Show me what happened' }).click();
   await expectClean(page, 'explain');
   await page.getByRole('button', { name: 'Continue' }).click();
+  await expectClean(page, 'debrief');
+  await page.getByRole('button', { name: 'Skip debrief' }).click();
   await expectClean(page, 'reflect offer');
   await page.getByRole('button', { name: 'No thanks' }).click();
   await expectClean(page, 'end');
@@ -195,12 +197,36 @@ test('the speaking character shows with a moving mouth, and the narrator has no 
 test('a choice: number keys pick, and the two panels look like a game screen', async ({ page }) => {
   await startStory(page);
   await toDecision(page);
-  await expect(page.locator('.decide .step')).toHaveText('Decision 1');
+  await expect(page.locator('.decide .step')).toHaveText('Decision 1 of 3');
   await expect(page.locator('.decide .co').nth(0)).toHaveAttribute('data-n', '1');
   await expect(page.locator('.decide .co').nth(1)).toHaveAttribute('data-n', '2');
   await expect(page.locator('.decide')).not.toContainText('few seconds');
   await page.keyboard.press('2');
   await expect(page.locator('.plate .line')).toContainText('Can we take this down?', { timeout: 6000 }); // the "reply in the group chat" beat
+});
+
+test('the debrief after the story: what happened, who should have seen it, how it could have gone, and the moral', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('dt_lab_v1', JSON.stringify({ voice: false, threeD: false, forceFail: false, ratings: {} })));
+  await startStory(page); // auto-play is paused
+  await playThrough(page, COMBOS[0], null, null);
+  await page.getByRole('button', { name: 'Show me what happened' }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await expect(page.getByRole('heading', { name: 'What happened' })).toBeVisible();
+  await expect(page.locator('.db-chain li')).toHaveCount(3);
+  const next = page.getByRole('button', { name: 'Next', exact: true });
+  for (let k = 0; k < 2; k++) await next.click();
+  await expect(page.getByRole('heading', { name: 'Who should have seen it coming?' })).toBeVisible();
+  await expect(page.locator('.db-people li')).toHaveCount(4);
+  await expect(page.getByText('Ask Sarah first, or don\'t post it.')).toBeVisible();
+  for (let k = 0; k < 3; k++) await next.click();
+  await expect(page.getByRole('heading', { name: 'How it could have gone' })).toBeVisible();
+  await expect(page.locator('.db-steps li')).toHaveCount(4);
+  for (let k = 0; k < 2; k++) await next.click();
+  await expect(page.getByRole('heading', { name: 'The moral' })).toBeVisible();
+  await next.click(); // the last line
+  await expect(page.getByText('Ask before you share. If it goes wrong, own it and make it right.').first()).toBeVisible();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await expect(page.getByRole('heading', { name: "Want to try one more? It's a short, similar situation." })).toBeVisible();
 });
 
 test('auto-play with sound: a line moves on a moment after its voice ends, and the voice files are served', async ({ page }) => {
@@ -257,6 +283,8 @@ test('13 (support). "Need support?" is reachable from every screen', async ({ pa
   await has('feedback');
   await page.getByRole('button', { name: 'Show me what happened' }).click();
   await page.getByRole('button', { name: 'Continue' }).click();
+  await has('debrief');
+  await page.getByRole('button', { name: 'Skip debrief' }).click();
   await has('reflect');
   await page.getByRole('button', { name: 'No thanks' }).click();
   await has('end');

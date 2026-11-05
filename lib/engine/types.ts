@@ -1,7 +1,7 @@
 import type { EmotionLabel, ScoreResponse } from '../ai/types';
 import type { LogEvent } from '../log/events';
 
-export type Step = 'age_gate' | 'content_note' | 'input' | 'emotion' | 'appraisal' | 'match' | 'play' | 'feedback' | 'reflect' | 'end';
+export type Step = 'age_gate' | 'content_note' | 'input' | 'emotion' | 'appraisal' | 'match' | 'play' | 'feedback' | 'debrief' | 'reflect' | 'end';
 
 export interface Choices {
   d1?: 'private' | 'group';

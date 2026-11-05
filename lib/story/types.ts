@@ -84,6 +84,22 @@ export const EndingSchema = z.object({
 });
 export type Ending = z.infer<typeof EndingSchema>;
 
+/** The debrief after the story: what happened, who should have seen it coming, how it could have gone, and the moral.
+ *  Each slide is narrated (voiced lines with IDs, like the story). `focus` says which cards to light up while a line is spoken. */
+export const DebriefLineSchema = LineSchema.extend({ focus: z.array(z.string()).optional() });
+export const DebriefSlideSchema = z.object({
+  id: z.string(),
+  kind: z.enum(['recap', 'people', 'steps', 'moral']),
+  title: z.string(),
+  items: z.array(z.object({ title: z.string(), text: z.string() })).optional(),
+  people: z.array(z.object({ id: z.enum(['lisa', 'marco', 'group', 'you']), name: z.string(), role: z.string(), should: z.string() })).optional(),
+  moral: z.string().optional(),
+  note: z.string().optional(),
+  narration: z.array(DebriefLineSchema),
+});
+export const DebriefSchema = z.object({ title: z.string(), slides: z.array(DebriefSlideSchema) });
+export type DebriefSlide = z.infer<typeof DebriefSlideSchema>;
+
 export const StorySchema = z.object({
   id: z.string(),
   title: z.string(),
@@ -94,6 +110,7 @@ export const StorySchema = z.object({
   endings: z.object({ A: EndingSchema, B: EndingSchema }),
   choiceLines: z.record(z.string(), z.string()),
   closing: z.string(),
+  debrief: DebriefSchema,
   reflect: z.object({
     offer: z.string(),
     scenario: z.string(),

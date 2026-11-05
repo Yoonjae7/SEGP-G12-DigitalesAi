@@ -41,7 +41,8 @@ export async function advanceUntil(page: Page, stop: () => Promise<boolean>, max
   }
   throw new Error('did not reach the stop condition');
 }
-export const toDecision = (page: Page) => advanceUntil(page, async () => (await page.locator('.decide').count()) > 0);
+// A choice that was just picked stays on screen for a moment (it lights up), so wait for one that is still open.
+export const toDecision = (page: Page) => advanceUntil(page, async () => (await page.locator('.decide .cards:not(.picking)').count()) > 0);
 export const toWhy = (page: Page) => advanceUntil(page, async () => (await page.locator('.nb').count()) > 0);
 export const toFeedback = (page: Page) => advanceUntil(page, async () => (await page.locator('.banner').count()) > 0);
 

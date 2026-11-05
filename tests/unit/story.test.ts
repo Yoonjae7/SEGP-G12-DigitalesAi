@@ -18,7 +18,7 @@ describe('story.json', () => {
       ids.add(l.id);
       expect(['you', 'screen']).not.toContain(l.speaker);
     }
-    expect(allVoicedLines().length).toBe(62);
+    expect(allVoicedLines().length).toBe(71);
   });
 
   it('11. no real brand or platform name appears in story.json or the UI copy (About may credit tools)', () => {

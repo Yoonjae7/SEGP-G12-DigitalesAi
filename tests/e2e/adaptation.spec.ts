@@ -58,14 +58,14 @@ test.describe('adaptation: the follow-up fits the answer', () => {
     await page.getByRole('button', { name: 'I would rather not answer' }).click();
     await expect(page.getByText(w1.skipped)).toBeVisible();
     await page.getByRole('button', { name: 'Go on' }).click();
-    let s = await localSession(page);
+    const s = await localSession(page);
     expect(s.events.some((e: { event: string; payload: { promptId?: string } }) => e.event === 'skipped' && e.payload.promptId === 'why1')).toBe(true);
     // and a skipped follow-up
     await page.goto('/start'); // resumes the story
     await expect(page).toHaveURL(/play/);
     await choose(page, 'Ask Marco and Dev to delete it first.');
-    s = await localSession(page);
-    expect(s.choices.d2).toBe('delete');
+    // a picked choice lights up for a moment before it is recorded
+    await expect.poll(async () => (await localSession(page)).choices.d2).toBe('delete');
   });
 
   test('skipping a follow-up is logged with no penalty', async ({ page }) => {

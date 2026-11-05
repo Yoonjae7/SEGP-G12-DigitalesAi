@@ -1,5 +1,6 @@
 'use client';
 
+import { Debrief } from './Debrief';
 import { EndScreen } from './EndScreen';
 import { Feedback } from './Feedback';
 import { Reflect } from './Reflect';
@@ -14,6 +15,7 @@ export function Player() {
   switch (state.step) {
     case 'play': return <Stage />;
     case 'feedback': return <Feedback />;
+    case 'debrief': return <Debrief />;
     case 'reflect': return <Reflect />;
     case 'end': return <EndScreen />;
     default: return null;

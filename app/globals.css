@@ -439,3 +439,75 @@ html[data-text="3"] { --t-body: 26px; --t-caption: 28px; }
 @media (max-width: 720px) { .stage.split .stage3d-wrap { width: 100%; right: 0; bottom: auto; height: 150px; } }
 .stage3d { position: absolute; inset: 0; }
 .stage3d canvas { display: block; }
+
+/* ---------- debrief: a short narrated look back after the story ---------- */
+.dim.strong { background: rgba(16, 36, 43, .82); }
+.stage.db .art { filter: blur(3px); }
+.db-head { position: absolute; left: 4%; right: 4%; top: 22px; z-index: 12; display: flex; align-items: center; gap: 14px; color: var(--paper); }
+.db-kicker { font: 700 15px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: var(--butter); }
+.db-part { font: 500 16px/1 var(--font-body); color: rgba(244, 238, 227, .75); }
+.db-dots { margin-left: auto; display: flex; gap: 8px; }
+.db-dots i { width: 28px; height: 6px; border-radius: 3px; background: rgba(244, 238, 227, .25); }
+.db-dots i.done { background: rgba(244, 238, 227, .6); }
+.db-dots i.on { background: var(--ping); }
+.db-support { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: -12px 0 -12px 18px; padding: 0 4px; color: var(--paper); font: 600 16px/1 var(--font-body); text-decoration: underline; text-underline-offset: 3px; }
+.db-support:hover { color: var(--butter); }
+.db-body { position: absolute; z-index: 8; left: 6%; right: 6%; top: 64px; bottom: 190px; display: flex; flex-direction: column; justify-content: center; gap: 22px; color: var(--paper); animation: db-in 420ms var(--ease-paper) both; }
+.db-title { font: 400 50px/1.05 var(--font-display); text-shadow: 0 2px 0 rgba(0, 0, 0, .4); }
+@keyframes db-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes db-pop { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+.db-chain { list-style: none; margin: 0; padding: 0; display: flex; align-items: stretch; gap: 30px; }
+.db-chain li { flex: 1; position: relative; background: rgba(244, 238, 227, .95); color: var(--ink); border-radius: 6px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--lift-night); animation: db-pop 420ms var(--ease-paper) both; animation-delay: calc(var(--i) * 260ms + 200ms); }
+.db-chain li b { font: 400 30px/1.1 var(--font-display); }
+.db-chain li span { font-size: 19px; line-height: 1.4; color: var(--ink-soft); }
+.db-chain li + li::before { content: "\2192"; position: absolute; left: -24px; top: 50%; transform: translateY(-50%); color: var(--butter); font: 700 26px/1 var(--font-body); }
+.db-people { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+.db-people li { display: flex; gap: 16px; align-items: center; background: rgba(244, 238, 227, .95); color: var(--ink); border-radius: 6px; padding: 14px 18px; box-shadow: var(--lift-night); animation: db-pop 420ms var(--ease-paper) both; animation-delay: calc(var(--i) * 140ms + 150ms); transition: opacity 200ms, box-shadow 200ms, transform 200ms; }
+.db-people.focused li.off { opacity: .4; }
+.db-people.focused li.on { box-shadow: 0 0 0 4px var(--ping), var(--lift-night); transform: translateY(-3px); }
+.db-people .pt { display: flex; flex: none; gap: 4px; }
+.db-people .pt svg { width: 84px; height: auto; border-radius: 6px; background: var(--paper-deep); }
+.db-people .role { display: block; font: 700 13px/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--ping-ink); margin-bottom: 4px; }
+.db-people b { font: 400 26px/1.1 var(--font-display); }
+.db-people p { margin: 6px 0 0; font-size: 17px; line-height: 1.35; color: var(--ink-soft); }
+.crowd { flex: none; display: flex; width: 84px; height: 84px; align-items: center; justify-content: center; padding-left: 12px; }
+.crowd i { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--ink); margin-left: -12px; background: var(--butter); }
+.crowd i:nth-child(2) { background: var(--c-sarah); }
+.crowd i:nth-child(3) { background: var(--paper-deep); }
+.db-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+.db-steps li { display: flex; gap: 16px; align-items: flex-start; background: rgba(244, 238, 227, .95); color: var(--ink); border-radius: 6px; padding: 16px 18px; box-shadow: var(--lift-night); animation: db-pop 420ms var(--ease-paper) both; animation-delay: calc(var(--i) * 140ms + 150ms); transition: opacity 200ms, box-shadow 200ms, transform 200ms; }
+.db-steps.focused li.off { opacity: .4; }
+.db-steps.focused li.on { box-shadow: 0 0 0 4px var(--ping), var(--lift-night); transform: translateY(-3px); }
+.db-steps .num { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: var(--paper); font: 700 20px/1 var(--font-body); }
+.db-steps b { font: 400 26px/1.1 var(--font-display); }
+.db-steps p { margin: 6px 0 0; font-size: 17px; line-height: 1.35; color: var(--ink-soft); }
+.db-moral { display: flex; flex-direction: column; gap: 18px; animation: db-pop 520ms var(--ease-paper) both; animation-delay: 150ms; }
+.db-moral .big { margin: 0; font: 400 56px/1.1 var(--font-display); max-width: 18ch; text-shadow: 0 2px 0 rgba(0, 0, 0, .4); }
+.db-moral .note { margin: 0; font-size: 24px; color: var(--butter); }
+.db-plate .tags { left: 24px; }
+@media (prefers-reduced-motion: reduce) { .db-body, .db-chain li, .db-people li, .db-steps li, .db-moral { animation-duration: var(--d-reduced); animation-delay: 0ms; } }
+@media (max-width: 720px) {
+  .db-head { left: 16px; right: 16px; top: 12px; }
+  .db-dots { display: none; } /* "Part n of 4" already says it, and the support link needs the room */
+  .db-support { margin-left: auto; }
+  .db-body { left: 14px; right: 14px; top: 50px; bottom: 244px; overflow: auto; gap: 10px; justify-content: flex-start; }
+  .db-title { font-size: 28px; }
+  .db-plate .line { font-size: calc(var(--t-caption) - 4px); } /* still follows the learner's text size setting */
+  .db-people, .db-steps { gap: 8px; }
+  .db-people li { padding: 8px 12px; gap: 10px; }
+  .db-people .pt svg { width: 56px; }
+  .crowd { width: 56px; height: 56px; padding-left: 8px; }
+  .crowd i { width: 26px; height: 26px; margin-left: -8px; }
+  .db-people .role { font-size: 11px; margin-bottom: 2px; }
+  .db-people b { font-size: 20px; }
+  .db-people p { margin-top: 3px; font-size: 14px; line-height: 1.3; }
+  .db-steps li { padding: 8px 12px; gap: 10px; }
+  .db-steps .num { width: 28px; height: 28px; font-size: 15px; }
+  .db-steps b { font-size: 20px; }
+  .db-steps p { margin-top: 3px; font-size: 14px; line-height: 1.3; }
+  .db-chain { flex-direction: column; gap: 22px; }
+  .db-chain li + li::before { content: "\2193"; left: 50%; top: -24px; transform: translateX(-50%); }
+  .db-people, .db-steps { grid-template-columns: 1fr; }
+  .db-moral .big { font-size: 36px; }
+  .db-moral .note { font-size: 20px; }
+}

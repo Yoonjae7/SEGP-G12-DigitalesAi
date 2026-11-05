@@ -52,6 +52,8 @@ test.describe('the whole journey', () => {
     await page.getByRole('button', { name: 'I would rather not answer' }).click();
     await page.getByRole('button', { name: 'Go on' }).click();
     await choose(page, D2.tell);
+    // a picked choice lights up for a moment before it is recorded, so wait for that before refreshing
+    await expect.poll(async () => (await localSession(page)).choices).toEqual({ d1: 'group', d2: 'tell' });
     await page.reload();
     await expect.poll(async () => (await localSession(page)).choices).toEqual({ d1: 'group', d2: 'tell' });
     await choose(page, D3.accept);
@@ -67,6 +69,7 @@ test.describe('the whole journey', () => {
     await page.getByRole('radio', { name: 'Not sure' }).click();
     await page.getByRole('button', { name: 'Show me what happened' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'Skip debrief' }).click();
     await page.getByRole('button', { name: 'No thanks' }).click();
     await expect(page.getByRole('heading', { name: 'Thanks for playing.' })).toBeVisible();
     expect(await localSession(page)).not.toBeNull();
@@ -82,6 +85,7 @@ test.describe('the whole journey', () => {
     await playThrough(page, ['group', 'delete', 'accept'], null, null);
     await page.getByRole('button', { name: 'Show me what happened' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'Skip debrief' }).click();
     await page.getByRole('button', { name: 'No thanks' }).click();
     const dl = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Download my log' }).click();
@@ -100,6 +104,7 @@ test('Reflect: the optional extra moment follows the same pattern and is skippab
   await playThrough(page, ['group', 'delete', 'accept'], null, null);
   await page.getByRole('button', { name: 'Show me what happened' }).click();
   await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'Skip debrief' }).click();
   await expect(page.getByRole('heading', { name: "Want to try one more? It's a short, similar situation." })).toBeVisible();
   await page.getByRole('button', { name: 'Yes, one more' }).click();
   await expect(page.getByText('A friend sends you a screenshot of a private chat.')).toBeVisible();

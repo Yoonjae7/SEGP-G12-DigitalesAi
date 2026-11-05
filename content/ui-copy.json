@@ -185,6 +185,13 @@
     "continue": "Continue",
     "clickOn": "Click, tap or press Space to go on."
   },
+  "debrief": {
+    "label": "Debrief",
+    "part": "Part {n} of {total}",
+    "skip": "Skip debrief",
+    "continue": "Continue",
+    "peopleLead": "What each could have done"
+  },
   "reflect": {
     "optional": "Optional",
     "oneMore": "One more",
