@@ -65,7 +65,7 @@ Write the way a person would tell a friend what happened. Then read it out loud.
 ## Checklist for a new story
 
 - It is about digital citizenship, set in an online moment that adults 18 and over will recognise.
-- No real app, brand or platform names. The photo is never drawn, only shown as a tile.
+- No real app, brand or platform names. A photo in the story is a cut-paper cartoon in the game's own style, never a real photograph or a real person.
 - Three decisions. Each has two options with a real cost, and each leads to a short beat before the paths join again.
 - Two written "why" questions with team-written follow-ups. The reader only picks which one shows.
 - Two endings, picked from the written answers and not from the options chosen.

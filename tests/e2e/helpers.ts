@@ -5,7 +5,7 @@ export const D2 = { tell: 'Tell Sarah what is happening.', delete: 'Ask Marco an
 export const D3 = { accept: 'Accept her excuse.', hold: 'Hold her responsible.' };
 
 /** Gets through the start flow. Leaves the page on the first line of the story. */
-export async function startStory(page: Page, opts: { text?: string; skipWriting?: boolean; url?: string } = {}) {
+export async function startStory(page: Page, opts: { text?: string; skipWriting?: boolean; url?: string; keepAuto?: boolean } = {}) {
   await page.goto(opts.url ?? '/start');
   await page.getByRole('button', { name: 'Yes, I am 18 or older' }).click();
   await page.getByRole('button', { name: 'I understand' }).click();
@@ -25,6 +25,11 @@ export async function startStory(page: Page, opts: { text?: string; skipWriting?
   await page.getByRole('button', { name: 'Begin' }).click();
   await page.waitForURL('**/play');
   await expect(page.locator('.plate .line')).toBeVisible();
+  // Auto-play is on by default. The tests press Space themselves, so they pause it first.
+  if (!opts.keepAuto) {
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur()); // so Space goes on, not back to the button
+  }
 }
 
 /** Presses Space (as a learner would) until the stop condition shows. */

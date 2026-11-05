@@ -35,6 +35,8 @@ export interface Settings {
   simple: boolean;
   text: number; // -1 (floor) 0 (default) 1 2 3
   auto: boolean;
+  /** Which set of defaults this session was made with. Older sessions had sound and auto-play off. */
+  defaults?: number;
 }
 
 export interface SessionState {

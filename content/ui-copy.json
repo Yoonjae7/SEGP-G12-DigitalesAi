@@ -152,6 +152,9 @@
     "replay": "Replay line",
     "playSound": "Play with sound",
     "hint": "Click, tap or press Space to go on",
+    "hintAuto": "Plays on its own. Click, tap or press Space to skip ahead",
+    "pause": "Pause",
+    "autoPlay": "Auto-play",
     "inTheChat": "in the chat",
     "people": "{n} people",
     "caption": "Caption",
@@ -196,7 +199,7 @@
       "keep": "Keep playing",
       "leave": "Leave"
     },
-    "photo": "Photo (hidden)",
+    "photo": "Photo of Sarah asleep on the bus with her mouth open",
     "next": "Next"
   },
   "feedback": {

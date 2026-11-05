@@ -1,3 +1,4 @@
+import { PHOTO_H, PHOTO_INNER, PHOTO_W } from '@/lib/art/photo';
 import { copy } from '@/lib/copy';
 
 /** Hand-cut marks, drawn for this project. Defined once in SvgDefs. */
@@ -19,16 +20,12 @@ export function Icon({ id, size = 24 }: { id: 'ic-sound' | 'ic-sound-off' | 'ic-
   );
 }
 
-/** The photo is never drawn. Always a blurred stripe tile with a label. */
+/** The photo in the story: a cut-paper cartoon of Sarah asleep on the bus. Never a real photograph. */
 export function PhotoTile({ w = 240, h = 168 }: { w?: number; h?: number }) {
-  const label = copy.player.photo;
   return (
-    <svg className="photo-tile" viewBox={`0 0 ${w} ${h}`} width={w} height={h} role="img" aria-label={label} preserveAspectRatio="xMidYMid slice">
-      <rect width={w} height={h} fill="url(#photo-stripes)" filter="url(#blur2)" />
-      <rect x={w / 2 - 54} y={h / 2 - 15} width={108} height={30} rx={4} fill="#F4EEE3" stroke="#1C1B19" strokeWidth={1.5} />
-      <text x={w / 2} y={h / 2 + 5.5} textAnchor="middle" style={{ fontFamily: 'var(--font-body)' }} fontWeight={700} fontSize={15} fill="#1C1B19">
-        {label}
-      </text>
-    </svg>
+    <svg
+      className="photo-tile" viewBox={`0 0 ${PHOTO_W} ${PHOTO_H}`} width={w} height={h} role="img" aria-label={copy.player.photo}
+      preserveAspectRatio="xMidYMid slice" dangerouslySetInnerHTML={{ __html: PHOTO_INNER }}
+    />
   );
 }

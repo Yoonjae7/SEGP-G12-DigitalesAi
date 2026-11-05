@@ -94,14 +94,65 @@ test('14. with 3D off, voice off and audio blocked, the story still plays start 
   await expect(page.locator('.banner')).toBeVisible();
 });
 
-test('18. the photo is only ever a labelled placeholder tile', async ({ page }) => {
+test('18. the photo is a cut-paper cartoon of Sarah asleep, never a real photograph', async ({ page }) => {
   await startStory(page);
   await page.keyboard.press('Space'); // s1_02: the photo line
   await expect(page.locator('.chat .photo-tile')).toBeVisible();
-  expect(await page.locator('img').count()).toBe(0);
+  expect(await page.locator('img').count()).toBe(0); // no photographs at all
   const label = await page.locator('.photo-tile').first().getAttribute('aria-label');
-  expect(label).toBe('Photo (hidden)');
-  expect(await page.locator('.chat .photo-tile text').first().textContent()).toBe('Photo (hidden)');
+  expect(label).toBe('Photo of Sarah asleep on the bus with her mouth open');
+  expect(await page.locator('.chat .photo-tile text').count()).toBe(0); // no "hidden" label any more
+  expect(await page.locator('.chat .photo-tile ellipse').count()).toBeGreaterThan(3); // it is drawn
+});
+
+test('sound and auto-play start on, and Pause and the sound button turn them off', async ({ page }) => {
+  await startStory(page, { keepAuto: true });
+  await expect(page.getByRole('button', { name: 'Pause' })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Sound on\. Turn sound off/ })).toBeVisible();
+  await page.getByRole('button', { name: 'Pause' }).click();
+  await expect(page.getByRole('button', { name: 'Auto-play' })).toBeVisible();
+  await page.getByRole('button', { name: /Turn sound off/ }).click();
+  await expect(page.getByRole('button', { name: /Turn sound on/ })).toBeVisible();
+});
+
+test('auto-play with sound: a line moves on a moment after its voice ends, and the voice files are served', async ({ page }) => {
+  await page.addInitScript(() => {
+    const w = window as unknown as { __played: string[]; Audio: unknown };
+    w.__played = [];
+    class FakeAudio {
+      src: string; currentTime = 0; preload = ''; onended: null | (() => void) = null; onerror: null | (() => void) = null;
+      constructor(src?: string) { this.src = src ?? ''; }
+      play() { w.__played.push(this.src); setTimeout(() => this.onended?.(), 700); return Promise.resolve(); }
+      pause() { /* nothing to stop */ }
+    }
+    w.Audio = FakeAudio;
+  });
+  await startStory(page, { keepAuto: true });
+  const first = await page.locator('.plate .line').textContent();
+  // The pretend voice ends after 0.7 s, so the next line shows well before the 4.4 s a silent first line would wait.
+  await expect.poll(() => page.locator('.plate .line').textContent(), { timeout: 3000 }).not.toBe(first);
+  expect(await page.evaluate(() => (window as unknown as { __played: string[] }).__played.join(','))).toContain('/audio/s1_01.mp3');
+  const file = await page.request.get('/audio/s1_01.mp3');
+  expect(file.ok()).toBe(true);
+  expect(file.headers()['content-type']).toContain('audio');
+});
+
+test('auto-play: lines move on by themselves, Pause holds, and a decision always waits', async ({ page }) => {
+  test.setTimeout(150_000);
+  await page.addInitScript(() => localStorage.setItem('dt_lab_v1', JSON.stringify({ voice: false, threeD: false, forceFail: false, ratings: {} })));
+  await startStory(page); // pauses auto-play
+  const text = () => page.locator('.plate .line').textContent();
+  const first = await text();
+  await page.getByRole('button', { name: 'Auto-play' }).click();
+  await expect.poll(text, { timeout: 15_000 }).not.toBe(first); // moved on with no key press
+  await page.getByRole('button', { name: 'Pause' }).click();
+  const held = await text();
+  await page.waitForTimeout(5000);
+  expect(await text()).toBe(held); // paused: it stays put
+  await page.getByRole('button', { name: 'Auto-play' }).click();
+  await expect(page.locator('.decide')).toBeVisible({ timeout: 100_000 }); // it plays on to the first decision
+  await page.waitForTimeout(5000);
+  await expect(page.locator('.decide')).toBeVisible(); // and waits there
 });
 
 test('13 (support). "Need support?" is reachable from every screen', async ({ page }) => {

@@ -11,7 +11,7 @@ import type { Line, Speaker } from '@/lib/story/types';
 import { useDeckle } from '@/lib/useDeckle';
 import { useLabFlags } from '@/lib/useLabFlags';
 import { useVoice } from '@/lib/useVoice';
-import { VOICE_ENABLED } from '@/lib/voice/manifest';
+import { audioSrc, VOICE_ENABLED } from '@/lib/voice/manifest';
 import { AnswerEditor } from './AnswerEditor';
 import { Icon, PhotoTile } from './Marks';
 import { SceneArt } from './SceneArt';
@@ -40,7 +40,9 @@ export function Stage() {
     const nextScene = items.slice(state.pos + 1).find((i) => i.sceneId !== item.sceneId)?.sceneId;
     return items.filter((i): i is Extract<TItem, { type: 'line' }> => i.type === 'line' && i.sceneId === nextScene).map((i) => i.line);
   }, [items, state.pos, item]);
-  const { replay } = useVoice(line, soundOn, ahead);
+  const [settled, setSettled] = useState<{ id: string; ok: boolean } | null>(null);
+  const onSettle = useCallback((id: string, ok: boolean) => setSettled({ id, ok }), []);
+  const { replay } = useVoice(line, soundOn, ahead, onSettle);
 
   const advance = useCallback(() => dispatch({ t: 'advance', ts: Date.now() }), [dispatch]);
   const canAdvance = !!item && (item.type === 'line' || item.type === 'ending-title') && !overlay;
@@ -58,13 +60,23 @@ export function Stage() {
     return () => window.removeEventListener('keydown', onKey);
   }, [canAdvance, advance]);
 
-  // Auto-advance is off by default. A line stays long enough to read.
+  // Auto-play is on by default. With sound, a line moves on a moment after its voice ends. With no voice, or when the
+  // browser blocks it, the line stays long enough to read. A decision or a written answer always waits for the learner.
+  const auto = state.settings.auto;
   useEffect(() => {
-    if (!state.settings.auto || !canAdvance) return;
+    if (!auto || !canAdvance || !item) return;
     const words = line ? line.text.split(/\s+/).length : 3;
-    const id = setTimeout(advance, Math.max(2600, words * 420 + 900));
+    const newScene = state.pos === 0 || items[state.pos - 1]?.sceneId !== item.sceneId;
+    const reading = Math.max(2600, words * 420 + 900) + (newScene && line ? 1800 : 0);
+    const voiced = !!line && soundOn && !!audioSrc(line);
+    const here = settled && line && settled.id === line.id ? settled : null;
+    let delay = reading;
+    if (item.type === 'ending-title') delay = 4500;
+    else if (voiced && !here) delay = 30_000; // the voice has not reported back yet: a safety net only
+    else if (voiced && here?.ok) delay = 900; // a short breath after the voice
+    const id = setTimeout(advance, delay);
     return () => clearTimeout(id);
-  }, [state.settings.auto, canAdvance, state.pos, line, advance]);
+  }, [auto, canAdvance, state.pos, line, item, items, soundOn, settled, advance]);
 
   if (!item) return null;
   const scene = story.scenes.find((s) => s.id === item.sceneId);
@@ -101,7 +113,8 @@ export function Stage() {
             <>
               {chat ? <ChatPanel chat={chat} /> : line.showPhotoTile ? <aside className="chat tile-only" aria-label={P.photo}><div className="ch-body"><div className="b"><PhotoTile /></div></div></aside> : null}
               <Plate line={line} first={first} description={description} back={canGoBack(items, state.pos)} voiceOn={voiceOn} soundOn={soundOn}
-                onBack={() => dispatch({ t: 'back' })} onReplay={replay} onSound={() => dispatch({ t: 'settings', patch: { sound: true } })} onNext={advance} />
+                onBack={() => dispatch({ t: 'back' })} onReplay={replay} onSound={() => dispatch({ t: 'settings', patch: { sound: true } })} onNext={advance}
+                auto={auto} onAuto={() => dispatch({ t: 'settings', patch: { auto: !auto } })} />
             </>
           ) : null}
           {item.type === 'ending-title' ? <TitleCard ending={item.ending} /> : null}
@@ -153,9 +166,9 @@ function Hud({ n, voiceOn, soundOn, onSound, onSettings, onExit }: { n: number; 
 }
 
 /* ---------- caption plate ---------- */
-function Plate({ line, first, description, back, voiceOn, soundOn, onBack, onReplay, onSound, onNext }: {
-  line: Line; first: boolean; description: string; back: boolean; voiceOn: boolean; soundOn: boolean;
-  onBack: () => void; onReplay: () => void; onSound: () => void; onNext: () => void;
+function Plate({ line, first, description, back, voiceOn, soundOn, auto, onBack, onReplay, onSound, onNext, onAuto }: {
+  line: Line; first: boolean; description: string; back: boolean; voiceOn: boolean; soundOn: boolean; auto: boolean;
+  onBack: () => void; onReplay: () => void; onSound: () => void; onNext: () => void; onAuto: () => void;
 }) {
   const chip = line.speaker === 'narrator' ? 'narrator' : line.speaker;
   return (
@@ -168,7 +181,8 @@ function Plate({ line, first, description, back, voiceOn, soundOn, onBack, onRep
         <button className="hbtn" disabled={!back} onClick={onBack}><Icon id="ic-back" size={20} />{P.back}</button>
         {voiceOn && !soundOn ? <button className="hbtn" onClick={onSound}><Icon id="ic-sound" size={20} />{P.playSound}</button> : null}
         {voiceOn && soundOn && line.voiced ? <button className="hbtn" onClick={onReplay}><Icon id="ic-replay" size={20} />{P.replay}</button> : null}
-        <span className="hint">{P.hint}</span>
+        <button className="hbtn" onClick={onAuto}>{auto ? P.pause : P.autoPlay}</button>
+        <span className="hint">{auto ? P.hintAuto : P.hint}</span>
         <button className="hbtn next" onClick={onNext}>{P.next}</button>
       </div>
     </div>

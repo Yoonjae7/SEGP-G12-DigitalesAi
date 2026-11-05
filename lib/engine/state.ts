@@ -7,7 +7,8 @@ import { buildTimeline, type TItem } from './flow';
 import type { AnswerKey, AnswerState, Choices, SessionState, Settings } from './types';
 
 export const STORAGE_KEY = 'dt_session_v1';
-export const DEFAULT_SETTINGS: Settings = { sound: false, simple: false, text: 0, auto: false };
+/** Sound and auto-play start on. The learner can pause or turn either off at any time. */
+export const DEFAULT_SETTINGS: Settings = { sound: true, simple: false, text: 0, auto: true, defaults: 2 };
 
 export function initialState(settings: Settings = DEFAULT_SETTINGS): SessionState {
   return {
@@ -217,7 +218,10 @@ export function rehydrate(raw: unknown): SessionState | null {
       ...r,
       why: { why1: fix(r.why.why1), why2: fix(r.why.why2) },
       reflect: fix(r.reflect),
-      settings: { ...DEFAULT_SETTINGS, ...r.settings },
+      // A session saved before sound and auto-play became the default gets the new defaults once.
+      settings: r.settings.defaults === DEFAULT_SETTINGS.defaults
+        ? { ...DEFAULT_SETTINGS, ...r.settings }
+        : { ...DEFAULT_SETTINGS, ...r.settings, sound: true, auto: true, defaults: DEFAULT_SETTINGS.defaults },
       events: Array.isArray(r.events) ? r.events : [],
     };
     const len = timeline(s).length;

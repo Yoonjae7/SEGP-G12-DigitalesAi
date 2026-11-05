@@ -6,14 +6,21 @@ import { audioSrc } from './voice/manifest';
 
 /**
  * Plays the recorded line. Audio is generated ahead of time and sits in /public/audio, named by line ID.
- * It starts muted. If a file is missing or fails, captions carry on alone. Audio never blocks the story.
+ * Sound is on by default. If a file is missing, fails, or the browser blocks it, captions carry on alone.
+ * Audio never blocks the story.
+ *
+ * `onSettle(lineId, ok)` is called once the line has finished playing (ok = true), or could not play (ok = false).
+ * Auto-play uses it to move on after the voice ends, or after a reading time when there is no voice.
  */
-export function useVoice(line: Line | null, on: boolean, ahead: Line[]) {
+export function useVoice(line: Line | null, on: boolean, ahead: Line[], onSettle?: (lineId: string, ok: boolean) => void) {
   const cur = useRef<HTMLAudioElement | null>(null);
   const warm = useRef<Map<string, HTMLAudioElement>>(new Map());
+  const settle = useRef(onSettle);
+  settle.current = onSettle;
 
   const stop = useCallback(() => {
-    if (cur.current) { cur.current.pause(); cur.current = null; }
+    const a = cur.current;
+    if (a) { a.onended = null; a.onerror = null; a.pause(); cur.current = null; }
   }, []);
 
   const play = useCallback(() => {
@@ -21,13 +28,16 @@ export function useVoice(line: Line | null, on: boolean, ahead: Line[]) {
     if (!line) return;
     const src = audioSrc(line);
     if (!src) return;
+    const id = line.id;
     try {
       const a = warm.current.get(src) ?? new Audio(src);
       a.currentTime = 0;
+      a.onended = () => settle.current?.(id, true);
+      a.onerror = () => settle.current?.(id, false);
       cur.current = a;
-      void a.play().catch(() => { /* blocked or missing: carry on silently */ });
+      void a.play().catch(() => { if (cur.current === a) settle.current?.(id, false); }); // blocked or missing: carry on silently
     } catch {
-      /* no audio in this browser */
+      settle.current?.(id, false); // no audio in this browser
     }
   }, [line, stop]);
 

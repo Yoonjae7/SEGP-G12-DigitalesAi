@@ -64,7 +64,9 @@ Voice is made ahead of time, never while someone plays. The key is never in the 
 
 There are 58 voiced lines (every variant). `npm run audio -- --dry` lists them. If ElevenLabs keeps failing, the script stops after three failures. You can make the files another way and drop them in `public/audio` with the same names.
 
-The player starts muted. The learner taps "Play with sound". A missing file means captions only, and the story carries on. `NEXT_PUBLIC_VOICE=0` removes all audio controls.
+Sound and auto-play start on. Each line plays its voice and moves on a moment after it ends. With no voice file, or if the browser blocks sound, a line stays long enough to read and then moves on. Decisions and written answers always wait for the learner. A **Pause** button, the sound button and Settings turn these off, and Space, a click or **Next** skip ahead. A missing file means captions only, and the story carries on. `NEXT_PUBLIC_VOICE=0` removes all audio controls.
+
+Browsers only let a page make sound after the person has clicked something. The learner always clicks "Begin" first, so the voice normally starts at once. If a browser still blocks it, the line shows **Replay line** and the next click or key press unlocks sound.
 
 ## 3D and "Simple visuals"
 

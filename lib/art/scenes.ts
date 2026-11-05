@@ -3,6 +3,7 @@
 /* DigiTales AI: scene art (Phase 1 preview)
    Each scene is a stack of cut-paper layers with a depth value (0 = far, 1 = near) used for parallax.
    16:9 master (1600 x 900). Portrait crops follow `focus`. Light is described per scene in META. */
+import { photoNested } from './photo';
 import { Rig } from './rig';
   const K = { paper: '#F4EEE3', deep: '#E7DFCE', ink: '#1C1B19', soft: '#4A4741', night: '#10242B', lift: '#1D3B46', glow: '#CFE8EF', morning: '#F6D9B8', ping: '#E5502B', moss: '#3F6B4F', butter: '#F0C75E' };
   let PU = 0;
@@ -25,9 +26,7 @@ import { Rig } from './rig';
 
   /* ---------- shared pieces ---------- */
   function photo(x, y, w, h) {
-    const fs = Math.max(11, w * .075), lw = fs * 7.6, lh = fs * 2.1;
-    return `<g><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#photo-stripes)" filter="url(#blur2)"/><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="#1C1B19" stroke-opacity=".55" stroke-width="2"/>` +
-      `<rect x="${x + w / 2 - lw / 2}" y="${y + h / 2 - lh / 2}" width="${lw}" height="${lh}" rx="3" fill="#F4EEE3" stroke="#1C1B19" stroke-width="1.5"/><text x="${x + w / 2}" y="${y + h / 2 + fs * .36}" text-anchor="middle" ${FONT} font-weight="700" font-size="${fs}" fill="#1C1B19">Photo (hidden)</text></g>`;
+    return photoNested(x, y, w, h); // a cut-paper picture of Sarah asleep on the bus, never a real photograph
   }
   // chat bubbles inside a phone screen. items: {k:'photo'|'text'|'bars', side:'l'|'r', who, lines, n, h}
   function chat(sx, sy, sw, sh, title, sub, items) {
