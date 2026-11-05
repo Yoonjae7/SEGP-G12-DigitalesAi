@@ -487,12 +487,15 @@ html[data-text="3"] { --t-body: 26px; --t-caption: 28px; }
 .db-plate .tags { left: 24px; }
 @media (prefers-reduced-motion: reduce) { .db-body, .db-chain li, .db-people li, .db-steps li, .db-moral { animation-duration: var(--d-reduced); animation-delay: 0ms; } }
 @media (max-width: 720px) {
-  .db-head { left: 16px; right: 16px; top: 12px; }
+  /* On a phone the three parts stack: header, the slide (scrolls if it must) and the caption box, whatever height the caption needs */
+  .stage.db { display: flex; flex-direction: column; }
+  .db-head { position: relative; flex: none; left: auto; right: auto; top: auto; margin: 12px 16px 0; }
   .db-dots { display: none; } /* "Part n of 4" already says it, and the support link needs the room */
   .db-support { margin-left: auto; }
-  .db-body { left: 14px; right: 14px; top: 50px; bottom: 244px; overflow: auto; gap: 10px; justify-content: flex-start; }
+  .db-body { position: relative; flex: 1 1 0; min-height: 0; left: auto; right: auto; top: auto; bottom: auto; margin: 12px 14px 0; overflow: auto; gap: 10px; justify-content: flex-start; }
   .db-title { font-size: 28px; }
-  .db-plate .line { font-size: calc(var(--t-caption) - 4px); } /* still follows the learner's text size setting */
+  .db-plate { position: relative; flex: none; left: auto; right: auto; bottom: auto; margin: 26px 12px 12px; }
+  .db-plate .line { font-size: max(22px, var(--t-caption)); } /* 22px, and still larger when the learner picks larger text */
   .db-people, .db-steps { gap: 8px; }
   .db-people li { padding: 8px 12px; gap: 10px; }
   .db-people .pt svg { width: 56px; }
