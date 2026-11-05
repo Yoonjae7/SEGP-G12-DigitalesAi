@@ -79,7 +79,7 @@ test.describe('adaptation: the follow-up fits the answer', () => {
   });
 
   test('13. ?fail=1 shows the error state, keeps the text, and the retry works', async ({ page }) => {
-    await atWhy1(page, '/start?fail=1'); // the emotion guess fails too, and falls back to a plain question
+    await atWhy1(page, '/start?fail=1');
     const text = 'Lisa posted the photo. Marco and Dev forwarded it.';
     await writeWhy(page, text);
     await expect(page.getByText('We could not read your answer. Your text is saved. Try again.')).toBeVisible({ timeout: 20_000 });

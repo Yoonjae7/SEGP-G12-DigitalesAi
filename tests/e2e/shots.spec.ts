@@ -8,7 +8,7 @@ test.skip(!out, 'set SHOTS=<folder> to take screenshots');
 test('screenshots', async ({ page }) => {
   const shot = (name: string) => page.screenshot({ path: `${out}/${name}.png` });
   await page.goto('/'); await page.waitForTimeout(800); await shot('01-home');
-  await startStory(page, { text: 'A friend passed round a photo of a classmate. I was worried it would spread.' });
+  await startStory(page);
   await page.waitForTimeout(700); await shot('02-narration');
   await page.keyboard.press('Space'); await page.waitForTimeout(600); await shot('03-chat');
   await toDecision(page); await page.waitForTimeout(600); await shot('04-decision');

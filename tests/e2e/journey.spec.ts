@@ -80,6 +80,29 @@ test.describe('the whole journey', () => {
     expect(left.n).toBe(0);
   });
 
+  test('End: "How do you feel about this theme right now?" is asked after the story, and the pick is saved and logged', async ({ page }) => {
+    await startStory(page);
+    await playThrough(page, ['group', 'delete', 'accept'], null, null);
+    await page.getByRole('button', { name: 'Show me what happened' }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'Skip debrief' }).click();
+    await page.getByRole('button', { name: 'No thanks' }).click();
+    await expect(page.getByRole('heading', { name: 'How do you feel about this theme right now?' })).toBeVisible();
+    await expect(page.getByText('This is not graded. Pick the closest one.')).toBeVisible();
+    const group = page.getByRole('group', { name: 'How do you feel about this theme right now?' });
+    await expect(group.getByRole('button')).toHaveCount(7);
+    await group.getByRole('button', { name: 'worried', exact: true }).click();
+    await expect(group.getByRole('button', { name: 'worried', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('status').filter({ hasText: 'Thanks.' })).toBeVisible();
+    await group.getByRole('button', { name: 'sad', exact: true }).click(); // it can be changed
+    await expect(group.getByRole('button', { name: 'worried', exact: true })).toHaveAttribute('aria-pressed', 'false');
+    const s = await localSession(page);
+    expect(s.feeling).toBe('sad');
+    expect(s.events.filter((e: { event: string }) => e.event === 'feeling_check').map((e: { payload: { label: string } }) => e.payload.label)).toEqual(['worried', 'sad']);
+    await page.reload();
+    await expect(page.getByRole('group', { name: 'How do you feel about this theme right now?' }).getByRole('button', { name: 'sad', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  });
+
   test('Download my log gives the learner their own JSON, with no name or email in it', async ({ page }) => {
     await startStory(page);
     await playThrough(page, ['group', 'delete', 'accept'], null, null);

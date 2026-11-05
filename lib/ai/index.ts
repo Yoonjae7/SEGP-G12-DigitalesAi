@@ -1,7 +1,7 @@
 import { llmProvider } from './providers/llm';
 import { mockProvider } from './providers/mock';
-import { EmotionResponseSchema, MatchResponseSchema, ScoreResponseSchema } from './types';
-import type { AiProvider, CallOptions, EmotionResponse, MatchResponse, ScoreRequest, ScoreResponse } from './types';
+import { ScoreResponseSchema } from './types';
+import type { AiProvider, CallOptions, ScoreRequest, ScoreResponse } from './types';
 
 /**
  * The only place that knows which provider answers. The browser never does.
@@ -31,9 +31,4 @@ export function score(req: ScoreRequest, opts?: CallOptions): Promise<ScoreRespo
     (v) => ({ ...v, flags: { ...v.flags, fallback_to_mock: true } }),
   );
 }
-export function emotion(text: string, opts?: CallOptions): Promise<EmotionResponse> {
-  return withFallback((p) => p.emotion(text, opts), (v) => EmotionResponseSchema.parse(v), (v) => v);
-}
-export function match(input: { text?: string; theme?: string }, opts?: CallOptions): Promise<MatchResponse> {
-  return withFallback((p) => p.match(input, opts), (v) => MatchResponseSchema.parse(v), (v) => v);
-}
+

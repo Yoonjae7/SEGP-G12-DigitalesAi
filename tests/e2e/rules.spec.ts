@@ -156,17 +156,18 @@ test('Support shows the wellbeing email and the group leader (Wei Feng) with the
   await expect(page.getByText('team to add')).toHaveCount(0);
 });
 
-test('before the story: a made-up note with the wellbeing email, and the reminder again before Begin', async ({ page }) => {
+test('before the story: a made-up note with the wellbeing email, then the story card with the reminder, and no questions in between', async ({ page }) => {
   await page.goto('/start');
   await page.getByRole('button', { name: 'Yes, I am 18 or older' }).click();
+  await expect(page.getByText('Step 2 of 3')).toBeVisible();
   await expect(page.getByText('This story is made up.')).toBeVisible();
   await expect(page.getByRole('link', { name: 'Wellbeing.Ambassadors@nottingham.edu.my' })).toBeVisible();
   await page.getByRole('button', { name: 'I understand this story is made up' }).click();
-  await page.getByRole('button', { name: 'Skip writing' }).click();
-  await page.getByRole('button', { name: 'sad', exact: true }).click();
-  await page.getByRole('button', { name: 'Next', exact: true }).click();
-  await page.getByRole('radio', { name: 'Something someone did' }).click();
-  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  // straight to the story card: nothing to write, no feeling to pick, no waiting for a match
+  await expect(page.getByText('Step 3 of 3')).toBeVisible();
+  await expect(page.locator('textarea')).toHaveCount(0);
+  await expect(page.getByText('How do you feel')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Next', exact: true })).toHaveCount(0);
   await expect(page.getByText('A reminder: this story is made up')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Story 1' })).toBeVisible();
   await expect(page.getByText('Coming soon')).toHaveCount(3);
@@ -344,11 +345,6 @@ test('15a. a full run with the keyboard only', async ({ page }) => {
   await page.goto('/start');
   await press(/^Yes, I am 18 or older$/);
   await press(/^I understand this story is made up$/);
-  await press(/^Skip writing$/);
-  await tabTo(/^sad$/); await page.keyboard.press('Enter');
-  await press(/^Next$/);
-  await tabTo(/^Something someone did/); await page.keyboard.press('Space');
-  await press(/^Next$/);
   await page.getByRole('button', { name: 'Begin' }).waitFor();
   await press(/^Begin$/);
   await page.waitForURL('**/play');

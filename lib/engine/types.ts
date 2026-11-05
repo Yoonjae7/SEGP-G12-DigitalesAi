@@ -1,7 +1,7 @@
-import type { EmotionLabel, ScoreResponse } from '../ai/types';
+import type { ScoreResponse } from '../ai/types';
 import type { LogEvent } from '../log/events';
 
-export type Step = 'age_gate' | 'content_note' | 'input' | 'emotion' | 'appraisal' | 'match' | 'play' | 'feedback' | 'debrief' | 'reflect' | 'end';
+export type Step = 'age_gate' | 'content_note' | 'ready' | 'play' | 'feedback' | 'debrief' | 'reflect' | 'end';
 
 export interface Choices {
   d1?: 'private' | 'group';
@@ -43,10 +43,8 @@ export interface SessionState {
   v: 1;
   sessionId: string | null;
   step: Step;
-  input: { text: string; theme: boolean; skipped: boolean };
-  emotion: { guess: EmotionLabel | null; final: EmotionLabel | null };
-  appraisal: string | null;
-  match: { confidence: number; note: string | null } | null;
+  /** How the learner says they feel about the theme once the story is over. Self-reported, never graded. */
+  feeling: string | null;
   choices: Choices;
   pos: number;
   why: { why1: AnswerState; why2: AnswerState };

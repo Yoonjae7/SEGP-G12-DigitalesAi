@@ -45,8 +45,8 @@
     }
   },
   "start": {
-    "step": "Step {n} of 5",
-    "part": "Part {n} of 2",
+    "step": "Step {n} of 3",
+
     "age": {
       "q": "This pilot is for adults. Are you 18 or older?",
       "yes": "Yes, I am 18 or older",
@@ -60,56 +60,12 @@
       "ok": "I understand this story is made up",
       "sound": "Recommended: turn your sound on. The story has voices."
     },
-    "input": {
-      "q": "Tell us about an online moment that stayed with you.",
-      "lead": "Real or made up. A few sentences is fine.",
-      "label": "Your online moment",
-      "orTheme": "Or pick a theme",
-      "themeActive": "A photo shared without consent",
-      "themeLater": "More themes later",
-      "skip": "Skip writing",
-      "next": "Next"
-    },
-    "emotion": {
-      "guess": "Your words sound a bit like:",
-      "isRight": "Is that right?",
-      "labels": [
-        "embarrassed",
-        "angry",
-        "worried",
-        "guilty",
-        "left out",
-        "sad",
-        "unsure"
-      ],
-      "small": "This is a guess by a simple reader. You can change it. It is not graded.",
-      "skippedQ": "How do you feel about this theme right now?",
-      "skippedSmall": "This is not graded. Pick the closest one.",
-      "groupLabel": "How do you feel?",
-      "next": "Next",
-      "reading": "Reading your words...",
-      "readingNote": "This takes a moment. It is a guess, and you can change it.",
-      "failedQ": "How do you feel about it right now?"
-    },
-    "appraisal": {
-      "q": "What made it feel that way?",
-      "options": [
-        "Something someone did",
-        "Something I did or did not do",
-        "Something I could not control",
-        "Not sure"
-      ],
-      "small": "There is no right answer. This is not graded.",
-      "next": "Next"
-    },
-    "match": {
-      "title": "Closest story",
+    "ready": {
+      "title": "Choose a story",
       "story": "Story 1",
       "meta": "About 10 minutes. 3 decisions, 2 written answers.",
       "begin": "Begin",
-      "reminder": "A reminder: this story is made up, and it can bring up real feelings. You can stop at any time. To talk to someone, email the university wellbeing service:",
-      "oneStory": "This pilot has one story. This is the closest fit.",
-      "finding": "Finding the closest story..."
+      "reminder": "A reminder: this story is made up, and it can bring up real feelings. You can stop at any time. To talk to someone, email the university wellbeing service:"
     }
   },
   "player": {
@@ -211,7 +167,14 @@
     "delete": "Delete my data",
     "again": "Play again",
     "note": "Your log stays in this browser. Delete my data clears it.",
-    "deleted": "Your data is deleted from this browser."
+    "deleted": "Your data is deleted from this browser.",
+    "feeling": {
+      "q": "How do you feel about this theme right now?",
+      "small": "This is not graded. Pick the closest one.",
+      "thanks": "Thanks. It is not graded, and you can change it.",
+      "groupLabel": "How do you feel?",
+      "labels": ["embarrassed", "angry", "worried", "guilty", "left out", "sad", "unsure"]
+    }
   },
   "about": {
     "title": "About and AI use",

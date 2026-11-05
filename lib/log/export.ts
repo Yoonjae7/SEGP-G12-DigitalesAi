@@ -8,7 +8,7 @@ export function buildLog(s: SessionState) {
     note: 'Anonymous. Your text stays on this device. This file is your copy.',
     exportedAt: new Date().toISOString(),
     sessionId: s.sessionId,
-    summary: { step: s.step, choices: s.choices, ending: s.ending, emotion: s.emotion, appraisal: s.appraisal },
+    summary: { step: s.step, choices: s.choices, ending: s.ending, feeling: s.feeling },
     events: s.events,
   };
 }

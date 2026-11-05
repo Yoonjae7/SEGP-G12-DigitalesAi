@@ -183,6 +183,9 @@
 .p-ending .end { padding-top: 96px; padding-bottom: 110px; }
 .p-ending .end .main { grid-column: 3 / span 8; }
 .p-ending .end h1 { font-size: clamp(44px, 5.4vw, 80px); line-height: 1.04; margin-bottom: 36px; }
+.p-ending .end .feeling { border-top: 2px solid var(--ink); padding-top: 24px; margin-bottom: 36px; }
+.p-ending .end .feeling h2 { font-size: 30px; line-height: 1.2; margin: 0 0 16px; }
+.p-ending .end .feeling .helper { margin-top: 16px; max-width: 44ch; min-height: 1.5em; }
 .p-ending .end .btns { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 32px; }
 .p-ending .end .btns .btn { min-width: 220px; }
 .p-ending .end .links { display: grid; gap: 14px; border-top: 1px solid var(--hairline-strong); padding-top: 26px; font-size: 20px; }

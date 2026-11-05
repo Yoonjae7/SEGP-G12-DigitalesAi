@@ -18,6 +18,15 @@ export function EndScreen() {
       <main className="end grid">
         <div className="main">
           <h1>{E.title}</h1>
+          <section className="feeling" aria-labelledby="feeling-q">
+            <h2 id="feeling-q">{E.feeling.q}</h2>
+            <div className="chips" role="group" aria-labelledby="feeling-q">
+              {E.feeling.labels.map((l) => (
+                <button key={l} className="chip" aria-pressed={state.feeling === l} onClick={() => dispatch({ t: 'feeling', label: l, ts: Date.now() })}>{l}</button>
+              ))}
+            </div>
+            <p className="helper" role="status">{state.feeling ? E.feeling.thanks : E.feeling.small}</p>
+          </section>
           <div className="btns">
             <button className="btn" onClick={() => downloadLog(state)}>{E.download}</button>
             <button className="btn paper" onClick={() => { deleteData(); window.location.replace('/?deleted=1'); }}>{E.delete}</button>

@@ -31,21 +31,6 @@ export const ScoreResponseSchema = z.object({
 });
 export type ScoreResponse = z.infer<typeof ScoreResponseSchema>;
 
-export const EMOTION_LABELS = ['embarrassed', 'angry', 'worried', 'guilty', 'left out', 'sad', 'unsure'] as const;
-export type EmotionLabel = (typeof EMOTION_LABELS)[number];
-
-export const EmotionRequestSchema = z.object({ text: z.string().max(4000) });
-export const EmotionResponseSchema = z.object({
-  label: z.enum(EMOTION_LABELS),
-  confidence: z.number(),
-  alternatives: z.array(z.string()),
-});
-export type EmotionResponse = z.infer<typeof EmotionResponseSchema>;
-
-export const MatchRequestSchema = z.object({ text: z.string().max(4000).optional(), theme: z.string().max(100).optional() });
-export const MatchResponseSchema = z.object({ storyId: z.string(), confidence: z.number(), note: z.string().optional() });
-export type MatchResponse = z.infer<typeof MatchResponseSchema>;
-
 export interface CallOptions {
   /** Demo only: force this call to fail so the error state can be shown. */
   forceFail?: boolean;
@@ -55,6 +40,4 @@ export interface AiProvider {
   name: string;
   version: string;
   score(req: ScoreRequest, opts?: CallOptions): Promise<ScoreResponse>;
-  emotion(text: string, opts?: CallOptions): Promise<EmotionResponse>;
-  match(input: { text?: string; theme?: string }, opts?: CallOptions): Promise<MatchResponse>;
 }

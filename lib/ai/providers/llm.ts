@@ -64,10 +64,5 @@ export const llmProvider: AiProvider = {
     await callModel(SCORING_PROMPT);
     throw new NotConfigured();
   },
-  async emotion() {
-    throw new NotConfigured();
-  },
-  async match() {
-    throw new NotConfigured();
-  },
+
 };

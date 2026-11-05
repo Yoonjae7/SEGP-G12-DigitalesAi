@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
 import { initialState, reducer, rehydrate, STEP_ROUTE, STORAGE_KEY, type Action } from '@/lib/engine/state';
+import { failFlag } from '@/lib/ai/failFlag';
 import type { SessionState } from '@/lib/engine/types';
 import { LAB_KEY } from '@/lib/log/lab';
 
@@ -22,6 +23,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    failFlag(); // ?fail=1 on any page arms the demo error path for this tab, even before the first scoring call
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       const s = raw ? rehydrate(JSON.parse(raw)) : null;

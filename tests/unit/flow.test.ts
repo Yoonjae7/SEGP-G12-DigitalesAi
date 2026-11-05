@@ -22,8 +22,7 @@ const resp = (req: ScoreRequest): ScoreResponse => ({ requestId: 'x', ...scoreTe
 
 function start(): SessionState {
   let s = initialState();
-  s = run(s, { t: 'agePass', id: 'test-session', ts: ts() }, { t: 'noteOk' }, { t: 'setInput', text: '', theme: true, skipped: false, ts: ts() },
-    { t: 'emotionGuess', label: 'worried', ts: ts() }, { t: 'emotionFinal', label: 'worried', ts: ts() }, { t: 'appraisal', value: 'Not sure', ts: ts() }, { t: 'begin', ts: ts() });
+  s = run(s, { t: 'agePass', id: 'test-session', ts: ts() }, { t: 'noteOk' }, { t: 'begin', ts: ts() });
   return s;
 }
 function toDecision(s: SessionState): SessionState {
@@ -201,10 +200,40 @@ describe('flow and branching', () => {
     expect(currentItem(back)?.type).toBe('why');
   });
 
+  it('the start has no questions: age, note, the story card, then the story', () => {
+    let s = run(initialState(), { t: 'agePass', id: 'test-session', ts: ts() });
+    expect(s.step).toBe('content_note');
+    s = reducer(s, { t: 'noteOk' });
+    expect(s.step).toBe('ready');
+    s = reducer(s, { t: 'begin', ts: ts() });
+    expect(s.step).toBe('play');
+    expect(s.feeling).toBeNull();
+  });
+
+  it('the feeling is asked once the story is over: it is saved, logged, can be changed, and is ignored earlier', () => {
+    let s = start();
+    expect(reducer(s, { t: 'feeling', label: 'sad', ts: ts() }).feeling).toBeNull(); // not mid-story
+    s = { ...s, step: 'end' };
+    s = reducer(s, { t: 'feeling', label: 'worried', ts: ts() });
+    expect(s.feeling).toBe('worried');
+    s = reducer(s, { t: 'feeling', label: 'sad', ts: ts() });
+    expect(s.feeling).toBe('sad');
+    const picks = s.events.filter((e) => e.event === 'feeling_check').map((e) => e.payload.label);
+    expect(picks).toEqual(['worried', 'sad']);
+  });
+
+  it('a session saved on one of the old start questions goes to the story card', async () => {
+    const { rehydrate } = await import('@/lib/engine/state');
+    for (const old of ['input', 'emotion', 'appraisal', 'match']) {
+      const saved = { ...JSON.parse(JSON.stringify(start())), step: old, pos: 0 };
+      expect(rehydrate(saved)!.step, old).toBe('ready');
+    }
+  });
+
   it('logs the events the brief lists, with an anonymous session id and nothing else', () => {
     const s = play({ d1: 'private', d2: 'tell', d3: 'hold' }, [SOLID1, ''], [SOLID2, '']);
     const names = new Set(s.events.map((e) => e.event));
-    for (const n of ['session_start', 'age_gate_pass', 'input_submitted', 'emotion_guess', 'emotion_final', 'appraisal', 'scene_enter', 'choice', 'why_submit', 'score_response', 'harder_shown', 'ending']) expect(names.has(n as never), n).toBe(true);
+    for (const n of ['session_start', 'age_gate_pass', 'scene_enter', 'choice', 'why_submit', 'score_response', 'harder_shown', 'ending']) expect(names.has(n as never), n).toBe(true);
     for (const e of s.events) {
       expect(e.sessionId).toBe('test-session');
       expect(Object.keys(e).sort()).toEqual(['event', 'payload', 'sessionId', 'ts']);

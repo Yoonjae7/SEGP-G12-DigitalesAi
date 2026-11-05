@@ -8,23 +8,10 @@ export const D3 = { accept: 'Accept her excuse.', hold: 'Hold her responsible.' 
 export const PROLOGUE_LINES = 5;
 
 /** Gets through the start flow. Leaves the page on the first line of the story (after the bus scene, unless `prologue` is set). */
-export async function startStory(page: Page, opts: { text?: string; skipWriting?: boolean; url?: string; keepAuto?: boolean; prologue?: boolean } = {}) {
+export async function startStory(page: Page, opts: { url?: string; keepAuto?: boolean; prologue?: boolean } = {}) {
   await page.goto(opts.url ?? '/start');
   await page.getByRole('button', { name: 'Yes, I am 18 or older' }).click();
   await page.getByRole('button', { name: 'I understand' }).click();
-  if (opts.skipWriting) {
-    await page.getByRole('button', { name: 'Skip writing' }).click();
-    await page.getByRole('button', { name: 'sad', exact: true }).click();
-  } else {
-    await page.getByLabel('Your online moment').fill(opts.text ?? 'A friend passed round a photo of a classmate. I was worried it would spread.');
-    await page.getByRole('button', { name: 'Next', exact: true }).click();
-  }
-  const nextBtn = page.getByRole('button', { name: 'Next', exact: true });
-  await expect(nextBtn).toBeVisible({ timeout: 20_000 });
-  if (await nextBtn.isDisabled()) await page.getByRole('button', { name: 'sad', exact: true }).click(); // no guess to start from
-  await nextBtn.click();
-  await page.getByRole('radio', { name: 'Something someone did' }).click();
-  await page.getByRole('button', { name: 'Next', exact: true }).click();
   await page.getByRole('button', { name: 'Begin' }).click();
   await page.waitForURL('**/play');
   await expect(page.locator('.plate .line')).toBeVisible();

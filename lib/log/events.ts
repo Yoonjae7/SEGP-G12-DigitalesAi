@@ -2,10 +2,6 @@
 export type EventName =
   | 'session_start'
   | 'age_gate_pass'
-  | 'input_submitted'
-  | 'emotion_guess'
-  | 'emotion_final'
-  | 'appraisal'
   | 'scene_enter'
   | 'choice'
   | 'why_submit'
@@ -24,6 +20,7 @@ export type EventName =
   | 'exit'
   | 'debrief_start'
   | 'debrief_done'
+  | 'feeling_check'
   | `reflect_${string}`;
 
 export interface LogEvent {

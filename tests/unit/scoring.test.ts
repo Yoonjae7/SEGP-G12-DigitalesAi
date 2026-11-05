@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { guessEmotion, matchStory, scoreText } from '@/lib/ai/providers/mock';
+import { scoreText } from '@/lib/ai/providers/mock';
 import type { ScoreRequest } from '@/lib/ai/types';
 
 const why1 = (answer: string, attempt: 1 | 2 = 1): ScoreRequest => ({ sessionId: 't', promptId: 'why1', criterion: 'analysis', answer, attempt, context: {} });
@@ -106,18 +106,3 @@ describe('mock scoring: Reflect (inference) and safety', () => {
   });
 });
 
-describe('mock emotion and match', () => {
-  it('highest count wins; ties and no match give unsure', () => {
-    expect(guessEmotion('I was scared and worried it would spread').label).toBe('worried');
-    expect(guessEmotion('I felt so embarrassed and humiliated').label).toBe('embarrassed');
-    expect(guessEmotion('The weather was fine today').label).toBe('unsure');
-    expect(guessEmotion('I was angry and sad').label).toBe('unsure'); // tie
-  });
-  it('a picked theme is high confidence; off-topic text gets the one-story note', () => {
-    expect(matchStory({ theme: 'photo' }).confidence).toBe(1);
-    expect(matchStory({ text: 'A photo in a group chat was shared' }).confidence).toBeGreaterThan(0.8);
-    const low = matchStory({ text: 'I like gardening' });
-    expect(low.confidence).toBeLessThan(0.5);
-    expect(low.note).toBe('This pilot has one story. This is the closest fit.');
-  });
-});

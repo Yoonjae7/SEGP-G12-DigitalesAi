@@ -1,4 +1,4 @@
-import type { AiProvider, CallOptions, Criterion, EmotionLabel, EmotionResponse, MatchResponse, ScoreRequest, ScoreResponse } from '../types';
+import type { AiProvider, CallOptions, Criterion, ScoreRequest, ScoreResponse } from '../types';
 
 /**
  * Demo provider. Written rules, no model. It reads the learner's actual words, so different answers give
@@ -186,44 +186,6 @@ export function scoreText(req: ScoreRequest): Omit<ScoreResponse, 'requestId' | 
   return { criterion: req.criterion, level: r.level, flags: r.flags, evidence: r.evidence, rule: pr.rule, next: pr.next, safety: false };
 }
 
-/* ---------- emotion guess ---------- */
-const EMOTION_CUES: Record<Exclude<EmotionLabel, 'unsure'>, string[]> = {
-  embarrassed: ['embarrass', 'humiliat', 'ashamed', 'laughed at', 'cringe', 'exposed'],
-  angry: ['angry', 'furious', 'unfair', 'rage', 'mad', 'annoyed', 'disgusting'],
-  worried: ['worried', 'scared', 'afraid', 'anxious', 'nervous', 'what if', 'spread'],
-  guilty: ['guilty', 'my fault', 'should have', 'regret', 'sorry'],
-  'left out': ['left out', 'excluded', 'ignored', 'not invited', 'alone'],
-  sad: ['sad', 'hurt', 'upset', 'cried', 'lonely', 'down'],
-};
-export function guessEmotion(text: string): EmotionResponse {
-  const t = norm(text);
-  const counts = (Object.keys(EMOTION_CUES) as (keyof typeof EMOTION_CUES)[]).map((label) => {
-    let n = 0;
-    for (const cue of EMOTION_CUES[label]) {
-      const re = new RegExp('\\b' + esc(cue).replace(/\s+/g, '\\s+'), 'g'); // cue at the start of a word, so "mad" does not match "made"
-      n += (t.match(re) ?? []).length;
-    }
-    return { label, n };
-  });
-  const top = Math.max(0, ...counts.map((c) => c.n));
-  const winners = counts.filter((c) => c.n === top && top > 0);
-  const alternatives = counts.filter((c) => c.n > 0).sort((a, b) => b.n - a.n).map((c) => c.label as string);
-  if (top === 0 || winners.length !== 1) return { label: 'unsure', confidence: 0.3, alternatives };
-  return { label: winners[0].label, confidence: Math.min(0.95, 0.5 + top * 0.15), alternatives: alternatives.filter((a) => a !== winners[0].label) };
-}
-
-/* ---------- story match ---------- */
-const MATCH_CUES = ['photo', 'picture', 'image', 'chat', 'group', 'shared', 'forwarded', 'posted', 'embarrass', 'screenshot'];
-export const ONE_STORY_NOTE = 'This pilot has one story. This is the closest fit.';
-export function matchStory(input: { text?: string; theme?: string }): MatchResponse {
-  const storyId = 'photo-group-chat';
-  if (input.theme) return { storyId, confidence: 1 };
-  const t = norm(input.text ?? '');
-  const hits = MATCH_CUES.filter((c) => t.includes(c)).length;
-  if (hits >= 2) return { storyId, confidence: 0.9 };
-  return { storyId, confidence: 0.3, note: ONE_STORY_NOTE };
-}
-
 /* ---------- provider wrapper: delay, failure demo ---------- */
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const jitter = (min: number, max: number) => min + Math.random() * (max - min);
@@ -242,14 +204,5 @@ export const mockProvider: AiProvider = {
     const body = scoreText(req);
     return { requestId: crypto.randomUUID(), ...body, model: { provider: 'mock', version: MOCK_VERSION }, latencyMs: Date.now() - t0 };
   },
-  async emotion(text, opts) {
-    await sleep(jitter(350, 700));
-    maybeFail(opts);
-    return guessEmotion(text);
-  },
-  async match(input, opts) {
-    await sleep(jitter(350, 700));
-    maybeFail(opts);
-    return matchStory(input);
-  },
+
 };

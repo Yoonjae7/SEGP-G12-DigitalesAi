@@ -1,4 +1,4 @@
-import type { EmotionLabel, ScoreResponse } from '../ai/types';
+import type { ScoreResponse } from '../ai/types';
 import { makeEvent, type EventName, type LogEvent } from '../log/events';
 import { story } from '../story';
 import { applyScore, continueUnscored, freshAnswer, skipFollowup, skipPrimary } from './adaptation';
@@ -15,10 +15,7 @@ export function initialState(settings: Settings = DEFAULT_SETTINGS): SessionStat
     v: 1,
     sessionId: null,
     step: 'age_gate',
-    input: { text: '', theme: false, skipped: false },
-    emotion: { guess: null, final: null },
-    appraisal: null,
-    match: null,
+    feeling: null,
     choices: {},
     pos: 0,
     why: { why1: freshAnswer(story, 'why1'), why2: freshAnswer(story, 'why2') },
@@ -37,11 +34,6 @@ export type Action =
   | { t: 'newSession' }
   | { t: 'agePass'; id: string; ts: number }
   | { t: 'noteOk' }
-  | { t: 'setInput'; text: string; theme: boolean; skipped: boolean; ts: number }
-  | { t: 'emotionGuess'; label: EmotionLabel; ts: number }
-  | { t: 'emotionFinal'; label: EmotionLabel; ts: number }
-  | { t: 'appraisal'; value: string; ts: number }
-  | { t: 'matchResult'; confidence: number; note: string | null }
   | { t: 'begin'; ts: number }
   | { t: 'advance'; ts: number }
   | { t: 'back' }
@@ -60,6 +52,7 @@ export type Action =
   | { t: 'debriefDone'; ts: number; skipped?: boolean }
   | { t: 'reflectAccept'; ts: number }
   | { t: 'reflectDecline'; ts: number }
+  | { t: 'feeling'; label: string; ts: number }
   | { t: 'settings'; patch: Partial<Settings> }
   | { t: 'log'; event: EventName; payload?: Record<string, unknown>; ts: number };
 
@@ -122,17 +115,7 @@ export function reducer(s: SessionState, a: Action): SessionState {
       return withLog(ns, [['session_start', {}], ['age_gate_pass', {}]], a.ts);
     }
     case 'noteOk':
-      return { ...s, step: 'input' };
-    case 'setInput':
-      return one({ ...s, step: 'emotion', input: { text: a.text, theme: a.theme, skipped: a.skipped } }, 'input_submitted', { chars: a.text.length, theme: a.theme, skipped: a.skipped }, a.ts);
-    case 'emotionGuess':
-      return one({ ...s, emotion: { guess: a.label, final: a.label } }, 'emotion_guess', { label: a.label }, a.ts);
-    case 'emotionFinal':
-      return one({ ...s, step: 'appraisal', emotion: { ...s.emotion, final: a.label } }, 'emotion_final', { label: a.label, changed: s.emotion.guess !== null && s.emotion.guess !== a.label }, a.ts);
-    case 'appraisal':
-      return one({ ...s, step: 'match', appraisal: a.value }, 'appraisal', { value: a.value }, a.ts);
-    case 'matchResult':
-      return { ...s, match: { confidence: a.confidence, note: a.note } };
+      return { ...s, step: 'ready' };
     case 'begin': {
       const ns: SessionState = { ...s, step: 'play', pos: 0 };
       return one(ns, 'scene_enter', { sceneId: 's0', n: 0 }, a.ts);
@@ -199,6 +182,8 @@ export function reducer(s: SessionState, a: Action): SessionState {
       return one({ ...s, reflect: { ...s.reflect, phase: 'ask' } }, 'reflect_start', {}, a.ts);
     case 'reflectDecline':
       return one({ ...s, step: 'end' }, 'reflect_skipped', { kind: 'declined' }, a.ts);
+    case 'feeling':
+      return s.step === 'end' ? one({ ...s, feeling: a.label }, 'feeling_check', { label: a.label }, a.ts) : s;
     case 'settings':
       return { ...s, settings: { ...s.settings, ...a.patch } };
     case 'log':
@@ -227,6 +212,8 @@ export function rehydrate(raw: unknown): SessionState | null {
         : { ...DEFAULT_SETTINGS, ...r.settings, sound: true, auto: true, defaults: DEFAULT_SETTINGS.defaults },
       events: Array.isArray(r.events) ? r.events : [],
     };
+    // A session saved while the start still had its questions goes to the story card.
+    if ((['input', 'emotion', 'appraisal', 'match'] as string[]).includes(r.step)) s.step = 'ready';
     const len = timeline(s).length;
     if (s.pos >= len) s.pos = Math.max(0, len - 1);
     if (s.step !== 'age_gate' && !s.sessionId) return null;
@@ -237,6 +224,6 @@ export function rehydrate(raw: unknown): SessionState | null {
 }
 
 export const STEP_ROUTE: Record<SessionState['step'], '/start' | '/play'> = {
-  age_gate: '/start', content_note: '/start', input: '/start', emotion: '/start', appraisal: '/start', match: '/start',
+  age_gate: '/start', content_note: '/start', ready: '/start',
   play: '/play', feedback: '/play', debrief: '/play', reflect: '/play', end: '/play',
 };
