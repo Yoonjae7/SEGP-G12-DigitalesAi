@@ -16,7 +16,7 @@ import { AnswerEditor } from './AnswerEditor';
 import { Icon, PhotoTile } from './Marks';
 import { SceneArt } from './SceneArt';
 import { useSession } from './SessionProvider';
-import { Visuals } from './Visuals';
+import { Visuals, type Acts } from './Visuals';
 
 const NAMES: Record<Speaker, string> = { narrator: 'Narrator', lisa: 'Lisa', sarah: 'Sarah', marco: 'Marco', dev: 'Dev', you: 'You', screen: 'On screen' };
 const P = copy.player;
@@ -39,6 +39,18 @@ export function Stage() {
     if (!item) return [];
     const nextScene = items.slice(state.pos + 1).find((i) => i.sceneId !== item.sceneId)?.sceneId;
     return items.filter((i): i is Extract<TItem, { type: 'line' }> => i.type === 'line' && i.sceneId === nextScene).map((i) => i.line);
+  }, [items, state.pos, item]);
+  // What the people on stage are doing: each line can change it, and it stays until a later line changes it again.
+  const acts = useMemo(() => {
+    const out: Acts = {};
+    if (!item) return out;
+    for (let i = 0; i <= state.pos; i++) {
+      const it = items[i];
+      if (it?.type === 'line' && it.sceneId === item.sceneId && it.line.act) {
+        for (const [who, v] of Object.entries(it.line.act)) out[who as keyof Acts] = { ...out[who as keyof Acts], ...v };
+      }
+    }
+    return out;
   }, [items, state.pos, item]);
   const [settled, setSettled] = useState<{ id: string; ok: boolean } | null>(null);
   const onSettle = useCallback((id: string, ok: boolean) => setSettled({ id, ok }), []);
@@ -113,9 +125,10 @@ export function Stage() {
     <div className="on-night">
       <div className="viewport">
         <main className={`stage${split ? ' split' : ''}`} aria-label="Story" onClick={onStageClick}>
-          <Visuals art={art} nextArt={nextArt} override={override} />
+          <Visuals art={art} nextArt={nextArt} override={override} lineId={line?.id ?? null} acts={acts} />
+          {line?.id === 's0_04' ? <div className="flash" key={line.id} aria-hidden="true" /> : null}
           {dim ? <div className="dim" /> : null}
-          <p className="sr" role="status" aria-live="polite">{fill(P.scene, { n: item.n })}. {sceneTitle}.</p>
+          <p className="sr" role="status" aria-live="polite">{item.n > 0 ? `${fill(P.scene, { n: item.n })}. ` : ''}{sceneTitle}.</p>
           <Controls voiceOn={voiceOn} soundOn={soundOn}
             onSound={() => dispatch({ t: 'settings', patch: { sound: !state.settings.sound } })}
             onSettings={() => setDrawer(true)} onExit={() => setExitOpen(true)} />

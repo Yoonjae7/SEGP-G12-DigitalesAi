@@ -8,7 +8,7 @@ const uiRaw = readFileSync('content/ui-copy.json', 'utf8');
 
 describe('story.json', () => {
   it('validates against the schema', () => {
-    expect(story.scenes).toHaveLength(7);
+    expect(story.scenes).toHaveLength(8); // the bus scene, then the seven scenes of the story
   });
 
   it('has unique line ids, and every voiced line has a speaker that can be voiced', () => {
@@ -18,7 +18,7 @@ describe('story.json', () => {
       ids.add(l.id);
       expect(['you', 'screen']).not.toContain(l.speaker);
     }
-    expect(allVoicedLines().length).toBe(71);
+    expect(allVoicedLines().length).toBe(76);
   });
 
   it('11. no real brand or platform name appears in story.json or the UI copy (About may credit tools)', () => {

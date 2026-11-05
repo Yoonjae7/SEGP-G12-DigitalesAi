@@ -4,8 +4,11 @@ export const D1 = { private: 'Message Lisa privately.', group: 'Reply in the gro
 export const D2 = { tell: 'Tell Sarah what is happening.', delete: 'Ask Marco and Dev to delete it first.' };
 export const D3 = { accept: 'Accept her excuse.', hold: 'Hold her responsible.' };
 
-/** Gets through the start flow. Leaves the page on the first line of the story. */
-export async function startStory(page: Page, opts: { text?: string; skipWriting?: boolean; url?: string; keepAuto?: boolean } = {}) {
+/** The story opens on a short scene on the bus. Most tests start at the dorm room, after it. */
+export const PROLOGUE_LINES = 5;
+
+/** Gets through the start flow. Leaves the page on the first line of the story (after the bus scene, unless `prologue` is set). */
+export async function startStory(page: Page, opts: { text?: string; skipWriting?: boolean; url?: string; keepAuto?: boolean; prologue?: boolean } = {}) {
   await page.goto(opts.url ?? '/start');
   await page.getByRole('button', { name: 'Yes, I am 18 or older' }).click();
   await page.getByRole('button', { name: 'I understand' }).click();
@@ -29,6 +32,10 @@ export async function startStory(page: Page, opts: { text?: string; skipWriting?
   if (!opts.keepAuto) {
     await page.getByRole('button', { name: 'Pause' }).click();
     await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur()); // so Space goes on, not back to the button
+    if (!opts.prologue) {
+      for (let i = 0; i < PROLOGUE_LINES; i++) { await page.keyboard.press('Space'); await page.waitForTimeout(60); }
+      await expect(page.locator('.plate .line')).toContainText('Tuesday, 11:40 pm');
+    }
   }
 }
 

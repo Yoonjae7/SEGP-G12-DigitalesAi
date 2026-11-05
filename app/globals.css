@@ -242,6 +242,11 @@ button { font: inherit; color: inherit; }
 .pill:focus-visible { outline: 2px solid var(--butter); outline-offset: 2px; opacity: 1; }
 .pill.go { background: var(--butter); color: var(--ink); opacity: 1; }
 
+/* a camera flash: the whole picture goes white for a moment, then fades */
+.flash { position: absolute; inset: 0; z-index: 4; background: #fff; pointer-events: none; opacity: 0; animation: flash 900ms ease-out 700ms both; }
+@keyframes flash { 0% { opacity: 0; } 8% { opacity: .95; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .flash { animation: none; } }
+
 /* ---------- subtitle ---------- */
 /* Just the words on a soft dark fade. A name shows only when a person is speaking. */
 .plate { position: absolute; left: 0; right: 0; bottom: 0; z-index: 10; padding: 76px 210px 28px; text-align: center; color: var(--paper); background: linear-gradient(to top, rgba(6, 16, 20, .9), rgba(6, 16, 20, .62) 55%, rgba(6, 16, 20, 0)); animation: plate-in var(--d-line) linear both; }

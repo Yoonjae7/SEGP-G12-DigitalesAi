@@ -14,6 +14,7 @@ export interface CharacterModelProps {
   expression: string; // a name from EXPR. Expressions swap the face texture.
   view: 'front' | 'back' | 'side';
   yaw?: number; // 0 to 1, turns the body and face away
+  talking?: boolean; // the mouth moves and the head and hands move a little
 }
 export type CharacterModel = ComponentType<CharacterModelProps>;
 

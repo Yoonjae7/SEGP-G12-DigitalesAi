@@ -242,10 +242,24 @@ test('auto-play with sound: a line moves on a moment after its voice ends, and t
   const first = await page.locator('.plate .line').textContent();
   // The pretend voice ends after 0.7 s, so the next line shows well before the 4.4 s a silent first line would wait.
   await expect.poll(() => page.locator('.plate .line').textContent(), { timeout: 3000 }).not.toBe(first);
-  expect(await page.evaluate(() => (window as unknown as { __played: string[] }).__played.join(','))).toContain('/audio/s1_01.mp3');
-  const file = await page.request.get('/audio/s1_01.mp3');
+  expect(await page.evaluate(() => (window as unknown as { __played: string[] }).__played.join(','))).toContain('/audio/s0_01.mp3'); // the story opens on the bus
+  const file = await page.request.get('/audio/s0_01.mp3');
   expect(file.ok()).toBe(true);
   expect(file.headers()['content-type']).toContain('audio');
+});
+
+test('the story opens on the bus: Lisa takes a photo of Sarah asleep, you see it and say nothing, then the dorm room', async ({ page }) => {
+  await startStory(page, { prologue: true });
+  const line = page.locator('.plate .line');
+  await expect(line).toContainText("It's Tuesday evening, and you're on the last bus home");
+  await expect(page.locator('.plate .who-line')).toHaveCount(0); // the narrator has no name tag
+  for (const t of ['Sarah has had a long day', 'Lisa sees her and quietly takes out her phone', "She takes a photo, and Sarah doesn't wake up", "You see it happen, but you don't say anything"]) {
+    await page.keyboard.press('Space');
+    await expect(line).toContainText(t);
+    await expect(page.locator('.flash')).toHaveCount(t.startsWith('She takes a photo') ? 1 : 0); // the flash, only at the photo
+  }
+  await page.keyboard.press('Space');
+  await expect(line).toContainText('Tuesday, 11:40 pm');
 });
 
 test('auto-play: lines move on by themselves, Pause holds, and a decision always waits', async ({ page }) => {

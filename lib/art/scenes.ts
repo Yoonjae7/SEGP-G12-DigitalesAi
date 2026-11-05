@@ -279,8 +279,38 @@ import { Rig } from './rig';
     return o;
   }
 
+  /* ---------- S0: The bus (the last bus home, at night) ---------- */
+  function s0() {
+    let o = '';
+    // the city sliding past the windows
+    let city = r(0, 0, 1600, 900, '#0A1822') + r(0, 120, 1600, 470, 'url(#sky-night)');
+    [[0, .46, 100], [120, .3, 80], [220, .55, 120], [360, .36, 90], [470, .5, 110], [600, .28, 100], [720, .5, 90], [830, .34, 120], [970, .56, 100], [1090, .4, 90], [1200, .3, 120], [1340, .52, 100], [1450, .38, 120]]
+      .forEach(b => { city += r(b[0], 120 + 470 * b[1], b[2], 470 - 470 * b[1], '#14303B'); });
+    for (let i = 0; i < 46; i++) city += r(30 + ((i * 193) % 1540), 300 + ((i * 71) % 270), 9, 13, K.butter, `opacity="${i % 3 ? .8 : .45}"`);
+    [[210, 470], [760, 430], [1290, 480]].forEach(p => { city += ci(p[0], p[1], 46, K.butter, 'opacity=".16"') + ci(p[0], p[1], 14, '#FFE9B0', 'opacity=".9"'); });
+    o += LY(.06, city);
+    // the bus wall: a strip above the windows, panels below, pillars between, two adverts and the ceiling light
+    let wall = r(0, 0, 1600, 132, '#B7AD97') + r(0, 560, 1600, 340, '#CFC5AE') + r(0, 552, 1600, 14, '#8E8670');
+    [0, 530, 1060, 1590].forEach(x => { wall += cutN(rr(x - 22, 120, 44, 450, 3, '#B7AD97', OUT)); });
+    wall += cutN(rr(190, 36, 330, 54, 6, K.ping, OUT)) + cutN(rr(900, 36, 330, 54, 6, K.butter, OUT));
+    wall += r(0, 0, 1600, 16, '#FFF3C8', 'opacity=".9"') + po('0,16 1600,16 1700,300 -100,300', '#FFF3C8', 'opacity=".05"');
+    o += LY(.22, wall);
+    // Sarah asleep by the left window, and Lisa across the aisle with her phone up
+    o += LY(.5, tint('tint-night', Rg('sarah', { view: 'front', pose: 'slump', expr: 'calm', yaw: .15, scale: 7.2, x: 330, y: 1010, blob: false })));
+    o += LY(.55, tint('tint-night', Rg('lisa', { view: 'front', pose: 'look-phone', expr: 'smirk', yaw: -.25, scale: 6.4, x: 1180, y: 1000, blob: false })));
+    // seat backs in front of them, so they look seated
+    let seats = '';
+    seats += cutN(rr(60, 700, 560, 260, 40, '#2F6F86', OUT)) + rr(110, 690, 460, 54, 24, K.ping, OUT);
+    seats += cutN(rr(960, 700, 560, 260, 40, '#2F6F86', OUT)) + rr(1010, 690, 460, 54, 24, K.ping, OUT);
+    o += LY(.74, seats);
+    // a handrail pole, the nearest thing
+    o += LY(.95, cutN(rr(786, 0, 26, 900, 10, '#E8B93C', OUT)));
+    return o;
+  }
+
   /* ---------- registry and rendering ---------- */
   const META = {
+    s0: { id: 'S0', title: 'The Bus', fn: s0, focus: 760, light: 'night' },
     s1: { id: 'S1', title: 'Ping', fn: s1, focus: 950, home: [230, 60, 960, 830], light: 'night' },
     s2: { id: 'S2', title: 'Your Move', fn: s2, focus: 800, light: 'night' },
     s3: { id: 'S3', title: 'Two More Groups', fn: s3, focus: 800, light: 'night' },

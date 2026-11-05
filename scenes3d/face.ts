@@ -9,7 +9,7 @@ const U = 8;
 const W = 288; // 36u wide
 const H = 256; // 32u tall
 
-export function faceCanvas(id: string, expression: string): HTMLCanvasElement {
+export function faceCanvas(id: string, expression: string, mouth?: string | null): HTMLCanvasElement {
   const C = SPEC[id];
   const E = EXPR[expression] ?? EXPR.calm;
   const cv = document.createElement('canvas');
@@ -31,7 +31,10 @@ export function faceCanvas(id: string, expression: string): HTMLCanvasElement {
   g.fillStyle = ink;
   for (const sx of [-1, 1]) {
     const x = sx * e;
-    if (E.eye === 'half') {
+    if (E.eye === 'closed') {
+      g.strokeStyle = ink; g.lineWidth = 0.95;
+      g.beginPath(); g.arc(x, cy - 0.6, 1.9, 0.12 * Math.PI, 0.88 * Math.PI); g.stroke();
+    } else if (E.eye === 'half') {
       g.beginPath(); g.arc(x, cy, 1.6, 0, Math.PI * 2); g.fill();
       g.fillStyle = C.skin; g.beginPath(); g.arc(x, cy + 0.3, 2.1, Math.PI, 0); g.fill(); g.fillStyle = ink;
       g.lineWidth = 0.7; g.beginPath(); g.moveTo(x - 2.4, cy + 0.3); g.lineTo(x + 2.4, cy + 0.3); g.strokeStyle = ink; g.stroke();
@@ -48,7 +51,7 @@ export function faceCanvas(id: string, expression: string): HTMLCanvasElement {
     g.beginPath(); g.moveTo(-2.4, 0); g.lineTo(2.4, 0); g.stroke(); g.restore();
   });
   // mouth, from the same path table as the 2D figure
-  const mp = mouthPath(E.m, 5.6 * hf);
+  const mp = mouthPath(mouth || E.m, 5.6 * hf);
   g.save(); g.translate(0, cy + 6.1); g.lineWidth = 1;
   const path = new Path2D(mp[0]);
   if (mp[1]) { g.fillStyle = mp[1]; g.fill(path); }
@@ -57,11 +60,11 @@ export function faceCanvas(id: string, expression: string): HTMLCanvasElement {
 }
 
 const cache = new Map<string, THREE.CanvasTexture>();
-export function faceTexture(id: string, expression: string): THREE.CanvasTexture {
-  const k = `${id}:${expression}`;
+export function faceTexture(id: string, expression: string, mouth?: string | null): THREE.CanvasTexture {
+  const k = `${id}:${expression}:${mouth ?? ''}`;
   let t = cache.get(k);
   if (!t) {
-    t = new THREE.CanvasTexture(faceCanvas(id, expression));
+    t = new THREE.CanvasTexture(faceCanvas(id, expression, mouth));
     t.colorSpace = THREE.SRGBColorSpace;
     t.anisotropy = 4;
     cache.set(k, t);

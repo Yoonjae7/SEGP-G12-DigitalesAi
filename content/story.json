@@ -4,6 +4,24 @@
   "banner": "Your ending came from your written answers, not from which option you picked.",
   "scenes": [
     {
+      "id": "s0", "n": 0, "title": "The Bus", "art": "s0",
+      "description": "The last bus home, at night. Sarah is asleep by the window and you sit next to her. Lisa sits across the aisle with her phone.",
+      "stage": { "set": "s0", "characters": [
+        { "id": "sarah", "view": "front", "pose": "sit-sleep", "expression": "asleep" },
+        { "id": "you", "view": "front", "pose": "sit-phone", "expression": "calm" },
+        { "id": "lisa", "view": "front", "pose": "sit", "expression": "amused" },
+        { "id": "marco", "view": "front", "pose": "sit-laugh", "expression": "amused" },
+        { "id": "dev", "view": "front", "pose": "sit-phone", "expression": "flat" }
+      ] },
+      "lines": [
+        { "id": "s0_01", "speaker": "narrator", "kind": "narration", "text": "It's Tuesday evening, and you're on the last bus home with Lisa, Marco, Dev and Sarah.", "voiced": true },
+        { "id": "s0_02", "speaker": "narrator", "kind": "narration", "text": "Sarah has had a long day, and she falls asleep against the window with her mouth open.", "voiced": true },
+        { "id": "s0_03", "speaker": "narrator", "kind": "narration", "text": "Lisa sees her and quietly takes out her phone.", "voiced": true, "act": { "lisa": { "pose": "sit-phone", "expression": "smirk" } } },
+        { "id": "s0_04", "speaker": "narrator", "kind": "narration", "text": "She takes a photo, and Sarah doesn't wake up.", "voiced": true, "act": { "lisa": { "pose": "sit-photo", "expression": "grin" } } },
+        { "id": "s0_05", "speaker": "narrator", "kind": "narration", "text": "You see it happen, but you don't say anything, and neither does anyone else.", "voiced": true, "act": { "lisa": { "pose": "sit", "expression": "smirk" }, "you": { "expression": "uneasy" } } }
+      ]
+    },
+    {
       "id": "s1", "n": 1, "title": "Ping", "art": "s1",
       "description": "A dark dorm room at night. You sit on the bed, seen from behind. Your phone lights your hands. A lamp glows on the desk.",
       "chat": "Close Friends",

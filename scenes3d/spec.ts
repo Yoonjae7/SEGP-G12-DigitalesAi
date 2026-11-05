@@ -10,5 +10,10 @@ export interface ExprData { t: number; lift: [number, number]; eye: string; m: s
 
 export const SPEC = Rig.CHARS as unknown as Record<string, Spec>;
 export const POSES = Rig.POSES as unknown as Record<string, PoseData>;
-export const EXPR = Rig.EXPR as unknown as Record<string, ExprData>;
+/** The shared faces, plus a few that only the 3D people need (asleep). */
+export const EXPR: Record<string, ExprData> = {
+  ...(Rig.EXPR as unknown as Record<string, ExprData>),
+  asleep: { t: 8, lift: [0.4, 0.4], eye: 'closed', m: 'talkB' },
+  grin: { t: -6, lift: [-1.6, -1.6], eye: 'dot', m: 'smile' },
+};
 export const mouthPath = Rig.mouthPath as unknown as (kind: string, w: number) => string[];

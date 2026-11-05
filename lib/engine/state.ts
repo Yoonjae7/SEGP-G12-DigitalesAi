@@ -135,7 +135,7 @@ export function reducer(s: SessionState, a: Action): SessionState {
       return { ...s, match: { confidence: a.confidence, note: a.note } };
     case 'begin': {
       const ns: SessionState = { ...s, step: 'play', pos: 0 };
-      return one(ns, 'scene_enter', { sceneId: 's1', n: 1 }, a.ts);
+      return one(ns, 'scene_enter', { sceneId: 's0', n: 0 }, a.ts);
     }
     case 'advance':
       return advance(s, a.ts);

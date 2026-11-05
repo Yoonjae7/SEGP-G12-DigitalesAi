@@ -4,7 +4,7 @@ import type { Choices } from './types';
 /**
  * The story as one list. It is a pure function of the learner's choices, so a refresh always rebuilds the same list.
  *
- *   S1 > S2 > [D1 + beat] > S3 > [WHY1] > S4 > [D2 + beat] > S5 > S6 > [D3 + beat] > [WHY2] > S7 > ending
+ *   S0 (the bus) > S1 > S2 > [D1 + beat] > S3 > [WHY1] > S4 > [D2 + beat] > S5 > S6 > [D3 + beat] > [WHY2] > S7 > ending
  *
  * Paths merge after every decision. Lines with `when` show only if the earlier choice matches.
  */
@@ -45,6 +45,7 @@ export function buildTimeline(story: Story, choices: Choices, ending: 'A' | 'B' 
     out.push({ type: 'why', id, sceneId: s.id, n: s.n, art: s.art });
   };
 
+  scene('s0');
   scene('s1');
   scene('s2');
   if (!decision(story.decisions.d1)) return out;
