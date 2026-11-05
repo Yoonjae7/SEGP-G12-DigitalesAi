@@ -127,6 +127,13 @@ test('Home is short: digital citizenship through an adaptive story, the made-up 
   await expect(page.getByRole('link', { name: 'Wellbeing.Ambassadors@nottingham.edu.my' }).first()).toBeVisible();
   await expect(page.getByRole('link', { name: 'Start the story' })).toBeVisible();
   await expect(page.locator('.photo-tile, .diorama')).toHaveCount(0);
+  // Story 1 can be played. Stories 2, 3 and 4 are shown as Coming soon and cannot be opened.
+  await expect(page.getByRole('link', { name: /^Story 1/ })).toBeVisible();
+  for (const n of ['Story 2', 'Story 3', 'Story 4']) await expect(page.locator('main').getByText(n, { exact: true })).toBeVisible();
+  await expect(page.locator('main').getByText('Coming soon')).toHaveCount(3);
+  await expect(page.getByRole('link', { name: /^Story 2/ })).toHaveCount(0);
+  await page.getByRole('link', { name: /^Story 1/ }).click();
+  await expect(page).toHaveURL(/\/start/);
 });
 
 test('Start the story always starts from the beginning, even after a story was under way', async ({ page }) => {
@@ -159,8 +166,41 @@ test('before the story: a made-up note with the wellbeing email, and the reminde
   await page.getByRole('radio', { name: 'Something someone did' }).click();
   await page.getByRole('button', { name: 'Next', exact: true }).click();
   await expect(page.getByText('A reminder: this story is made up')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Story 1' })).toBeVisible();
+  await expect(page.getByText('Coming soon')).toHaveCount(3);
   await expect(page.getByRole('link', { name: 'Wellbeing.Ambassadors@nottingham.edu.my' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Begin' })).toBeVisible();
+});
+
+test('the speaking character shows with a moving mouth, and the narrator has no portrait', async ({ page }) => {
+  await page.addInitScript(() => {
+    class FakeAudio {
+      src: string; currentTime = 0; preload = ''; onended: null | (() => void) = null; onerror: null | (() => void) = null;
+      constructor(src?: string) { this.src = src ?? ''; }
+      play() { setTimeout(() => this.onended?.(), 4000); return Promise.resolve(); }
+      pause() { /* nothing to stop */ }
+    }
+    (window as unknown as { Audio: unknown }).Audio = FakeAudio;
+  });
+  await startStory(page); // paused, on the narrator's first line
+  await expect(page.locator('.plate .portrait')).toHaveCount(0);
+  await page.keyboard.press('Space'); // s1_02: Lisa
+  await expect(page.locator('.plate .portrait.lisa')).toBeVisible();
+  await expect(page.locator('.plate .portrait.lisa.talking')).toBeVisible(); // her voice is playing
+  const mouths = new Set<string>();
+  for (let i = 0; i < 12; i++) { mouths.add(await page.locator('.plate .portrait').innerHTML()); await page.waitForTimeout(60); }
+  expect(mouths.size).toBeGreaterThan(1); // the mouth moved
+});
+
+test('a choice: number keys pick, and the two panels look like a game screen', async ({ page }) => {
+  await startStory(page);
+  await toDecision(page);
+  await expect(page.locator('.decide .step')).toHaveText('Decision 1');
+  await expect(page.locator('.decide .co').nth(0)).toHaveAttribute('data-n', '1');
+  await expect(page.locator('.decide .co').nth(1)).toHaveAttribute('data-n', '2');
+  await expect(page.locator('.decide')).not.toContainText('few seconds');
+  await page.keyboard.press('2');
+  await expect(page.locator('.plate .line')).toContainText('Can we take this down?', { timeout: 6000 }); // the "reply in the group chat" beat
 });
 
 test('auto-play with sound: a line moves on a moment after its voice ends, and the voice files are served', async ({ page }) => {
@@ -228,13 +268,13 @@ test('13 (support). "Need support?" is reachable from every screen', async ({ pa
 test('settings: text size never goes below the floor, Simple visuals and exit work', async ({ page }) => {
   await startStory(page);
   const size = () => page.evaluate(() => getComputedStyle(document.querySelector('.plate .line')!).fontSize);
-  expect(await size()).toBe('24px');
+  expect(await size()).toBe('22px');
   await page.getByRole('button', { name: 'Settings' }).click();
   await page.getByRole('button', { name: 'Larger text' }).click();
-  expect(await size()).toBe('26px');
+  expect(await size()).toBe('24px');
   await page.getByRole('button', { name: 'Smaller text' }).click();
   await page.getByRole('button', { name: 'Smaller text' }).click();
-  expect(await size()).toBe('22px'); // the floor
+  expect(await size()).toBe('20px'); // the floor
   await expect(page.getByRole('button', { name: 'Smaller text' })).toBeDisabled();
   await page.getByRole('switch', { name: 'Simple visuals' }).click();
   await page.keyboard.press('Escape');

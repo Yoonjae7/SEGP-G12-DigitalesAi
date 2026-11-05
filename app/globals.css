@@ -33,7 +33,7 @@
   --font-display: var(--ff-display), 'Young Serif', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
   --font-body: var(--ff-body), 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', Verdana, sans-serif;
   --t-body: 20px;        /* default. A- steps down to 18px, never below. */
-  --t-caption: 24px;     /* captions 22 to 26 */
+  --t-caption: 22px;     /* captions: a slim subtitle bar, 20 to 28 with the text-size setting */
   --t-meta: 16px;        /* labels only (chips, speaker names, footer). Never body copy. */
   --measure: 62ch;
 
@@ -138,6 +138,10 @@ button { font: inherit; color: inherit; }
 .small { font-size: var(--t-meta); }
 .ph { font-style: normal; background: var(--paper-deep); padding: 1px 6px; border-radius: var(--r); box-shadow: inset 0 0 0 1px var(--hairline-strong); }
 .mail { color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+/* Stories 2 to 4: shown, but not yet playable */
+.story.soon { list-style: none; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; border: 2px dashed var(--ink-soft); border-radius: var(--r); opacity: .72; cursor: not-allowed; }
+.story.soon .n { font: 400 28px/1.1 var(--font-display); color: var(--ink-soft); }
+.story .badge { align-self: flex-start; white-space: nowrap; font: 700 13px/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; padding: 6px 10px; border: 1.5px solid var(--ink-soft); border-radius: var(--r); color: var(--ink-soft); }
 .tag-demo { display: inline-block; font: 700 14px/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); border: 1px dashed var(--ink-soft); padding: 4px 8px; border-radius: var(--r); }
 
 /* ---------- form bits ---------- */
@@ -205,7 +209,7 @@ button { font: inherit; color: inherit; }
 
 /* ---------- mobile ---------- */
 @media (max-width: 720px) {
-  :root { --t-body: 20px; --t-caption: 22px; }
+  :root { --t-body: 20px; --t-caption: 20px; }
   .grid { padding: 0 16px; column-gap: 12px; }
   .topbar { padding: 14px 16px; gap: 12px; }
   .topbar nav { gap: 16px; font-size: 16px; }
@@ -240,13 +244,27 @@ button { font: inherit; color: inherit; }
 .imark::after { content: ""; position: absolute; left: 50%; top: 7px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--ping); }
 
 /* ---------- caption plate ---------- */
-.plate { position: absolute; left: 4%; right: 4%; bottom: 4.5%; z-index: 10; background: var(--paper); box-shadow: var(--lift-night); border-radius: var(--r); padding: 30px 32px 10px; border-top: 3px solid var(--ink); animation: plate-in var(--d-line) linear both; }
-.plate .who { position: absolute; top: -17px; left: 28px; }
-.plate .in { position: absolute; top: -13px; left: 160px; font: 700 var(--t-meta)/1 var(--font-body); background: var(--paper); border: 1.5px solid var(--ink); border-radius: var(--r); padding: 6px 10px; }
-.line { font-size: var(--t-caption); line-height: 1.42; margin: 0 0 12px; max-width: 62ch; }
+/* A slim subtitle bar, not a heavy card: dark glass, light text, and the speaker's portrait sitting on its edge. */
+.plate { position: absolute; left: 4%; right: 4%; bottom: 3.5%; z-index: 10; background: rgba(16, 36, 43, .9); color: var(--paper); box-shadow: var(--lift-night); border-radius: 8px; padding: 20px 26px 4px; border-top: 2px solid rgba(244, 238, 227, .4); backdrop-filter: blur(6px); animation: plate-in var(--d-line) linear both; }
+.plate .tags { position: absolute; top: -14px; left: 24px; display: flex; align-items: center; gap: 8px; }
+.plate.has-portrait .tags { left: 196px; }
+.plate .who { height: 28px; font-size: 14px; }
+.plate .who.narrator { background: var(--paper); color: var(--ink); }
+.plate .in { font: 700 13px/1 var(--font-body); background: var(--night); color: var(--paper); border: 1.5px solid rgba(244, 238, 227, .6); border-radius: var(--r); padding: 6px 9px; }
+.plate .scene-note { color: rgba(244, 238, 227, .72); }
+.line { font-size: var(--t-caption); line-height: 1.4; margin: 0 0 8px; max-width: 64ch; }
+.plate .line { color: var(--paper); }
 .line.narr { font-style: italic; }
-.ctl { display: flex; align-items: center; gap: 4px; border-top: 1px solid var(--hairline); padding-top: 4px; margin: 0 -8px; }
-.ctl .hint { margin-left: auto; font-size: var(--t-meta); color: var(--ink-soft); padding-right: 8px; }
+.ctl { display: flex; align-items: center; gap: 2px; border-top: 1px solid var(--hairline); padding-top: 2px; margin: 0 -8px; }
+.plate .ctl { border-top-color: rgba(244, 238, 227, .18); }
+.plate .hbtn { color: var(--paper); font-size: 16px; }
+.plate .hbtn:hover { color: var(--butter); }
+.plate .hbtn + .hbtn { border-left-color: rgba(244, 238, 227, .2); }
+.ctl .hint { margin-left: auto; font-size: 14px; color: rgba(244, 238, 227, .6); padding-right: 8px; }
+.plate .portrait { position: absolute; left: 22px; bottom: calc(100% - 12px); width: 152px; height: 164px; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; border-radius: 10px 10px 4px 4px; background: color-mix(in srgb, var(--pc, var(--paper-deep)) 38%, var(--paper)); border: 2px solid var(--ink); box-shadow: var(--lift-night); transition: box-shadow 120ms; }
+.plate .portrait svg { display: block; width: 100%; height: auto; }
+.portrait.sarah { --pc: var(--c-sarah); } .portrait.lisa { --pc: var(--c-lisa); } .portrait.marco { --pc: var(--c-marco); } .portrait.dev { --pc: var(--c-dev); }
+.plate .portrait.talking { box-shadow: 0 0 0 3px var(--butter), var(--lift-night); }
 @keyframes plate-in { from { opacity: 0; } to { opacity: 1; } }
 
 /* ---------- chat panel ---------- */
@@ -263,13 +281,26 @@ button { font: inherit; color: inherit; }
 .b.new { box-shadow: 0 0 0 2px var(--ink); }
 
 /* ---------- decision ---------- */
-.decide { position: absolute; inset: 0; z-index: 6; display: grid; align-content: center; justify-items: center; gap: 30px; padding: 70px 4% 4%; }
-.decide h2 { font-size: 44px; color: var(--paper); text-align: center; background: var(--night); padding: 12px 34px 14px; border-radius: var(--r); box-shadow: var(--lift-night); border-top: 3px solid var(--butter); }
-.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; width: min(1020px, 92%); }
-.co { display: flex; flex-direction: column; gap: 14px; text-align: left; min-height: 220px; padding: 32px 32px 30px; background: var(--paper); color: var(--ink); border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--lift-night); cursor: pointer; animation: rise var(--d-rise) var(--ease-paper) both; transition: transform 120ms; }
-.co:hover { transform: translateY(-3px); background: var(--paper-deep); }
-.co .lab { font: 400 36px/1.12 var(--font-display); }
-.co .sub { font-size: 22px; line-height: 1.4; color: var(--ink-soft); }
+/* The choice, game style: the scene dims, the question sits on top, and two dark glass panels slide in from each side.
+   Number keys 1 and 2 choose. The hovered or focused panel lights up. Both panels always look the same. */
+.decide { position: absolute; inset: 0; z-index: 6; display: grid; align-content: center; justify-items: center; gap: 18px; padding: 70px 4% 3%; background: radial-gradient(ellipse at 50% 45%, rgba(16, 36, 43, .15), rgba(16, 36, 43, .72)); }
+.decide .step { font: 700 15px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: var(--butter); }
+.decide h2 { font-size: 52px; line-height: 1.05; color: var(--paper); text-align: center; text-shadow: 0 2px 0 rgba(0, 0, 0, .45); }
+.decide .rule { display: block; width: 96px; height: 4px; background: var(--ping); border-radius: 2px; margin-bottom: 14px; }
+.decide .keys { margin: 6px 0 0; font-size: 16px; color: rgba(244, 238, 227, .72); letter-spacing: .02em; }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; width: min(1080px, 94%); }
+.co { position: relative; display: flex; flex-direction: column; gap: 12px; text-align: left; min-height: 220px; padding: 34px 34px 30px; background: rgba(16, 36, 43, .86); color: var(--paper); border: 2px solid rgba(244, 238, 227, .55); border-radius: 6px; box-shadow: var(--lift-night); backdrop-filter: blur(5px); cursor: pointer; animation: slide-l 320ms var(--ease-paper) both; transition: transform 160ms, background 160ms, color 160ms, border-color 160ms, box-shadow 160ms, opacity 200ms; }
+.co:nth-child(2) { animation-name: slide-r; }
+.co::before { content: attr(data-n); position: absolute; top: -17px; left: 24px; width: 34px; height: 34px; display: grid; place-items: center; background: var(--paper); color: var(--ink); font: 700 18px/1 var(--font-body); border-radius: 4px; box-shadow: 0 2px 0 rgba(0, 0, 0, .35); }
+.co:hover, .co:focus-visible { transform: translateY(-5px); background: var(--paper); color: var(--ink); border-color: var(--ping); box-shadow: 0 0 0 4px var(--ping), var(--lift-night); }
+.co .lab { font: 400 38px/1.1 var(--font-display); }
+.co .sub { font-size: 21px; line-height: 1.4; color: rgba(244, 238, 227, .8); }
+.co:hover .sub, .co:focus-visible .sub { color: var(--ink-soft); }
+.co.picked { background: var(--ping); color: var(--ink); border-color: var(--ping); transform: scale(1.03); }
+.co.picked .sub { color: var(--ink); }
+.cards.picking .co:not(.picked) { opacity: .15; transform: scale(.97); }
+@keyframes slide-l { from { transform: translateX(-36px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes slide-r { from { transform: translateX(36px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes rise { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
 
 /* ---------- why panel: stage slides to 40% ---------- */
@@ -333,22 +364,23 @@ button { font: inherit; color: inherit; }
   .hud .tab.right { gap: 0; }
   .hud .tab.right .hbtn { padding: 0; min-width: 44px; justify-content: center; border-left: 0; }
   .hud .tab.right .hbtn span { display: none; }
-  .plate { left: 12px; right: 12px; bottom: 12px; padding: 26px 18px 6px; }
-  .plate .who { left: 16px; }
-  .plate .in { left: 130px; }
+  .plate { left: 12px; right: 12px; bottom: 12px; padding: 22px 16px 4px; }
+  .plate .tags { left: 16px; }
+  .plate.has-portrait .tags { left: 118px; }
+  .plate .portrait { left: 12px; width: 92px; height: 100px; }
   .line { font-size: var(--t-caption); }
   .ctl { margin: 0 -8px; flex-wrap: wrap; }
   .ctl .hint { display: none; }
-  .chat { left: 12px; right: 12px; top: auto; bottom: 214px; width: auto; max-height: 300px; display: flex; flex-direction: column; border-radius: var(--r); }
+  .chat { left: 12px; right: 12px; top: auto; bottom: 244px; width: auto; max-height: 300px; display: flex; flex-direction: column; border-radius: var(--r); }
   .chat::before { top: -9px; }
   .ch-head { padding: 16px 16px 8px; flex: none; }
   .ch-body { flex: 1; min-height: 0; overflow: hidden; justify-content: flex-end; }
   .b { font-size: 18px; }
   .b .photo-tile { height: 112px; }
   .decide { padding: 70px 14px 14px; gap: 18px; align-content: center; }
-  .decide h2 { font-size: 34px; }
-  .cards { grid-template-columns: 1fr; gap: 14px; width: 100%; }
-  .co { min-height: 128px; padding: 20px 20px 18px; }
+  .decide h2 { font-size: 36px; }
+  .cards { grid-template-columns: 1fr; gap: 22px; width: 100%; }
+  .co { min-height: 128px; padding: 26px 20px 18px; }
   .co .lab { font-size: 28px; } .co .sub { font-size: 19px; }
   .stage.split .art { width: 100%; right: 0; bottom: auto; height: 150px; }
   .nb-wrap { top: 150px; width: 100%; left: 0; filter: drop-shadow(0 -6px 8px rgba(0,0,0,.3)); }
@@ -369,10 +401,10 @@ button { font: inherit; color: inherit; }
 
 
 /* text size: A- never goes below the base-18 floor. Default is 0. */
-html[data-text="-1"] { --t-body: 18px; --t-caption: 22px; }
-html[data-text="1"] { --t-body: 22px; --t-caption: 26px; }
-html[data-text="2"] { --t-body: 24px; --t-caption: 28px; }
-html[data-text="3"] { --t-body: 26px; --t-caption: 30px; }
+html[data-text="-1"] { --t-body: 18px; --t-caption: 20px; }
+html[data-text="1"] { --t-body: 22px; --t-caption: 24px; }
+html[data-text="2"] { --t-body: 24px; --t-caption: 26px; }
+html[data-text="3"] { --t-body: 26px; --t-caption: 28px; }
 .scene-note { margin: -4px 0 8px; font-size: 16px; font-style: italic; color: var(--ink-soft); max-width: 70ch; }
 .hbtn.next { margin-left: auto; font-weight: 700; }
 

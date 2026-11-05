@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Line } from './story/types';
 import { audioSrc } from './voice/manifest';
 
@@ -11,16 +11,19 @@ import { audioSrc } from './voice/manifest';
  *
  * `onSettle(lineId, ok)` is called once the line has finished playing (ok = true), or could not play (ok = false).
  * Auto-play uses it to move on after the voice ends, or after a reading time when there is no voice.
+ * `speaking` is true while the voice is playing, so the speaker's portrait can move its mouth.
  */
 export function useVoice(line: Line | null, on: boolean, ahead: Line[], onSettle?: (lineId: string, ok: boolean) => void) {
   const cur = useRef<HTMLAudioElement | null>(null);
   const warm = useRef<Map<string, HTMLAudioElement>>(new Map());
   const settle = useRef(onSettle);
   settle.current = onSettle;
+  const [speaking, setSpeaking] = useState(false);
 
   const stop = useCallback(() => {
     const a = cur.current;
     if (a) { a.onended = null; a.onerror = null; a.pause(); cur.current = null; }
+    setSpeaking(false);
   }, []);
 
   const play = useCallback(() => {
@@ -32,10 +35,12 @@ export function useVoice(line: Line | null, on: boolean, ahead: Line[], onSettle
     try {
       const a = warm.current.get(src) ?? new Audio(src);
       a.currentTime = 0;
-      a.onended = () => settle.current?.(id, true);
-      a.onerror = () => settle.current?.(id, false);
+      a.onended = () => { setSpeaking(false); settle.current?.(id, true); };
+      a.onerror = () => { setSpeaking(false); settle.current?.(id, false); };
       cur.current = a;
-      void a.play().catch(() => { if (cur.current === a) settle.current?.(id, false); }); // blocked or missing: carry on silently
+      void a.play()
+        .then(() => { if (cur.current === a) setSpeaking(true); })
+        .catch(() => { if (cur.current === a) { setSpeaking(false); settle.current?.(id, false); } }); // blocked or missing: carry on silently
     } catch {
       settle.current?.(id, false); // no audio in this browser
     }
@@ -65,5 +70,5 @@ export function useVoice(line: Line | null, on: boolean, ahead: Line[], onSettle
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [on, aheadKey]);
 
-  return { replay: play };
+  return { replay: play, speaking };
 }

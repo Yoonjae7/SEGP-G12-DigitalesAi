@@ -3,8 +3,16 @@
 /* ---------- home ---------- */
 .p-home .hero { padding-top: 56px; padding-bottom: 80px; align-items: start; position: relative; }
 .p-home .hero-text { grid-column: 1 / span 7; position: relative; z-index: 2; }
-.p-home { display: flex; flex-direction: column; min-height: 100vh; }
-.p-home main { flex: 1; }
+.p-home main { min-height: 64vh; }
+.p-home .shelf { padding-bottom: 72px; }
+.p-home .shelf ul { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; list-style: none; margin: 0; padding: 0; }
+.p-home .story { min-height: 168px; }
+.p-home .story.on { background: var(--paper); border: 2px solid var(--ink); border-top: 6px solid var(--ping); border-radius: var(--r); box-shadow: var(--lift); }
+.p-home .story.on a { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; height: 100%; padding: 24px 22px; color: inherit; text-decoration: none; }
+.p-home .story.on:hover { background: var(--paper-deep); }
+.p-home .story.on .n { font: 400 32px/1.1 var(--font-display); }
+.p-home .story.on .t { font-size: 18px; color: var(--ink-soft); }
+.p-home .story.soon { padding: 24px 22px; }
 .p-home .hero .eyebrow { display: block; margin-bottom: 20px; }
 .p-home .hero h1 { font-size: clamp(36px, 3.9vw, 56px); line-height: 1.08; margin-bottom: 28px; }
 .p-home .hero h1 > span { display: block; }
@@ -13,6 +21,7 @@
 .p-home .hero-note { grid-column: 8 / span 5; margin-top: 88px; position: relative; z-index: 1; background: var(--paper-deep); border-top: 3px solid var(--ink); box-shadow: var(--lift); padding: 28px 30px 26px; transform: rotate(.7deg); }
 .p-home .hero-note h2 { font-size: 30px; line-height: 1.15; margin-bottom: 12px; }
 .p-home .hero-note p { font-size: 20px; line-height: 1.5; }
+.p-home .hero-note .sound-line { margin-top: 12px; font-weight: 700; }
 .p-home .hero-note .mail-line { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hairline-strong); }
 .p-home .hero-note .mail { display: inline-block; margin-top: 4px; }
 .p-home .facts { border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
@@ -70,6 +79,8 @@
 .p-home .cta { flex-direction: column; align-items: stretch; gap: 10px; }
 .p-home .cta .linkbtn { justify-content: center; }
 .p-home .hero-note { margin-top: 28px; transform: none; padding: 22px 20px; }
+.p-home .shelf ul { grid-template-columns: 1fr 1fr; gap: 14px; }
+.p-home .story { min-height: 132px; }
 .p-home .hero-note .mail { font-size: 16px; }
 .p-home .facts ul { grid-template-columns: 1fr 1fr; padding: 0 16px; }
 .p-home .facts li { font-size: 24px; padding: 18px 12px 18px 0; border-right: 0; border-bottom: 1px solid var(--hairline-strong); }
@@ -120,6 +131,9 @@
 .p-start .prog .in { border: 1px solid var(--ink); padding: 0 0 26px; }
 .p-start .prog .thumb { height: 190px; position: relative; overflow: hidden; background: var(--night); border-bottom: 1px solid var(--ink); }
 .p-start .prog .thumb > div { position: absolute; inset: 0; }
+.p-start .prog .story-title { font-size: 20px; color: var(--ink-soft); margin: 0 26px 10px; }
+.p-start .shelf-mini { list-style: none; display: flex; flex-wrap: wrap; gap: 14px; margin: 28px 0 0; padding: 0; max-width: 520px; }
+.p-start .shelf-mini .story { flex: 1 1 140px; min-height: 96px; padding: 14px 16px; }
 .p-start .prog h2 { font-size: 38px; line-height: 1.1; margin: 22px 26px 10px; }
 .p-start .prog p { margin: 0 26px 8px; font-size: 22px; }
 .p-start .prog .btn { margin: 20px 26px 0; }

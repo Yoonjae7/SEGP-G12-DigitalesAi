@@ -11,6 +11,19 @@
     "groupLeaderEmail": "hfywh4@nottingham.edu.my",
     "groupLeaderName": "Wei Feng"
   },
+  "stories": {
+    "label": "Stories",
+    "one": {
+      "name": "Story 1",
+      "title": "The Photo in the Group Chat"
+    },
+    "soon": [
+      "Story 2",
+      "Story 3",
+      "Story 4"
+    ],
+    "soonLabel": "Coming soon"
+  },
   "placeholders": {
     "survey": "[usability survey link: team to add]"
   },
@@ -27,7 +40,8 @@
     "notice": {
       "title": "Before you start",
       "text": "This story is made up. It is about a photo shared without someone's consent, so it might remind you of something real. You can stop at any time.",
-      "contact": "If it affects you, email the university wellbeing service:"
+      "contact": "If it affects you, email the university wellbeing service:",
+      "sound": "For the best experience, turn your sound on. The story has voices."
     }
   },
   "start": {
@@ -43,7 +57,8 @@
     "note": {
       "title": "Before you begin",
       "text": "This story is made up. It is about a photo shared without someone’s consent. It might remind you of something real. You can stop at any time.",
-      "ok": "I understand this story is made up"
+      "ok": "I understand this story is made up",
+      "sound": "Recommended: turn your sound on. The story has voices."
     },
     "input": {
       "q": "Tell us about an online moment that stayed with you.",
@@ -89,7 +104,7 @@
     },
     "match": {
       "title": "Closest story",
-      "story": "The Photo in the Group Chat",
+      "story": "Story 1",
       "meta": "About 10 minutes. 3 decisions, 2 written answers.",
       "begin": "Begin",
       "reminder": "A reminder: this story is made up, and it can bring up real feelings. You can stop at any time. To talk to someone, email the university wellbeing service:",
@@ -156,7 +171,8 @@
       "leave": "Leave"
     },
     "photo": "Photo of Sarah asleep on the bus with her mouth open",
-    "next": "Next"
+    "next": "Next",
+    "decisionHint": "Choose one. Press 1 or 2, or tap a choice."
   },
   "feedback": {
     "banner": "Your ending came from your written answers, not from which option you picked.",

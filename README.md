@@ -2,7 +2,7 @@
 
 A short, choice-driven story game about digital citizenship, for adults (18+). SEGP Group 012. Prototype for supervisor feedback, then a pilot with about 10 adults.
 
-The learner reads one story ("The Photo in the Group Chat"), makes three decisions, and writes why at two of them. A reader looks at each written answer and picks a follow-up that fits it. The ending comes from the written answers, not from which option was picked. There are no points, scores, badges, timers or leaderboards.
+The learner reads one story (Story 1, "The Photo in the Group Chat"; Stories 2, 3 and 4 show as Coming soon), makes three decisions, and writes why at two of them. A reader looks at each written answer and picks a follow-up that fits it. The ending comes from the written answers, not from which option was picked. There are no points, scores, badges, timers or leaderboards.
 
 The design pack is in [`design/`](design/index.html). The build follows it.
 
@@ -65,6 +65,8 @@ Voice is made ahead of time, never while someone plays. The key is never in the 
 There are 58 voiced lines (every variant). `npm run audio -- --dry` lists them. If ElevenLabs keeps failing, the script stops after three failures. You can make the files another way and drop them in `public/audio` with the same names.
 
 Sound and auto-play start on. Each line plays its voice and moves on a moment after it ends. With no voice file, or if the browser blocks sound, a line stays long enough to read and then moves on. Decisions and written answers always wait for the learner. A **Pause** button, the sound button and Settings turn these off, and Space, a click or **Next** skip ahead. A missing file means captions only, and the story carries on. `NEXT_PUBLIC_VOICE=0` removes all audio controls.
+
+When a character speaks (Sarah, Lisa, Marco or Dev), their portrait sits on the subtitle bar and its mouth moves while the voice plays. The narrator has no portrait. A choice shows two numbered panels. Press 1 or 2, or tap one.
 
 Browsers only let a page make sound after the person has clicked something. The learner always clicks "Begin" first, so the voice normally starts at once. If a browser still blocks it, the line shows **Replay line** and the next click or key press unlocks sound.
 

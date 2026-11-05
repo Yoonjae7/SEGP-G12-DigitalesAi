@@ -9,6 +9,7 @@ import { Footer, TopBar } from './Brand';
 import { WellbeingEmail } from './Contact';
 import { Mark } from './Marks';
 import { SceneArt } from './SceneArt';
+import { ComingSoon } from './Stories';
 import { useSession, useStepGuard } from './SessionProvider';
 
 const c = copy.start;
@@ -87,6 +88,7 @@ function Note() {
     <Frame step={2} deco={<Mark id="mk-lamp" size={170} />}>
       <Heading>{c.note.title}</Heading>
       <p className="lead">{c.note.text}</p>
+      <p className="lead">{c.note.sound}</p>
       <p className="callout"><WellbeingEmail /></p>
       <div className="actions"><button className="btn" onClick={() => dispatch({ t: 'noteOk' })}>{c.note.ok}</button></div>
     </Frame>
@@ -205,10 +207,12 @@ function Match() {
         <div className="in">
           <div className="thumb"><SceneArt id="s1" mode="home" /></div>
           <h2>{c.match.story}</h2>
+          <p className="story-title">{copy.stories.one.title}</p>
           <p>{c.match.meta}</p>
           <button className="btn" onClick={() => dispatch({ t: 'begin', ts: Date.now() })}>{c.match.begin}</button>
         </div>
       </div>
+      <ul className="shelf-mini" aria-label={copy.stories.label}><ComingSoon /></ul>
       {state.match.note ? <p className="lead" style={{ marginTop: 28 }}>{c.match.oneStory}</p> : null}
     </Frame>
   );

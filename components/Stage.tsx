@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Rig } from '@/lib/art/rig';
 import { copy, fill } from '@/lib/copy';
 import { canGoBack, chatAt, type TItem } from '@/lib/engine/flow';
 import { timeline } from '@/lib/engine/state';
@@ -42,7 +43,19 @@ export function Stage() {
   }, [items, state.pos, item]);
   const [settled, setSettled] = useState<{ id: string; ok: boolean } | null>(null);
   const onSettle = useCallback((id: string, ok: boolean) => setSettled({ id, ok }), []);
-  const { replay } = useVoice(line, soundOn, ahead, onSettle);
+  const { replay, speaking } = useVoice(line, soundOn, ahead, onSettle);
+
+  // Who is speaking. With sound, the character's mouth moves while the voice plays. With sound off, it moves for about as
+  // long as the line takes to read, so the story still shows who is talking.
+  const [quiet, setQuiet] = useState(false);
+  useEffect(() => {
+    if (soundOn || !line || line.speaker === 'narrator') { setQuiet(false); return; }
+    setQuiet(true);
+    const t = setTimeout(() => setQuiet(false), Math.min(4200, 800 + line.text.length * 55));
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [soundOn, line?.id]);
+  const talking = soundOn ? speaking : quiet;
 
   const advance = useCallback(() => dispatch({ t: 'advance', ts: Date.now() }), [dispatch]);
   const canAdvance = !!item && (item.type === 'line' || item.type === 'ending-title') && !overlay;
@@ -112,7 +125,7 @@ export function Stage() {
           {line ? (
             <>
               {chat ? <ChatPanel chat={chat} /> : line.showPhotoTile ? <aside className="chat tile-only" aria-label={P.photo}><div className="ch-body"><div className="b"><PhotoTile /></div></div></aside> : null}
-              <Plate line={line} first={first} description={description} back={canGoBack(items, state.pos)} voiceOn={voiceOn} soundOn={soundOn}
+              <Plate line={line} first={first} description={description} back={canGoBack(items, state.pos)} voiceOn={voiceOn} soundOn={soundOn} talking={talking}
                 onBack={() => dispatch({ t: 'back' })} onReplay={replay} onSound={() => dispatch({ t: 'settings', patch: { sound: true } })} onNext={advance}
                 auto={auto} onAuto={() => dispatch({ t: 'settings', patch: { auto: !auto } })} />
             </>
@@ -166,15 +179,21 @@ function Hud({ n, voiceOn, soundOn, onSound, onSettings, onExit }: { n: number; 
 }
 
 /* ---------- caption plate ---------- */
-function Plate({ line, first, description, back, voiceOn, soundOn, auto, onBack, onReplay, onSound, onNext, onAuto }: {
-  line: Line; first: boolean; description: string; back: boolean; voiceOn: boolean; soundOn: boolean; auto: boolean;
+const CAST = ['sarah', 'lisa', 'marco', 'dev'];
+
+function Plate({ line, first, description, back, voiceOn, soundOn, auto, talking, onBack, onReplay, onSound, onNext, onAuto }: {
+  line: Line; first: boolean; description: string; back: boolean; voiceOn: boolean; soundOn: boolean; auto: boolean; talking: boolean;
   onBack: () => void; onReplay: () => void; onSound: () => void; onNext: () => void; onAuto: () => void;
 }) {
   const chip = line.speaker === 'narrator' ? 'narrator' : line.speaker;
+  const cast = CAST.includes(line.speaker);
   return (
-    <div className="plate" role="region" aria-label={P.caption} aria-live="polite" key={line.id}>
-      <span className={`who ${chip}`}>{NAMES[line.speaker]}</span>
-      {line.kind === 'chat' ? <span className="in">{P.inTheChat}</span> : null}
+    <div className={`plate${cast ? ' has-portrait' : ''}`} role="region" aria-label={P.caption} aria-live="polite" key={line.id}>
+      {cast ? <Portrait line={line} talking={talking} /> : null}
+      <div className="tags">
+        <span className={`who ${chip}`}>{NAMES[line.speaker]}</span>
+        {line.kind === 'chat' ? <span className="in">{P.inTheChat}</span> : null}
+      </div>
       {first && description ? <p className="scene-note">{description}</p> : null}
       <p className={`line${line.kind === 'narration' ? ' narr' : ''}`}><span className="sr">{NAMES[line.speaker]}: </span>{line.text}</p>
       <div className="ctl">
@@ -187,6 +206,34 @@ function Plate({ line, first, description, back, voiceOn, soundOn, auto, onBack,
       </div>
     </div>
   );
+}
+
+/* ---------- the speaker: a portrait whose mouth moves while the line is spoken ---------- */
+function useReducedMotion() {
+  const [r, setR] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setR(m.matches);
+    const f = () => setR(m.matches);
+    m.addEventListener('change', f);
+    return () => m.removeEventListener('change', f);
+  }, []);
+  return r;
+}
+
+function Portrait({ line, talking }: { line: Line; talking: boolean }) {
+  const id = line.speaker as 'sarah' | 'lisa' | 'marco' | 'dev';
+  const reduced = useReducedMotion();
+  const expr = line.expression && (Rig.EXPR as Record<string, unknown>)[line.expression] ? line.expression : Rig.EXPR_SETS[id][0][0];
+  const [beat, setBeat] = useState(0);
+  useEffect(() => {
+    if (!talking || reduced) { setBeat(0); return; }
+    const t = setInterval(() => setBeat((b) => (b + 1) % 4), 130);
+    return () => clearInterval(t);
+  }, [talking, reduced]);
+  const mouth = talking && !reduced ? ['talkA', 'talkB', 'talkA', null][beat] : null;
+  const html = useMemo(() => Rig.portrait(id, { expr, mouth, size: 168 }), [id, expr, mouth]);
+  return <div className={`portrait ${id}${talking ? ' talking' : ''}`} aria-hidden="true" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 /* ---------- chat panel ---------- */
@@ -226,17 +273,40 @@ function TitleCard({ ending }: { ending: 'A' | 'B' }) {
 function Decision({ id }: { id: 'd1' | 'd2' | 'd3' }) {
   const { dispatch } = useSession();
   const d = story.decisions[id];
+  const [picked, setPicked] = useState<string | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+  // The chosen panel lights up and the other fades for a moment, then the story goes on.
+  const pick = useCallback((optId: string) => {
+    if (picked) return;
+    setPicked(optId);
+    timer.current = setTimeout(() => dispatch({ t: 'choose', id, value: optId.split('_')[1], ts: Date.now() }), 380);
+  }, [picked, dispatch, id]);
+  // Number keys choose, like a game.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && t.closest('input, textarea, select')) return;
+      const i = Number(e.key) - 1;
+      if (Number.isInteger(i) && i >= 0 && i < d.options.length) { e.preventDefault(); pick(d.options[i].id); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [d, pick]);
   return (
     <div className="decide">
+      <span className="step">{fill(P.decision, { n: id.slice(1) })}</span>
       <h2>{d.prompt}</h2>
-      <div className="cards" role="group" aria-label={fill(P.decision, { n: id.slice(1) })}>
-        {d.options.map((o) => (
-          <button key={o.id} className="co" onClick={() => dispatch({ t: 'choose', id, value: o.id.split('_')[1], ts: Date.now() })}>
+      <span className="rule" aria-hidden="true" />
+      <div className={`cards${picked ? ' picking' : ''}`} role="group" aria-label={fill(P.decision, { n: id.slice(1) })}>
+        {d.options.map((o, i) => (
+          <button key={o.id} className={`co${picked === o.id ? ' picked' : ''}`} data-n={i + 1} disabled={!!picked && picked !== o.id} onClick={() => pick(o.id)}>
             <span className="lab">{o.label}</span>
             <span className="sub">{o.sub}</span>
           </button>
         ))}
       </div>
+      <p className="keys">{P.decisionHint}</p>
     </div>
   );
 }

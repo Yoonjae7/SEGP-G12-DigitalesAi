@@ -27,7 +27,7 @@
         { "id": "s2_01", "speaker": "narrator", "kind": "narration", "text": "Nobody asked Sarah before posting it, and she has no idea the photo exists.", "voiced": true },
         { "id": "s2_02", "speaker": "lisa", "kind": "chat", "text": "This is so funny, right?", "voiced": true },
         { "id": "s2_03", "speaker": "narrator", "kind": "narration", "text": "Lisa is your friend. She doesn't mean any harm. She just finds it funny and takes it lightly.", "voiced": true },
-        { "id": "s2_04", "speaker": "narrator", "kind": "narration", "text": "You've got a few seconds. What do you do?", "voiced": true }
+        { "id": "s2_04", "speaker": "narrator", "kind": "narration", "text": "You have two choices.", "voiced": true }
       ]
     },
     {
@@ -198,19 +198,24 @@
       "description": "Warm, low sun on the library steps. Sarah, Lisa and you.",
       "stage": { "set": "s7a", "characters": [{ "id": "sarah", "view": "front", "pose": "stand-firm", "expression": "steady" }, { "id": "lisa", "view": "front", "pose": "reach-out", "expression": "sorry" }, { "id": "you", "view": "back", "pose": "idle-breathe" }] },
       "lines": [
-        { "id": "eA_01", "speaker": "narrator", "kind": "narration", "text": "Sarah asks to meet on the library steps, and Lisa is there too.", "voiced": true },
+        { "id": "eA_01", "speaker": "narrator", "kind": "narration", "text": "Sarah asks to meet on the library steps. Lisa, Marco and Dev are there too.", "voiced": true },
         { "id": "eA_02", "speaker": "lisa", "kind": "dialogue", "text": "I posted a photo of you without asking, and that was wrong. I'm sorry.", "voiced": true, "expression": "sorry" },
         { "id": "eA_03", "speaker": "sarah", "kind": "dialogue", "text": "Thank you. I want it gone from every chat.", "voiced": true, "expression": "steady" },
+        { "id": "eA_03b", "speaker": "marco", "kind": "dialogue", "text": "We shouldn't have passed it on. I'm sorry, Sarah. It's deleted.", "voiced": true, "expression": "embarrassed" },
+        { "id": "eA_03c", "speaker": "dev", "kind": "dialogue", "text": "Same. Sorry. I'll tell the others to delete it too.", "voiced": true, "expression": "uneasy" },
         { "id": "eA_04", "speaker": "screen", "kind": "screen", "text": "Lisa writes in all three chats: \"I posted a photo of Sarah without asking. Please delete it and don't share it.\"", "voiced": false },
-        { "id": "eA_05", "speaker": "narrator", "kind": "narration", "text": "Marco and Dev delete the photo. Some people might still have a copy, and Sarah knows that. What she does next is up to her.", "voiced": true },
-        { "id": "eA_06", "speaker": "narrator", "kind": "narration", "text": "Nobody says much. Sarah isn't smiling, but she stays.", "voiced": true }
+        { "id": "eA_04b", "speaker": "screen", "kind": "screen", "text": "The replies come in: \"Deleted.\" \"Sorry, Sarah.\" \"Done.\"", "voiced": false },
+        { "id": "eA_05", "speaker": "narrator", "kind": "narration", "text": "Within an hour, the photo is gone from all three chats. A few people might still have a copy, but nobody is laughing anymore.", "voiced": true },
+        { "id": "eA_05b", "speaker": "sarah", "kind": "dialogue", "text": "From now on, ask before you post a photo of anyone. That's all I wanted.", "voiced": true, "expression": "steady" },
+        { "id": "eA_05c", "speaker": "lisa", "kind": "dialogue", "text": "Deal. Never again.", "voiced": true, "expression": "sorry" },
+        { "id": "eA_06", "speaker": "narrator", "kind": "narration", "text": "Sarah finally smiles. You all head to class together.", "voiced": true }
       ],
       "ask": {
-        "question": "Sarah is going to meet Lisa. What do you think she needs most from Lisa?",
+        "question": "What do you think Sarah needed most from Lisa, Marco and Dev?",
         "taps": ["A clear sorry", "The photo deleted everywhere", "Time and space", "Not sure"]
       },
       "explain": [
-        "Lisa said what she did and said sorry without Sarah having to ask. That's what made it possible to talk.",
+        "Lisa said what she did and said sorry without Sarah having to ask, and Marco and Dev did the same. That's what made it possible to talk.",
         "The photo came down in all three chats. Some copies might still exist, so there's still some risk for Sarah, and that can't be undone.",
         "In your answers, you separated who did what: posting, forwarding and responding. That helped you act without taking Sarah's choices away from her."
       ]

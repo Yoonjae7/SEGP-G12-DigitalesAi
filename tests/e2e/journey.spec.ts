@@ -21,7 +21,7 @@ test.describe('the whole journey', () => {
     await playThrough(page, ['private', 'tell', 'hold'], SOLID1, SOLID2, 'Sarah did not have a say, and she could be hurt a lot if more people save it.', 'Someone could argue Lisa was only joking, but it does not change that Sarah was hurt.');
     const s = await localSession(page);
     expect(s.ending).toBe('A');
-    await expect(page.getByRole('heading', { name: 'Sarah is going to meet Lisa. What do you think she needs most from Lisa?' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'What do you think Sarah needed most from Lisa, Marco and Dev?' })).toBeVisible();
     // Ask, then explain
     await page.getByRole('radio', { name: 'A clear sorry' }).click();
     await page.getByRole('button', { name: 'Show me what happened' }).click();

@@ -108,6 +108,8 @@
       case 'flatLow':   return [`M${-w * .36},${w * .2} L${w * .36},${w * .2}`];
       case 'flatTilt':  return [`M${-w * .45},${w * .1} L${w * .45},${-w * .08}`];
       case 'flatSm':    return [`M${-w * .3},0 L${w * .3},0`];
+      case 'talkA':     return [`M${-w * .4},${-w * .05} Q0,${w * .06} ${w * .4},${-w * .05} Q0,${w * .78} ${-w * .4},${-w * .05} Z`, INK];   // mouth open wide (speaking)
+      case 'talkB':     return [`M${-w * .3},${-w * .02} Q0,${w * .04} ${w * .3},${-w * .02} Q0,${w * .42} ${-w * .3},${-w * .02} Z`, INK];   // mouth open a little (speaking)
       default:          return [`M${-w * .45},0 L${w * .45},0`];
     }
   }
@@ -131,7 +133,7 @@
     const by = cy - 4.4 - (o.glasses ? 1.2 : 0), bl = 2.4;
     s += `<path d="M${n2(lx - bl)},${n2(by + E.lift[0])} L${n2(lx + bl)},${n2(by + E.lift[0])}" transform="rotate(${-E.t} ${n2(lx)} ${n2(by + E.lift[0])})" fill="none" stroke="${INK}" stroke-width="1.05" stroke-linecap="round"/>`;
     s += `<path d="M${n2(rx - bl)},${n2(by + E.lift[1])} L${n2(rx + bl)},${n2(by + E.lift[1])}" transform="rotate(${E.t} ${n2(rx)} ${n2(by + E.lift[1])})" fill="none" stroke="${INK}" stroke-width="1.05" stroke-linecap="round"/>`;
-    const mp = mouthPath(E.m, 5.6 * hf), my = cy + 6.1;
+    const mp = mouthPath(o.mouth || E.m, 5.6 * hf), my = cy + 6.1;
     s += `<path d="${mp[0]}" transform="translate(${n2(cx)} ${n2(my)})" fill="${mp[1] || 'none'}" stroke="${INK}" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>`;
     return s;
   }
@@ -143,7 +145,7 @@
     if (o.glasses) s += `<ellipse cx="${n2(x - .4)}" cy="${n2(cy)}" rx="3.2" ry="4.4" fill="#CFE8EF" fill-opacity=".22" stroke="${INK}" stroke-width=".6"/>` + line(`M${n2(x - 3.4)},${n2(cy - .6)} L${n2(o.cx - 10 * hf)},${n2(cy - 1.4)}`, .6);
     const by = cy - 4.4 - (o.glasses ? 1.2 : 0);
     s += `<path d="M${n2(x - 2.4)},${n2(by + E.lift[0])} L${n2(x + 2.2)},${n2(by + E.lift[0])}" transform="rotate(${E.t * .8} ${n2(x)} ${n2(by)})" fill="none" stroke="${INK}" stroke-width="1.05" stroke-linecap="round"/>`;
-    const mp = mouthPath(E.m, 4.1 * hf);
+    const mp = mouthPath(o.mouth || E.m, 4.1 * hf);
     s += `<path d="${mp[0]}" transform="translate(${n2(o.cx + 11 * hf)} ${n2(cy + 6.1)})" fill="${mp[1] || 'none'}" stroke="${INK}" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>`;
     return s;
   }
@@ -153,7 +155,7 @@
     const hy = -79, rx = 16 * C.hf, ry = 14;
     let behind = '', front = '';
     const skinHead = (x, w) => part(ell(x, hy, w, ry), C.skin, [x - w, hy - ry, x + w, hy + ry]);
-    const fo = { cx: 0, cy: hy, yaw: o.yaw, pitch: o.pitch, hf: C.hf, skin: C.skin, glasses: C.glasses, fy: C.fy };
+    const fo = { cx: 0, cy: hy, yaw: o.yaw, pitch: o.pitch, hf: C.hf, skin: C.skin, glasses: C.glasses, fy: C.fy, mouth: o.mouth };
 
     if (view === 'front') {
       // hair or hat that sits behind the head
@@ -391,5 +393,13 @@
       `<g filter="url(#wobble)"><g>${(function () { const H = head(C, 'front', { expr: ex, yaw: 0, pitch: 0 }); return `<g transform="scale(1)">${H.behind}${H.front}</g>`; })()}</g></g></svg>`;
   }
 
-  export const Rig = { CHARS, POSES, EXPR, EXPR_SETS, draw, svg, headSvg, mix, dark, lite, mouthPath };
+  // head and shoulders, for the speaker portrait. `mouth` swaps the mouth shape ('talkA', 'talkB') so the character can speak.
+  function portrait(id, o) {
+    o = Object.assign({ expr: 'calm', mouth: null, size: 168 }, o || {});
+    const C = CHARS[id];
+    return `<svg viewBox="-30 -106 60 66" width="${o.size}" height="${n2(o.size * 66 / 60)}" aria-hidden="true" focusable="false">` +
+      draw(id, { view: 'front', pose: 'idle-breathe', expr: o.expr, mouth: o.mouth, scale: 1 / C.ht, x: 0, y: 0, blob: false }) + '</svg>';
+  }
+
+  export const Rig = { CHARS, POSES, EXPR, EXPR_SETS, draw, svg, headSvg, portrait, mix, dark, lite, mouthPath };
 

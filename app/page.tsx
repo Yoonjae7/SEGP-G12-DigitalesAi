@@ -2,6 +2,7 @@ import { Footer, TopBar } from '@/components/Brand';
 import { WellbeingEmail } from '@/components/Contact';
 import { DeletedNotice } from '@/components/DeletedNotice';
 import { StartButton } from '@/components/StartButton';
+import { StoryShelf } from '@/components/Stories';
 import { copy } from '@/lib/copy';
 
 export default function Home() {
@@ -32,9 +33,11 @@ export default function Home() {
           <aside className="hero-note" aria-labelledby="note-h">
             <h2 id="note-h">{h.notice.title}</h2>
             <p>{h.notice.text}</p>
+            <p className="sound-line">{h.notice.sound}</p>
             <p className="mail-line">{h.notice.contact} <WellbeingEmail /></p>
           </aside>
         </section>
+        <StoryShelf />
       </main>
       <Footer />
     </div>
