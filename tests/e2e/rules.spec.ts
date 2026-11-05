@@ -174,26 +174,23 @@ test('before the story: a made-up note with the wellbeing email, and the reminde
   await expect(page.getByRole('button', { name: 'Begin' })).toBeVisible();
 });
 
-test('the speaking character shows with a moving mouth, and the narrator has no portrait', async ({ page }) => {
-  await page.addInitScript(() => {
-    class FakeAudio {
-      src: string; currentTime = 0; preload = ''; onended: null | (() => void) = null; onerror: null | (() => void) = null;
-      constructor(src?: string) { this.src = src ?? ''; }
-      play() { setTimeout(() => this.onended?.(), 4000); return Promise.resolve(); }
-      pause() { /* nothing to stop */ }
-    }
-    (window as unknown as { Audio: unknown }).Audio = FakeAudio;
-  });
+test('the screen is minimal: the words, a name only when a person speaks, a few small buttons, and no face pop-up', async ({ page }) => {
   await startStory(page); // paused, on the narrator's first line
+  await expect(page.locator('.plate .line')).toContainText('Tuesday, 11:40 pm');
+  await expect(page.locator('.plate .who-line')).toHaveCount(0); // the narrator has no name tag
+  await expect(page.locator('.plate .portrait, .hud, .chat')).toHaveCount(0);
+  await page.keyboard.press('Space'); // s1_02: Lisa, in the chat
+  await expect(page.locator('.plate .who-line .who.lisa')).toHaveText('Lisa');
+  await expect(page.locator('.plate .who-line .in')).toBeVisible();
   await expect(page.locator('.plate .portrait')).toHaveCount(0);
-  await page.keyboard.press('Space'); // s1_02: Lisa
-  await expect(page.locator('.plate .portrait.lisa')).toBeVisible();
-  await expect(page.locator('.plate .portrait.lisa.talking')).toBeVisible(); // her voice is playing
-  const mouths = new Set<string>();
-  for (let i = 0; i < 12; i++) { mouths.add(await page.locator('.plate .portrait').innerHTML()); await page.waitForTimeout(60); }
-  expect(mouths.size).toBeGreaterThan(1); // the mouth moved
+  expect(await page.locator('.mini .ibtn').count()).toBeLessThanOrEqual(4);
+  expect(await page.locator('.plate .ctl button').count()).toBeLessThanOrEqual(4);
+  for (const b of await page.locator('.mini .ibtn, .plate .ctl .ibtn').all()) {
+    const box = await b.boundingBox();
+    expect(box!.width).toBeGreaterThanOrEqual(44);
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+  }
 });
-
 test('a choice: number keys pick, and the two panels look like a game screen', async ({ page }) => {
   await startStory(page);
   await toDecision(page);

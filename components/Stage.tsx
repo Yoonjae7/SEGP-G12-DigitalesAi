@@ -3,9 +3,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Rig } from '@/lib/art/rig';
 import { copy, fill } from '@/lib/copy';
-import { canGoBack, chatAt, type TItem } from '@/lib/engine/flow';
+import { canGoBack, type TItem } from '@/lib/engine/flow';
 import { timeline } from '@/lib/engine/state';
 import { story } from '@/lib/story';
 import type { Line, Speaker } from '@/lib/story/types';
@@ -100,10 +99,9 @@ export function Stage() {
   const first = state.pos === 0 || items[state.pos - 1]?.sceneId !== item.sceneId;
   const split = item.type === 'why';
   const dim = item.type === 'decision' || overlay;
-  const chat = line ? chatAt(story, items, state.pos) : null;
   const nextRaw = items.slice(state.pos + 1).find((i) => i.art !== item.art)?.art;
   const nextArt = nextRaw && nextRaw !== 's7' ? nextRaw : null;
-  const override = line && (line.pose || line.expression) ? { speaker: line.speaker, pose: line.pose, expression: line.expression } : null;
+  const override = line ? { speaker: line.speaker, pose: line.pose, expression: line.expression, talking } : null;
 
   const onStageClick = (e: React.MouseEvent) => {
     if (!canAdvance) return;
@@ -118,14 +116,14 @@ export function Stage() {
           <Visuals art={art} nextArt={nextArt} override={override} />
           {dim ? <div className="dim" /> : null}
           <p className="sr" role="status" aria-live="polite">{fill(P.scene, { n: item.n })}. {sceneTitle}.</p>
-          <Hud n={item.n} voiceOn={voiceOn} soundOn={soundOn}
+          <Controls voiceOn={voiceOn} soundOn={soundOn}
             onSound={() => dispatch({ t: 'settings', patch: { sound: !state.settings.sound } })}
             onSettings={() => setDrawer(true)} onExit={() => setExitOpen(true)} />
 
           {line ? (
             <>
-              {chat ? <ChatPanel chat={chat} /> : line.showPhotoTile ? <aside className="chat tile-only" aria-label={P.photo}><div className="ch-body"><div className="b"><PhotoTile /></div></div></aside> : null}
-              <Plate line={line} first={first} description={description} back={canGoBack(items, state.pos)} voiceOn={voiceOn} soundOn={soundOn} talking={talking}
+              {line.showPhotoTile ? <aside className="chat tile-only" aria-label={P.photo}><div className="ch-body"><div className="b"><PhotoTile /></div></div></aside> : null}
+              <Plate line={line} first={first} description={description} back={canGoBack(items, state.pos)} voiceOn={voiceOn} soundOn={soundOn}
                 onBack={() => dispatch({ t: 'back' })} onReplay={replay} onSound={() => dispatch({ t: 'settings', patch: { sound: true } })} onNext={advance}
                 auto={auto} onAuto={() => dispatch({ t: 'settings', patch: { auto: !auto } })} />
             </>
@@ -153,104 +151,46 @@ export function Stage() {
   );
 }
 
-/* ---------- top bar tabs ---------- */
-function Hud({ n, voiceOn, soundOn, onSound, onSettings, onExit }: { n: number; voiceOn: boolean; soundOn: boolean; onSound: () => void; onSettings: () => void; onExit: () => void }) {
+/* ---------- controls: a few small round buttons in the corner ---------- */
+function Controls({ voiceOn, soundOn, onSound, onSettings, onExit }: { voiceOn: boolean; soundOn: boolean; onSound: () => void; onSettings: () => void; onExit: () => void }) {
   return (
-    <header className="hud">
-      <div className="tab left">
-        <button className="wordmark sm wm-btn" onClick={onExit} aria-label="DigiTales AI. Opens the leave-the-story check">
-          Dig<span className="wm-i" aria-hidden="true">{'\u0131'}</span>Tales<span className="wm-ai" aria-hidden="true">AI</span>
+    <nav className="mini" aria-label="Story controls">
+      {voiceOn ? (
+        <button className="ibtn" aria-pressed={soundOn} aria-label={soundOn ? `${P.soundOn}. Turn sound off` : `${P.soundOff}. Turn sound on`} title={soundOn ? P.soundOn : P.soundOff} onClick={onSound}>
+          <Icon id={soundOn ? 'ic-sound' : 'ic-sound-off'} size={22} />
         </button>
-        <button className="imark wm-btn" onClick={onExit} aria-label="DigiTales AI. Opens the leave-the-story check">i</button>
-      </div>
-      <div className="tab scene">{fill(P.scene, { n })}</div>
-      <div className="tab right">
-        {voiceOn ? (
-          <button className="hbtn" aria-pressed={soundOn} aria-label={soundOn ? `${P.soundOn}. Turn sound off` : `${P.soundOff}. Turn sound on`} onClick={onSound}>
-            <Icon id={soundOn ? 'ic-sound' : 'ic-sound-off'} /><span>{soundOn ? P.soundOn : P.soundOff}</span>
-          </button>
-        ) : null}
-        <button className="hbtn" aria-label={P.settings} onClick={onSettings}><Icon id="ic-settings" /><span>{P.settings}</span></button>
-        <Link className="hbtn" href="/support" aria-label={copy.nav.support}><Icon id="ic-support" /><span>{copy.nav.support}</span></Link>
-        <button className="hbtn" aria-label={P.exit} onClick={onExit}><Icon id="ic-exit" /><span>{P.exit}</span></button>
-      </div>
-    </header>
+      ) : null}
+      <button className="ibtn" aria-label={P.settings} title={P.settings} onClick={onSettings}><Icon id="ic-settings" size={22} /></button>
+      <Link className="ibtn" href="/support" aria-label={copy.nav.support} title={copy.nav.support}><Icon id="ic-support" size={22} /></Link>
+      <button className="ibtn" aria-label={P.exit} title={P.exit} onClick={onExit}><Icon id="ic-exit" size={22} /></button>
+    </nav>
   );
 }
 
-/* ---------- caption plate ---------- */
-const CAST = ['sarah', 'lisa', 'marco', 'dev'];
-
-function Plate({ line, first, description, back, voiceOn, soundOn, auto, talking, onBack, onReplay, onSound, onNext, onAuto }: {
-  line: Line; first: boolean; description: string; back: boolean; voiceOn: boolean; soundOn: boolean; auto: boolean; talking: boolean;
+/* ---------- subtitle: the line, and a name only when a person speaks ---------- */
+function Plate({ line, first, description, back, voiceOn, soundOn, auto, onBack, onReplay, onSound, onNext, onAuto }: {
+  line: Line; first: boolean; description: string; back: boolean; voiceOn: boolean; soundOn: boolean; auto: boolean;
   onBack: () => void; onReplay: () => void; onSound: () => void; onNext: () => void; onAuto: () => void;
 }) {
-  const chip = line.speaker === 'narrator' ? 'narrator' : line.speaker;
-  const cast = CAST.includes(line.speaker);
+  const named = line.speaker !== 'narrator' && line.speaker !== 'screen';
   return (
-    <div className={`plate${cast ? ' has-portrait' : ''}`} role="region" aria-label={P.caption} aria-live="polite" key={line.id}>
-      {cast ? <Portrait line={line} talking={talking} /> : null}
-      <div className="tags">
-        <span className={`who ${chip}`}>{NAMES[line.speaker]}</span>
-        {line.kind === 'chat' ? <span className="in">{P.inTheChat}</span> : null}
-      </div>
-      {first && description ? <p className="scene-note">{description}</p> : null}
+    <div className="plate" role="region" aria-label={P.caption} aria-live="polite" key={line.id}>
+      {first && description ? <p className="sr">{description}</p> : null}
+      {named ? (
+        <p className="who-line">
+          <span className={`who ${line.speaker}`}>{NAMES[line.speaker]}</span>
+          {line.kind === 'chat' ? <span className="in">{P.inTheChat}</span> : null}
+        </p>
+      ) : null}
       <p className={`line${line.kind === 'narration' ? ' narr' : ''}`}><span className="sr">{NAMES[line.speaker]}: </span>{line.text}</p>
       <div className="ctl">
-        <button className="hbtn" disabled={!back} onClick={onBack}><Icon id="ic-back" size={20} />{P.back}</button>
-        {voiceOn && !soundOn ? <button className="hbtn" onClick={onSound}><Icon id="ic-sound" size={20} />{P.playSound}</button> : null}
-        {voiceOn && soundOn && line.voiced ? <button className="hbtn" onClick={onReplay}><Icon id="ic-replay" size={20} />{P.replay}</button> : null}
-        <button className="hbtn" onClick={onAuto}>{auto ? P.pause : P.autoPlay}</button>
-        <span className="hint">{auto ? P.hintAuto : P.hint}</span>
-        <button className="hbtn next" onClick={onNext}>{P.next}</button>
+        <button className="ibtn" aria-label={P.back} title={P.back} disabled={!back} onClick={onBack}><Icon id="ic-back" size={20} /></button>
+        {voiceOn && !soundOn ? <button className="ibtn" aria-label={P.playSound} title={P.playSound} onClick={onSound}><Icon id="ic-sound" size={20} /></button> : null}
+        {voiceOn && soundOn && line.voiced ? <button className="ibtn" aria-label={P.replay} title={P.replay} onClick={onReplay}><Icon id="ic-replay" size={20} /></button> : null}
+        <button className="ibtn" aria-label={auto ? P.pause : P.autoPlay} title={auto ? P.pause : P.autoPlay} onClick={onAuto}><Icon id={auto ? 'ic-pause' : 'ic-play'} size={20} /></button>
+        <button className="ibtn" aria-label={P.next} title={P.next} onClick={onNext}><Icon id="ic-next" size={20} /></button>
       </div>
     </div>
-  );
-}
-
-/* ---------- the speaker: a portrait whose mouth moves while the line is spoken ---------- */
-function useReducedMotion() {
-  const [r, setR] = useState(false);
-  useEffect(() => {
-    const m = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setR(m.matches);
-    const f = () => setR(m.matches);
-    m.addEventListener('change', f);
-    return () => m.removeEventListener('change', f);
-  }, []);
-  return r;
-}
-
-function Portrait({ line, talking }: { line: Line; talking: boolean }) {
-  const id = line.speaker as 'sarah' | 'lisa' | 'marco' | 'dev';
-  const reduced = useReducedMotion();
-  const expr = line.expression && (Rig.EXPR as Record<string, unknown>)[line.expression] ? line.expression : Rig.EXPR_SETS[id][0][0];
-  const [beat, setBeat] = useState(0);
-  useEffect(() => {
-    if (!talking || reduced) { setBeat(0); return; }
-    const t = setInterval(() => setBeat((b) => (b + 1) % 4), 130);
-    return () => clearInterval(t);
-  }, [talking, reduced]);
-  const mouth = talking && !reduced ? ['talkA', 'talkB', 'talkA', null][beat] : null;
-  const html = useMemo(() => Rig.portrait(id, { expr, mouth, size: 168 }), [id, expr, mouth]);
-  return <div className={`portrait ${id}${talking ? ' talking' : ''}`} aria-hidden="true" dangerouslySetInnerHTML={{ __html: html }} />;
-}
-
-/* ---------- chat panel ---------- */
-function ChatPanel({ chat }: { chat: NonNullable<ReturnType<typeof chatAt>> }) {
-  return (
-    <aside className="chat" aria-label={`Chat: ${chat.title}`}>
-      <div className="ch-head"><b>{chat.title}</b><span>{fill(P.people, { n: chat.people })}</span></div>
-      <div className="ch-body">
-        {chat.items.map((c, i) => (
-          <div className={`b${i === chat.items.length - 1 ? ' new' : ''}${c.mine ? ' mine' : ''}`} key={c.line.id}>
-            <span className="nm">{NAMES[c.line.speaker]}{i === chat.items.length - 1 && !c.mine ? <i className="dot" aria-hidden="true" /> : null}</span>
-            {c.line.showPhotoTile ? <PhotoTile /> : null}
-            {c.line.speaker === 'screen' ? null : c.line.text}
-          </div>
-        ))}
-      </div>
-    </aside>
   );
 }
 

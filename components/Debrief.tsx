@@ -98,16 +98,16 @@ export function Debrief() {
           </section>
 
           <div className="plate db-plate" role="region" aria-label={P.caption} aria-live="polite" key={cur.line.id}>
-            <div className="tags"><span className="who narrator">Narrator</span></div>
-            <p className="line narr">{cur.line.text}</p>
+            <p className="line narr"><span className="sr">Narrator: </span>{cur.line.text}</p>
             <div className="ctl">
-              <button className="hbtn" disabled={i === 0} onClick={back}><Icon id="ic-back" size={20} />{P.back}</button>
-              {soundOn ? <button className="hbtn" onClick={replay}><Icon id="ic-replay" size={20} />{P.replay}</button> : null}
-              <button className="hbtn" onClick={() => dispatch({ t: 'settings', patch: { auto: !auto } })}>{auto ? P.pause : P.autoPlay}</button>
-              <button className="hbtn" onClick={() => finish(true)}>{D.skip}</button>
-              {last
-                ? <button className="hbtn next" onClick={() => finish(false)}>{D.continue}</button>
-                : <button className="hbtn next" onClick={next}>{P.next}</button>}
+              <button className="ibtn" aria-label={P.back} title={P.back} disabled={i === 0} onClick={back}><Icon id="ic-back" size={20} /></button>
+              {soundOn ? <button className="ibtn" aria-label={P.replay} title={P.replay} onClick={replay}><Icon id="ic-replay" size={20} /></button> : null}
+              <button className="ibtn" aria-label={auto ? P.pause : P.autoPlay} title={auto ? P.pause : P.autoPlay} onClick={() => dispatch({ t: 'settings', patch: { auto: !auto } })}>
+                <Icon id={auto ? 'ic-pause' : 'ic-play'} size={20} />
+              </button>
+              {last ? null : <button className="ibtn" aria-label={P.next} title={P.next} onClick={next}><Icon id="ic-next" size={20} /></button>}
+              <button className="pill" onClick={() => finish(true)}>{D.skip}</button>
+              {last ? <button className="pill go" onClick={() => finish(false)}>{D.continue}</button> : null}
             </div>
           </div>
         </main>

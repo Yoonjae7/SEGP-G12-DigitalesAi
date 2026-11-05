@@ -12,7 +12,7 @@ export function Mark({ id, size = 72, className = '' }: { id: 'mk-tell' | 'mk-ch
   );
 }
 
-export function Icon({ id, size = 24 }: { id: 'ic-sound' | 'ic-sound-off' | 'ic-settings' | 'ic-exit' | 'ic-back' | 'ic-replay' | 'ic-support'; size?: number }) {
+export function Icon({ id, size = 24 }: { id: 'ic-sound' | 'ic-sound-off' | 'ic-settings' | 'ic-exit' | 'ic-back' | 'ic-replay' | 'ic-support' | 'ic-next' | 'ic-play' | 'ic-pause'; size?: number }) {
   return (
     <svg className="ic" width={size} height={size} aria-hidden="true">
       <use href={`#${id}`} />
