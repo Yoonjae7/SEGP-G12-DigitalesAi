@@ -120,7 +120,7 @@ test('Home is short: digital citizenship through an adaptive story, the made-up 
   await expect(page.getByRole('heading', { level: 1 })).toContainText('digital citizenship');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('adaptive story');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('The choice is yours.');
-  await expect(page.getByText('18', { exact: false })).toHaveCount(0);
+  await expect(page.locator('main').getByText(/18|for adults/i)).toHaveCount(0); // no age line on Home (the age question comes first in the start flow)
   await expect(page.getByText('About 10 minutes')).toHaveCount(0);
   await expect(page.getByText('Tell us a little')).toHaveCount(0);
   await expect(page.getByText('This story is made up.').first()).toBeVisible();
