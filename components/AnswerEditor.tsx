@@ -27,9 +27,11 @@ export function AnswerEditor({ k, helper }: { k: AnswerKey; helper: string }) {
     if (el) { el.style.height = 'auto'; el.style.height = `${Math.max(el.scrollHeight, 88)}px`; }
   }, [a.draft, a.phase, a.attempt]);
 
+  // These are called as plain functions, never used as <Tags>. A component made inside this one is a new type on
+  // every render, so React would rebuild the box after each key and the learner could only type one letter.
   const quote = a.attempt === 1 ? a.draft : a.text1 ?? '';
-  const Yours = () => (quote ? <blockquote className="yours"><span className="eyebrow">{w.yours}</span>{quote}</blockquote> : null);
-  const Prompt = () => (
+  const yours = () => (quote ? <blockquote className="yours"><span className="eyebrow">{w.yours}</span>{quote}</blockquote> : null);
+  const prompt = () => (
     <div className="fu">
       <span className="eyebrow"><i className="dot" aria-hidden="true" />{w.question}</span>
       {a.prompt.kind === 'followup' || a.prompt.kind === 'harder' || a.prompt.kind === 'nudge' ? (
@@ -39,7 +41,7 @@ export function AnswerEditor({ k, helper }: { k: AnswerKey; helper: string }) {
       ) : null}
     </div>
   );
-  const Box = ({ label }: { label: string }) => (
+  const box = (label: string) => (
     <>
       <label className="sr" htmlFor={`ans-${k}`}>{label}</label>
       <textarea
@@ -53,7 +55,7 @@ export function AnswerEditor({ k, helper }: { k: AnswerKey; helper: string }) {
   if (a.phase === 'reading')
     return (
       <div aria-live="polite">
-        <Yours />
+        {yours()}
         <p className="reading" role="status">{w.reading}</p>
         <span className="dots" aria-hidden="true"><i /><i /><i /></span>
       </div>
@@ -62,8 +64,8 @@ export function AnswerEditor({ k, helper }: { k: AnswerKey; helper: string }) {
   if (a.phase === 'error')
     return (
       <div>
-        {a.attempt === 2 ? <Prompt /> : null}
-        <Box label={w.yourReply} />
+        {a.attempt === 2 ? prompt() : null}
+        {box(w.yourReply)}
         <div className="errbox" role="alert" style={{ marginTop: 20 }}>{copy.player.error.text}</div>
         <div className="actions">
           <button className="btn" onClick={() => void send(text)} disabled={!text}>{copy.player.error.retry}</button>
@@ -97,7 +99,7 @@ export function AnswerEditor({ k, helper }: { k: AnswerKey; helper: string }) {
   if (a.attempt === 1)
     return (
       <div>
-        <Box label={w.yours} />
+        {box(w.yours)}
         <p className="helper">{helper}</p>
         <div className="actions">
           <button className="btn" disabled={!text} onClick={() => void send(text)}>{w.send}</button>
@@ -107,9 +109,9 @@ export function AnswerEditor({ k, helper }: { k: AnswerKey; helper: string }) {
     );
   return (
     <div>
-      <Yours />
-      <Prompt />
-      <Box label={w.yourReply} />
+      {yours()}
+      {prompt()}
+      {box(w.yourReply)}
       <div className="actions">
         <button className="btn" disabled={!text} onClick={() => void send(text)}>{w.sendShort}</button>
         <button className="linkbtn" onClick={skipFollowup}>{w.skip}</button>
