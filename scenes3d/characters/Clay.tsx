@@ -3,6 +3,7 @@
 import { useFrame } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
+import { usePhoneScreen } from '../chat';
 import { faceTexture, FACE_SIZE } from '../face';
 import { POSES3D } from '../poses3d';
 import { POSES, SPEC } from '../spec';
@@ -56,22 +57,26 @@ function Part({ kind, args = [1], color, pos, scale = 1, rot, hull = true }: Par
 const rad = (d: number) => (d * Math.PI) / 180;
 type Joints = {
   L: [number, number]; R: [number, number]; lean: number; tilt: number; pitch: number; rise: number; drop: number; stance: number; yaw: number;
-  sit: number; fL: number; fR: number; eL: number; eR: number; walk: number; prop?: string;
+  sit: number; fL: number; fR: number; eL: number; eR: number; walk: number; prop?: string; hand?: 'L' | 'R';
 };
 const toJoints = (name: string, yaw?: number): Joints => {
   const base = POSES['idle-breathe'];
   const p = { sit: 0, fL: 0, fR: 0, eL: 0, eR: 0, walk: 0, ...base, ...(POSES[name] ?? {}), ...(POSES3D[name] ?? {}) } as Joints;
-  return { L: p.L, R: p.R, lean: p.lean, tilt: p.tilt, pitch: p.pitch, rise: p.rise, drop: p.drop, stance: p.stance, yaw: yaw ?? p.yaw, sit: p.sit, fL: p.fL, fR: p.fR, eL: p.eL, eR: p.eR, walk: p.walk, prop: p.prop };
+  return { L: p.L, R: p.R, lean: p.lean, tilt: p.tilt, pitch: p.pitch, rise: p.rise, drop: p.drop, stance: p.stance, yaw: yaw ?? p.yaw, sit: p.sit, fL: p.fL, fR: p.fR, eL: p.eL, eR: p.eR, walk: p.walk, prop: p.prop, hand: p.hand };
 };
 
-/** A phone held in a hand: dark body, bright screen toward the viewer's side. */
-function PhoneProp({ lit }: { lit: boolean }) {
+/** A phone held in a hand. The screen faces the person holding it (toward -z), so an onlooker in front sees the back. */
+function PhoneProp({ lit, screen }: { lit: boolean; screen: THREE.Texture | null }) {
   return (
-    <group position={[0, -2.5, 4.6]} rotation={[-0.25, 0, 0]}>
-      <Part kind="box" args={[5.4, 9.6, 0.9]} color="#0B171C" />
-      <mesh position={[0, 0, 0.52]}>
-        <planeGeometry args={[4.5, 8.4]} />
-        <meshBasicMaterial color={lit ? '#CFE8EF' : '#27414c'} toneMapped={false} />
+    <group position={[0, 5.4, 2.2]}>
+      <Part kind="box" args={[5.4, 9.6, 0.9]} color="#0B171C" hull={false} />
+      <mesh position={[0, 0, -0.52]} rotation={[0, Math.PI, 0]}>
+        <planeGeometry args={[4.7, 8.5]} />
+        <meshBasicMaterial color={screen ? '#ffffff' : lit ? '#CFE8EF' : '#27414c'} map={screen} toneMapped={false} />
+      </mesh>
+      <mesh position={[-1.3, 3.2, 0.55]}>
+        <circleGeometry args={[0.7, 16]} />
+        <meshBasicMaterial color="#27414c" />
       </mesh>
     </group>
   );
@@ -80,6 +85,7 @@ function PhoneProp({ lit }: { lit: boolean }) {
 export function ClayCharacter({ id, pose, expression, view, yaw, talking }: CharacterModelProps) {
   const C = SPEC[id];
   const wf = C.wf, hf = C.hf;
+  const screenTex = usePhoneScreen();
   const target = useMemo(() => toJoints(pose, yaw), [pose, yaw]);
   const cur = useRef<Joints>(JSON.parse(JSON.stringify({ ...target, prop: undefined })));
   const root = useRef<THREE.Group>(null);
@@ -88,6 +94,7 @@ export function ClayCharacter({ id, pose, expression, view, yaw, talking }: Char
   const shL = useRef<THREE.Group>(null), elL = useRef<THREE.Group>(null), shR = useRef<THREE.Group>(null), elR = useRef<THREE.Group>(null);
   const legL = useRef<THREE.Group>(null), legR = useRef<THREE.Group>(null), knL = useRef<THREE.Group>(null), knR = useRef<THREE.Group>(null);
   const faceMat = useRef<THREE.MeshBasicMaterial>(null);
+  const phoneG = useRef<THREE.Group>(null); // the phone is turned back against the arm, so it stays level whatever the arm does
   const faces = useMemo(() => ({ base: faceTexture(id, expression), a: faceTexture(id, expression, 'talkA'), b: faceTexture(id, expression, 'talkB') }), [id, expression]);
   const mouthBeat = useRef({ t: 0, k: 0 });
 
@@ -127,6 +134,7 @@ export function ClayCharacter({ id, pose, expression, view, yaw, talking }: Char
     }
     if (elL.current) { elL.current.rotation.z = -rad(c.L[1]); elL.current.rotation.x = -rad(c.eL); }
     if (elR.current) { elR.current.rotation.z = rad(c.R[1]); elR.current.rotation.x = -rad(c.eR); }
+    if (phoneG.current) phoneG.current.rotation.x = rad(target.hand === 'L' ? c.fL + c.eL : c.fR + c.eR) + 0.35;
     const hipY = 30 - SIT_DROP * sit;
     if (shL.current) shL.current.position.y = 64 - 30 + c.rise - 3; // shoulders
     if (shR.current) shR.current.position.y = 64 - 30 + c.rise - 3;
@@ -157,7 +165,7 @@ export function ClayCharacter({ id, pose, expression, view, yaw, talking }: Char
       <group ref={elRef} position={[0, -15, 0]}>
         <Part kind="capsule" args={[3.7, 6.6]} color={sleeve} pos={[0, -7, 0]} />
         <Part kind="sphere" color={C.skin} pos={[0, -14, 0]} scale={3.7} />
-        {side === 1 && target.prop === 'phone' ? <group position={[0, -14, 0]}><PhoneProp lit={phoneLit} /></group> : null}
+        {target.prop === 'phone' && side === (target.hand === 'L' ? -1 : 1) ? <group ref={phoneG} position={[0, -14, 0]} scale={1.9}><PhoneProp lit={phoneLit} screen={id === 'you' ? screenTex : null} /></group> : null}
       </group>
     </group>
   );

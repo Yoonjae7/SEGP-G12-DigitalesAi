@@ -12,7 +12,7 @@ export const ConditionSchema = z.object({
 export type Condition = z.infer<typeof ConditionSchema>;
 
 /** What the other people on stage are doing while a line plays (3D only). It stays until a later line in the scene changes it. */
-export const ActSchema = z.partialRecord(z.enum(['sarah', 'lisa', 'marco', 'dev', 'you']), z.object({ pose: z.string().optional(), expression: z.string().optional() }));
+export const ActSchema = z.partialRecord(z.enum(['sarah', 'lisa', 'marco', 'dev', 'you']), z.object({ pose: z.string().optional(), expression: z.string().optional(), to: z.string().optional() }));
 
 export const LineSchema = z.object({
   id: z.string(), // "s1_03". Also the audio file name.

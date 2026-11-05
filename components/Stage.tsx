@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { copy, fill } from '@/lib/copy';
-import { canGoBack, type TItem } from '@/lib/engine/flow';
+import { canGoBack, chatAt, type TItem } from '@/lib/engine/flow';
 import { timeline } from '@/lib/engine/state';
 import { story } from '@/lib/story';
 import type { Line, Speaker } from '@/lib/story/types';
@@ -16,6 +16,7 @@ import { AnswerEditor } from './AnswerEditor';
 import { Icon, PhotoTile } from './Marks';
 import { SceneArt } from './SceneArt';
 import { useSession } from './SessionProvider';
+import type { ChatShot } from '@/scenes3d/chat';
 import { Visuals, type Acts } from './Visuals';
 
 const NAMES: Record<Speaker, string> = { narrator: 'Narrator', lisa: 'Lisa', sarah: 'Sarah', marco: 'Marco', dev: 'Dev', you: 'You', screen: 'On screen' };
@@ -52,6 +53,22 @@ export function Stage() {
     }
     return out;
   }, [items, state.pos, item]);
+  // The chat on the phone in the 3D scene: the messages so far (the photo, then the words).
+  const chat = useMemo<ChatShot | null>(() => {
+    const v = line ? chatAt(story, items, state.pos) : null;
+    if (!v) return null;
+    return {
+      title: v.title, people: v.people,
+      items: v.items.flatMap((c) => {
+        const who = NAMES[c.line.speaker];
+        const out: ChatShot['items'] = [];
+        if (c.line.showPhotoTile) out.push({ who: c.line.speaker === 'screen' ? 'Photo' : who, text: '', photo: true });
+        if (c.line.speaker !== 'screen') out.push({ who, text: c.line.text, mine: c.mine });
+        return out;
+      }),
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, state.pos]);
   const [settled, setSettled] = useState<{ id: string; ok: boolean } | null>(null);
   const onSettle = useCallback((id: string, ok: boolean) => setSettled({ id, ok }), []);
   const { replay, speaking } = useVoice(line, soundOn, ahead, onSettle);
@@ -125,7 +142,7 @@ export function Stage() {
     <div className="on-night">
       <div className="viewport">
         <main className={`stage${split ? ' split' : ''}`} aria-label="Story" onClick={onStageClick}>
-          <Visuals art={art} nextArt={nextArt} override={override} lineId={line?.id ?? null} acts={acts} />
+          <Visuals art={art} nextArt={nextArt} override={override} lineId={line?.id ?? null} acts={acts} chat={chat} photo={!!line?.showPhotoTile} />
           {line?.id === 's0_04' ? <div className="flash" key={line.id} aria-hidden="true" /> : null}
           {dim ? <div className="dim" /> : null}
           <p className="sr" role="status" aria-live="polite">{item.n > 0 ? `${fill(P.scene, { n: item.n })}. ` : ''}{sceneTitle}.</p>
@@ -135,7 +152,6 @@ export function Stage() {
 
           {line ? (
             <>
-              {line.showPhotoTile ? <aside className="chat tile-only" aria-label={P.photo}><div className="ch-body"><div className="b"><PhotoTile /></div></div></aside> : null}
               <Plate line={line} first={first} description={description} back={canGoBack(items, state.pos)} voiceOn={voiceOn} soundOn={soundOn}
                 onBack={() => dispatch({ t: 'back' })} onReplay={replay} onSound={() => dispatch({ t: 'settings', patch: { sound: true } })} onNext={advance}
                 auto={auto} onAuto={() => dispatch({ t: 'settings', patch: { auto: !auto } })} />

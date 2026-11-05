@@ -25,7 +25,7 @@
       "id": "s1", "n": 1, "title": "Ping", "art": "s1",
       "description": "A dark dorm room at night. You sit on the bed, seen from behind. Your phone lights your hands. A lamp glows on the desk.",
       "chat": "Close Friends",
-      "stage": { "set": "s1", "characters": [{ "id": "you", "view": "back", "pose": "look-phone" }] },
+      "stage": { "set": "s1", "characters": [{ "id": "you", "view": "back", "pose": "sit-phone" }] },
       "lines": [
         { "id": "s1_01", "speaker": "narrator", "kind": "narration", "text": "Tuesday, 11:40 pm. Your phone buzzes.", "voiced": true, "pose": "look-phone" },
         { "id": "s1_02", "speaker": "lisa", "kind": "chat", "text": "Haha, look who fell asleep on the bus.", "voiced": true, "showPhotoTile": true },
@@ -40,7 +40,7 @@
       "id": "s2", "n": 2, "title": "Your Move", "art": "s2",
       "description": "Close on your phone. Chat bubbles float in the dark, like paper cut-outs.",
       "chat": "Close Friends",
-      "stage": { "set": "s2", "characters": [] },
+      "stage": { "set": "s2", "characters": [{ "id": "you", "view": "back", "pose": "sit-phone" }] },
       "lines": [
         { "id": "s2_01", "speaker": "narrator", "kind": "narration", "text": "Nobody asked Sarah before posting it, and she has no idea the photo exists.", "voiced": true },
         { "id": "s2_02", "speaker": "lisa", "kind": "chat", "text": "This is so funny, right?", "voiced": true },
@@ -66,10 +66,10 @@
     {
       "id": "s4", "n": 4, "title": "Morning", "art": "s4",
       "description": "The campus café, Wednesday morning. You stand behind Sarah in the queue. Marco and Dev are near the counter, looking at their phones.",
-      "stage": { "set": "s4", "characters": [{ "id": "you", "view": "back", "pose": "idle-breathe" }, { "id": "sarah", "view": "back", "pose": "idle-breathe" }, { "id": "marco", "view": "front", "pose": "look-phone", "expression": "amused" }, { "id": "dev", "view": "front", "pose": "look-phone", "expression": "flat" }] },
+      "stage": { "set": "s4", "characters": [{ "id": "you", "view": "back", "pose": "idle-breathe" }, { "id": "sarah", "view": "back", "pose": "idle-breathe" }, { "id": "marco", "view": "front", "pose": "stand-phone", "expression": "amused" }, { "id": "dev", "view": "front", "pose": "stand-phone", "expression": "flat" }] },
       "lines": [
         { "id": "s4_01", "speaker": "narrator", "kind": "narration", "text": "It's Wednesday, 8:30 am, at the campus café.", "voiced": true },
-        { "id": "s4_02", "speaker": "narrator", "kind": "narration", "text": "People in the café look at their phones, then at Sarah.", "voiced": true },
+        { "id": "s4_02", "speaker": "narrator", "kind": "narration", "text": "People in the café look at their phones, then at Sarah.", "voiced": true, "act": { "sarah": { "to": "turn" } } },
         { "id": "s4_03", "speaker": "sarah", "kind": "dialogue", "text": "Morning. Why is everyone looking at me?", "voiced": true, "expression": "calm" },
         { "id": "s4_04", "speaker": "narrator", "kind": "narration", "text": "Sarah has no idea about the photo, but you do. Marco and Dev are standing nearby.", "voiced": true }
       ]
@@ -77,15 +77,15 @@
     {
       "id": "s5", "n": 5, "title": "Sarah Knows", "art": "s5",
       "description": "A café table. Sarah sits across from you, and you are seen from behind. The light is softer.",
-      "stage": { "set": "s5", "characters": [{ "id": "sarah", "view": "front", "pose": "idle-breathe", "expression": "hurt" }, { "id": "you", "view": "back", "pose": "idle-breathe" }] },
+      "stage": { "set": "s5", "characters": [{ "id": "sarah", "view": "front", "pose": "sit", "expression": "hurt" }, { "id": "you", "view": "back", "pose": "sit" }, { "id": "lisa", "view": "front", "pose": "idle-breathe", "expression": "laughing" }] },
       "lines": [
         { "id": "s5_01a", "speaker": "sarah", "kind": "dialogue", "text": "Thank you for telling me first. It helps, a little.", "voiced": true, "expression": "steady", "when": { "d2": "tell" } },
         { "id": "s5_01b", "speaker": "narrator", "kind": "narration", "text": "You tell Sarah about the photo now, about ten minutes later than you should have.", "voiced": true, "when": { "d2": "delete" } },
         { "id": "s5_01c", "speaker": "sarah", "kind": "dialogue", "text": "I know you tried to stop it, and I get that. I just wish you'd told me first.", "voiced": true, "expression": "hurt", "when": { "d2": "delete" } },
         { "id": "s5_02", "speaker": "narrator", "kind": "narration", "text": "Sarah's hands are shaking a little.", "voiced": true },
         { "id": "s5_03", "speaker": "sarah", "kind": "dialogue", "text": "I don't want a fight. I just want it gone.", "voiced": true, "expression": "hurt" },
-        { "id": "s5_04", "speaker": "narrator", "kind": "narration", "text": "Sarah picks up her bag and leaves. She doesn't even take her coffee.", "voiced": true },
-        { "id": "s5_05", "speaker": "narrator", "kind": "narration", "text": "Lisa walks in laughing. She sees the look on your face and stops.", "voiced": true },
+        { "id": "s5_04", "speaker": "narrator", "kind": "narration", "text": "Sarah picks up her bag and leaves. She doesn't even take her coffee.", "voiced": true, "act": { "sarah": { "to": "door", "pose": "idle-breathe" } } },
+        { "id": "s5_05", "speaker": "narrator", "kind": "narration", "text": "Lisa walks in laughing. She sees the look on your face and stops.", "voiced": true, "act": { "lisa": { "to": "inside" } } },
         { "id": "s5_06", "speaker": "screen", "kind": "screen", "text": "Lisa can tell something's wrong.", "voiced": false }
       ]
     },
@@ -214,7 +214,7 @@
     "A": {
       "id": "A", "title": "A Way Forward", "art": "s7a",
       "description": "Warm, low sun on the library steps. Sarah, Lisa and you.",
-      "stage": { "set": "s7a", "characters": [{ "id": "sarah", "view": "front", "pose": "stand-firm", "expression": "steady" }, { "id": "lisa", "view": "front", "pose": "reach-out", "expression": "sorry" }, { "id": "you", "view": "back", "pose": "idle-breathe" }] },
+      "stage": { "set": "s7a", "characters": [{ "id": "sarah", "view": "front", "pose": "stand-firm", "expression": "steady" }, { "id": "lisa", "view": "front", "pose": "reach-out", "expression": "sorry" }, { "id": "you", "view": "back", "pose": "idle-breathe" }, { "id": "marco", "view": "front", "pose": "idle-breathe", "expression": "embarrassed" }, { "id": "dev", "view": "front", "pose": "idle-breathe", "expression": "uneasy" }] },
       "lines": [
         { "id": "eA_01", "speaker": "narrator", "kind": "narration", "text": "Sarah asks to meet on the library steps. Lisa, Marco and Dev are there too.", "voiced": true },
         { "id": "eA_02", "speaker": "lisa", "kind": "dialogue", "text": "I posted a photo of you without asking, and that was wrong. I'm sorry.", "voiced": true, "expression": "sorry" },
@@ -241,7 +241,7 @@
     "B": {
       "id": "B", "title": "Still Out There", "art": "s7b",
       "description": "Flat grey-blue light on the library steps. A bench with nothing on it.",
-      "stage": { "set": "s7b", "characters": [{ "id": "you", "view": "back", "pose": "look-phone" }, { "id": "marco", "view": "front", "pose": "idle-breathe", "expression": "shrugF" }, { "id": "dev", "view": "front", "pose": "idle-breathe", "expression": "flat" }, { "id": "lisa", "view": "back", "pose": "turn-away" }] },
+      "stage": { "set": "s7b", "characters": [{ "id": "you", "view": "back", "pose": "stand-phone" }, { "id": "marco", "view": "front", "pose": "idle-breathe", "expression": "shrugF" }, { "id": "dev", "view": "front", "pose": "idle-breathe", "expression": "flat" }, { "id": "lisa", "view": "back", "pose": "turn-away" }] },
       "lines": [
         { "id": "eB_01", "speaker": "narrator", "kind": "narration", "text": "Sarah doesn't come to tutorial, and her seat is empty.", "voiced": true },
         { "id": "eB_02", "speaker": "screen", "kind": "screen", "text": "The photo is still in two chats, and a new group has it now.", "voiced": false, "showPhotoTile": true },

@@ -3,18 +3,20 @@
 import dynamic from 'next/dynamic';
 import { Component, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useLabFlags } from '@/lib/useLabFlags';
+import type { ChatShot } from '@/scenes3d/chat';
 import { CINEMA_SETS } from '@/scenes3d/direction';
+import { copy } from '@/lib/copy';
+import { PhotoTile } from './Marks';
 import { SceneArt } from './SceneArt';
 import { useSession } from './SessionProvider';
 
 /** The 3D layer is loaded only when it is wanted, never in the first page bundle. */
-const Stage3D = dynamic(() => import('@/scenes3d/Stage3D'), { ssr: false });
 const Cinema = dynamic(() => import('@/scenes3d/Cinema'), { ssr: false });
 
 const FLAG_3D = process.env.NEXT_PUBLIC_3D !== '0';
 
 export interface LineOverride { speaker: string; pose?: string; expression?: string; talking?: boolean }
-export type Acts = Partial<Record<'sarah' | 'lisa' | 'marco' | 'dev' | 'you', { pose?: string; expression?: string }>>;
+export type Acts = Partial<Record<'sarah' | 'lisa' | 'marco' | 'dev' | 'you', { pose?: string; expression?: string; to?: string }>>;
 
 function webglAvailable(): boolean {
   try {
@@ -48,7 +50,7 @@ class Boundary extends Component<{ onError: () => void; children: ReactNode }, {
  * Either one off (the flag, the "Simple visuals" setting, the Lab switch) gives 2D. If WebGL cannot start,
  * or anything in 3D fails, it falls back to 2D without a word and logs fallback_2d. The story never depends on it.
  */
-export function Visuals({ art, nextArt, override, lineId, acts }: { art: string; nextArt?: string | null; override?: LineOverride | null; lineId?: string | null; acts?: Acts }) {
+export function Visuals({ art, nextArt, override, lineId, acts, chat, photo }: { art: string; nextArt?: string | null; override?: LineOverride | null; lineId?: string | null; acts?: Acts; chat?: ChatShot | null; photo?: boolean }) {
   const { state, dispatch } = useSession();
   const lab = useLabFlags();
   const reduced = useReducedMotion();
@@ -67,14 +69,11 @@ export function Visuals({ art, nextArt, override, lineId, acts }: { art: string;
   // no WebGL at all: say so once, then stay in 2D
   useEffect(() => { if (wanted && typeof window !== 'undefined' && !webglAvailable()) fail('no webgl'); }, [wanted, fail]);
 
-  const use3D = wanted && gl;
+  const use3D = wanted && gl && CINEMA_SETS.has(art); // a scene without a 3D set stays in 2D
   const show3D = use3D && ready === art;
 
-  // keep the next scene's layers warm
-  useEffect(() => {
-    if (!show3D || !nextArt) return;
-    void import('@/scenes3d/layers').then((m) => m.preloadLayers(nextArt)).catch(() => {});
-  }, [show3D, nextArt]);
+  // The photo shows as a small print in the corner, unless the phone in the 3D scene is already showing it.
+  const phoneShowsPhoto = show3D && !!chat?.items.some((i) => i.photo);
 
   return (
     <>
@@ -82,12 +81,11 @@ export function Visuals({ art, nextArt, override, lineId, acts }: { art: string;
       {use3D ? (
         <Boundary onError={() => fail('error')}>
           <div className={`stage3d-wrap${show3D ? ' on' : ''}`}>
-            {CINEMA_SETS.has(art)
-              ? <Cinema art={art} lineId={lineId ?? null} override={override ?? null} acts={acts ?? {}} reduced={reduced} onReady={() => setReady(art)} onFail={fail} />
-              : <Stage3D art={art} override={override ?? null} reduced={reduced} onReady={() => setReady(art)} onFail={fail} />}
+            <Cinema art={art} lineId={lineId ?? null} override={override ?? null} acts={acts ?? {}} chat={chat ?? null} reduced={reduced} onReady={() => setReady(art)} onFail={fail} />
           </div>
         </Boundary>
       ) : null}
+      {photo && !phoneShowsPhoto ? <aside className="chat tile-only" aria-label={copy.player.photo}><div className="ch-body"><div className="b"><PhotoTile /></div></div></aside> : null}
     </>
   );
 }

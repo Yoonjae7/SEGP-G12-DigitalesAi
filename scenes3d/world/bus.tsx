@@ -18,7 +18,7 @@ const WALL = '#CFC5AE';
 const YELLOW = '#E8B93C';
 
 /** A night city drawn once and slid sideways: dark blocks, lit windows, soft street-lamp glows. */
-function cityTexture(seed: number, far: boolean) {
+export function cityTexture(seed: number, far: boolean) {
   const r = rng(seed);
   return canvasTexture(1024, 256, (g) => {
     const sky = g.createLinearGradient(0, 0, 0, 256);
