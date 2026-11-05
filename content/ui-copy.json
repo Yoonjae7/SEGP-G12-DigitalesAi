@@ -1,0 +1,272 @@
+{
+  "nav": {
+    "about": "About and AI use",
+    "support": "Need support?"
+  },
+  "footer": {
+    "line": "SEGP Group 012. Prototype for supervisor feedback."
+  },
+  "placeholders": {
+    "wellbeing": "[University wellbeing service: team to add contact]",
+    "emergency": "[Emergency contact: team to add]",
+    "survey": "[usability survey link: team to add]"
+  },
+  "home": {
+    "headline": [
+      "Stories about online life.",
+      "You choose.",
+      "Then you say why."
+    ],
+    "headlineMark": "say why.",
+    "lede": "A short interactive story for adults. Three decisions, two written answers, about ten minutes. No points. No scores. Just your thinking.",
+    "start": "Start the story",
+    "how": "How it works",
+    "dioramaCaption": "The room in scene 1. The phone pings every 6 seconds. Move the pointer or tilt your phone to look around.",
+    "facts": [
+      "About 10 minutes",
+      "3 decisions",
+      "2 written answers",
+      "No scores"
+    ],
+    "howTitle": "How it works",
+    "howSub": "Four steps. You can stop at any time.",
+    "steps": [
+      {
+        "title": "Tell us a little.",
+        "text": "Share an online moment, or pick a theme."
+      },
+      {
+        "title": "Make a choice.",
+        "text": "The story gives you a hard call. Neither option is wrong."
+      },
+      {
+        "title": "Say why.",
+        "text": "Write a few sentences. The system reads your answer and asks a question that fits it."
+      },
+      {
+        "title": "See what happened.",
+        "text": "We ask you something first. Then we explain."
+      }
+    ],
+    "sample": {
+      "eyebrow": "A made-up example",
+      "title": "What a “why” looks like",
+      "intro1": "After two of the decisions, you write a few sentences. Then you get a short question that fits what you wrote.",
+      "intro2": "This answer is made up. Yours can be shorter, longer or different.",
+      "whyLabel": "Why 1",
+      "answerLabel": "Sample answer",
+      "answer": "Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.",
+      "reply": "The story replies",
+      "followupLabel": "Follow-up",
+      "followupBefore": "You said who did what. Now add one thing: ",
+      "followupMark": "what could happen to Sarah",
+      "followupAfter": " because of it?",
+      "note": "Every follow-up is written by the team. The reader only chooses which one to show."
+    },
+    "before": {
+      "title": "Before you start",
+      "items": [
+        "The story is fictional.",
+        "You must be 18 or older.",
+        "Answers are anonymous.",
+        "You can stop any time."
+      ]
+    }
+  },
+  "start": {
+    "step": "Step {n} of 5",
+    "part": "Part {n} of 2",
+    "age": {
+      "q": "This pilot is for adults. Are you 18 or older?",
+      "yes": "Yes, I am 18 or older",
+      "no": "No",
+      "noTitle": "Thanks for stopping by.",
+      "noText": "This pilot is for adults only."
+    },
+    "note": {
+      "title": "Before you begin",
+      "text": "This story is made up. It is about a photo shared without someone’s consent. It might remind you of something real. You can stop at any time.",
+      "ok": "I understand"
+    },
+    "input": {
+      "q": "Tell us about an online moment that stayed with you.",
+      "lead": "Real or made up. A few sentences is fine.",
+      "label": "Your online moment",
+      "orTheme": "Or pick a theme",
+      "themeActive": "A photo shared without consent",
+      "themeLater": "More themes later",
+      "skip": "Skip writing",
+      "next": "Next"
+    },
+    "emotion": {
+      "guess": "Your words sound a bit like:",
+      "isRight": "Is that right?",
+      "labels": [
+        "embarrassed",
+        "angry",
+        "worried",
+        "guilty",
+        "left out",
+        "sad",
+        "unsure"
+      ],
+      "small": "This is a guess by a simple reader. You can change it. It is not graded.",
+      "skippedQ": "How do you feel about this theme right now?",
+      "skippedSmall": "This is not graded. Pick the closest one.",
+      "groupLabel": "How do you feel?",
+      "next": "Next",
+      "reading": "Reading your words...",
+      "readingNote": "This takes a moment. It is a guess, and you can change it.",
+      "failedQ": "How do you feel about it right now?"
+    },
+    "appraisal": {
+      "q": "What made it feel that way?",
+      "options": [
+        "Something someone did",
+        "Something I did or did not do",
+        "Something I could not control",
+        "Not sure"
+      ],
+      "small": "There is no right answer. This is not graded.",
+      "next": "Next"
+    },
+    "match": {
+      "title": "Closest story",
+      "story": "The Photo in the Group Chat",
+      "meta": "About 10 minutes. 3 decisions, 2 written answers.",
+      "begin": "Begin",
+      "oneStory": "This pilot has one story. This is the closest fit.",
+      "finding": "Finding the closest story..."
+    }
+  },
+  "player": {
+    "scene": "Scene {n} of 7",
+    "sound": "Sound",
+    "soundOn": "Sound on",
+    "soundOff": "Sound off",
+    "settings": "Settings",
+    "exit": "Exit",
+    "back": "Back one line",
+    "replay": "Replay line",
+    "playSound": "Play with sound",
+    "hint": "Click, tap or press Space to go on",
+    "inTheChat": "in the chat",
+    "people": "{n} people",
+    "caption": "Caption",
+    "decision": "Decision {n} of 3",
+    "why": {
+      "send": "Send my answer",
+      "rather": "I would rather not answer",
+      "sendShort": "Send",
+      "skip": "Skip",
+      "yours": "Your answer",
+      "reading": "Reading your answer...",
+      "yourReply": "Your reply",
+      "question": "A question for you",
+      "label": "Why {n}",
+      "goOn": "Go on"
+    },
+    "error": {
+      "text": "We could not read your answer. Your text is saved. Try again.",
+      "retry": "Try again",
+      "continue": "Continue without a follow-up"
+    },
+    "support": {
+      "text": "It sounds like something real may be going on. You do not have to continue.",
+      "carry": "Carry on",
+      "exit": "Exit"
+    },
+    "settingsPanel": {
+      "title": "Settings",
+      "sound": "Sound",
+      "soundHelp": "Voices and quiet sounds. Starts off.",
+      "simple": "Simple visuals",
+      "simpleHelp": "Flat pictures. No 3D. The story is the same.",
+      "size": "Text size",
+      "sizeHelp": "Never smaller than the base size.",
+      "auto": "Auto-advance",
+      "autoHelp": "Lines move on by themselves. You can still go back.",
+      "close": "Close settings"
+    },
+    "exitModal": {
+      "title": "Leave the story?",
+      "text": "Your place is saved on this device. You can come back and carry on.",
+      "keep": "Keep playing",
+      "leave": "Leave"
+    },
+    "photo": "Photo (hidden)",
+    "next": "Next"
+  },
+  "feedback": {
+    "banner": "Your ending came from your written answers, not from which option you picked.",
+    "ending": "Ending",
+    "show": "Show me what happened",
+    "notGraded": "This is not graded.",
+    "happened": "What happened",
+    "choices": "Your choices",
+    "decision": "Decision {n}",
+    "continue": "Continue",
+    "clickOn": "Click, tap or press Space to go on."
+  },
+  "reflect": {
+    "optional": "Optional",
+    "oneMore": "One more",
+    "offerNote": "You can skip this. Nothing changes if you do.",
+    "yes": "Yes, one more",
+    "no": "No thanks",
+    "questionLabel": "Your answer",
+    "helper": "One or two sentences. There is no right answer, but reasons help.",
+    "send": "Send my answer",
+    "sendShort": "Send",
+    "skip": "Skip",
+    "finish": "Finish"
+  },
+  "end": {
+    "title": "Thanks for playing.",
+    "download": "Download my log",
+    "delete": "Delete my data",
+    "again": "Play again",
+    "note": "Your log stays in this browser. Delete my data clears it.",
+    "deleted": "Your data is deleted from this browser."
+  },
+  "about": {
+    "title": "About and AI use",
+    "lead": "A plain list of how this prototype was made, and what it does with your answers.",
+    "tag": "Demo scoring",
+    "rows": [
+      {
+        "k": "Story",
+        "t": "Story text was drafted with AI help, then reviewed and edited by the team."
+      },
+      {
+        "k": "Voice",
+        "t": "Voice lines are made with ElevenLabs from team-approved text."
+      },
+      {
+        "k": "Characters and scenes",
+        "t": "Characters and scenes are built in code by the team."
+      },
+      {
+        "k": "Reading your answers",
+        "t": "In this demo build, answers are read by written rules inside the app. A model API can be switched in later."
+      },
+      {
+        "k": "Data",
+        "t": "Data: anonymous session ID, stored in your browser only. Hosting provider may keep standard request logs."
+      },
+      {
+        "k": "What it does not do",
+        "t": "What this prototype does not do: no claim that it improves learning."
+      }
+    ]
+  },
+  "support": {
+    "title": "Need support?",
+    "lead": "This story is fictional, but it can bring up real things. You can stop any time.",
+    "wellbeing": "Wellbeing",
+    "emergency": "Emergency",
+    "danger": "If you are in danger now, contact local emergency services.",
+    "back": "Go back",
+    "home": "Home"
+  }
+}

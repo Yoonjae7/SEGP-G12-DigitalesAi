@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI design pack: Start here</title>
+<link rel="stylesheet" href="css/gallery.css">
+<style>
+  .cover { display: grid; grid-template-columns: 7fr 5fr; gap: 56px; align-items: start; padding-bottom: 24px; }
+  .cover h1 { font-size: clamp(44px, 6vw, 92px); line-height: 1.0; margin-bottom: 22px; }
+  .status { display: inline-flex; gap: 10px; align-items: center; font: 700 16px/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; border: 2px solid var(--ink); padding: 8px 12px; border-radius: var(--r); margin-bottom: 26px; }
+  .status i { width: 12px; height: 12px; border-radius: 50%; background: var(--ping); display: inline-block; }
+  .cover .art { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--night); transform: rotate(1deg); }
+  .cover .art > div { position: absolute; inset: 0; }
+  .toc { border-top: 2px solid var(--ink); }
+  .toc a { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--hairline-strong); text-decoration: none; align-items: baseline; }
+  .toc a:hover { background: var(--paper-deep); }
+  .toc b { font: 400 28px/1.1 var(--font-display); }
+  .toc span { font-size: 19px; color: var(--ink-soft); }
+  .dec li { padding: 12px 0 12px 30px; border-top: 1px solid var(--hairline); position: relative; font-size: 19px; line-height: 1.5; }
+  .dec li::before { content: ""; position: absolute; left: 4px; top: 22px; width: 10px; height: 10px; background: var(--ink); }
+  .ok { border: 2px solid var(--ink); border-radius: var(--r); padding: 26px 30px; margin-top: 28px; }
+  .ok h3 { margin-top: 0; font-size: 30px; }
+  @media (max-width: 1100px) { .cover { grid-template-columns: 1fr; gap: 28px; } .toc a { grid-template-columns: 1fr; gap: 4px; } }
+</style>
+</head>
+<body class="doc">
+<nav class="gnav" id="gnav" aria-label="Design pack"></nav>
+<div class="sheet">
+  <div class="cover">
+    <div>
+      <span class="status"><i></i>Phase 1 &middot; waiting for approval</span>
+      <h1>DigiTales AI design pack</h1>
+      <p class="intro" style="margin-bottom:0">Paper theatre after midnight. This is the design only. No app code has been written. Look through it, then tell me what to change, or say &ldquo;approved&rdquo; to start the build.</p>
+    </div>
+    <div class="art" aria-hidden="true"><div data-scene="s1" data-mode="home"></div></div>
+  </div>
+
+  <h2>What is in the pack</h2>
+  <nav class="toc" aria-label="Contents">
+    <a href="tokens.html"><b>Tokens</b><span>Colour with live contrast checks, type, space, shape, shadow, components, and a self-check against the &ldquo;fail the design&rdquo; list.</span></a>
+    <a href="desktop.html"><b>Desktop 1440</b><span>Home, the five start screens, the story player in ten states, ending and feedback, Reflect, About, Support, Lab.</span></a>
+    <a href="mobile.html"><b>Mobile 390</b><span>The same screens on a phone, with the portrait scene crops.</span></a>
+    <a href="characters.html"><b>Characters</b><span>Front, side and back for all five. Expressions. Nine poses with their joint table.</span></a>
+    <a href="scenes.html"><b>Scene boards</b><span>S1 to S7 and both endings, with set, light, camera and layer depths. A switch shows the phone crop.</span></a>
+    <a href="motion-voice.html"><b>Motion and voice</b><span>Live demos of every move. The voice casting sheet and every voiced line by speaker.</span></a>
+    <a href="DESIGN.md"><b>DESIGN.md</b><span>The same decisions in one written file for the team.</span></a>
+  </nav>
+
+  <h2>Where I chose, because the brief was open</h2>
+  <ul class="dec">
+    <li><b>Primary button label is ink, not paper.</b> Paper on persimmon is 3.3:1, which fails AA. Ink on persimmon is 4.5:1.</li>
+    <li><b>The wordmark&rsquo;s persimmon dot is on the second &ldquo;i&rdquo;</b> (the one before &ldquo;Tales&rdquo;). The first &ldquo;i&rdquo; keeps its ink dot so the word still reads.</li>
+    <li><b>Body text is 20px by default.</b> That lets A- step down to the 18px floor and never below it.</li>
+    <li><b>Sarah&rsquo;s name chip is #27706D</b>, one step darker than her sweater, so paper text on it passes AA.</li>
+    <li><b>Focus ring gets a paper halo</b> on paper-deep surfaces, where plain ping would be 2.9:1.</li>
+    <li><b>Torn edges</b> are on exactly three things: the Home diorama, the ending title card and the Why notebook.</li>
+    <li><b>On a phone,</b> the Home headline may wrap, About moves to the footer, and the story bar uses a lifebuoy button for &ldquo;Need support?&rdquo;.</li>
+    <li><b>The people here are 2D renders of the clay look.</b> The 3D build uses the same joints, poses and colours. These are also the &ldquo;Simple visuals&rdquo; cut-outs.</li>
+    <li><b>Fonts load from Google Fonts in these previews,</b> so you need to be online. The build will self-host them.</li>
+  </ul>
+
+  <h2>One contradiction in the brief</h2>
+  <p class="note" style="font-size:20px">Rule 1 says not to shorten the story, and section 3.6 says to keep every spoken line under about 6 seconds. Two lines may run longer (<code class="code">eA_05</code> and <code class="code">s4d_04</code>). I took the safer option: the story stays as written and the two lines are flagged on the Motion and voice page.</p>
+
+  <div class="ok">
+    <h3>Your call</h3>
+    <p style="margin-bottom:10px">Does the direction feel right? The things most worth a look first: the Home page, the story player Why panel, and the scene boards. Tell me what to change. When you are happy, reply <b>approved</b> and I will start Phase 2.</p>
+    <p class="small soft" style="margin:0">Phase 2 needs Node.js on this computer, which is not installed yet. I will check with you before installing it.</p>
+  </div>
+</div>
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script src="js/gallery.js"></script>
+<script>DT.init(); GAL.nav('index.html');</script>
+</body>
+</html>

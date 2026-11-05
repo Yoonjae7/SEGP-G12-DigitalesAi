@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI: Need support?</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+  .sup { padding-top: 72px; padding-bottom: 72px; align-items: start; }
+  .sup .main { grid-column: 2 / span 7; }
+  .sup h1 { font-size: clamp(36px, 4.6vw, 64px); line-height: 1.08; max-width: 18ch; margin-bottom: 26px; }
+  .sup .lead { font-size: 26px; line-height: 1.5; max-width: 34ch; }
+  .contacts { margin-top: 36px; border-top: 2px solid var(--ink); }
+  .contacts .c { padding: 22px 0; border-bottom: 1px solid var(--hairline-strong); display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: baseline; }
+  .contacts .k { font: 700 var(--t-meta)/1.4 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  .contacts .v { font-size: 22px; }
+  .danger { margin-top: 30px; border: 2px solid var(--ink); border-radius: var(--r); padding: 20px 26px; font: 400 26px/1.4 var(--font-display); max-width: 30ch; }
+  .back { margin-top: 30px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .sup .side { grid-column: 9 / span 4; }
+  .specimen { background: var(--paper-deep); border-radius: var(--r); padding: 24px 24px 26px; box-shadow: var(--lift); border-top: 3px solid var(--ink); }
+  .specimen .eyebrow { display: block; margin-bottom: 12px; }
+  .specimen p { font: 400 22px/1.45 var(--font-display); margin-bottom: 18px; }
+  .specimen .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .specimen .btn { min-height: 48px; padding: 8px 18px; font-size: 18px; }
+  .specimen + .cap { font-size: var(--t-meta); color: var(--ink-soft); margin-top: 12px; }
+  @media (max-width: 720px) {
+    .sup { padding-top: 32px; padding-bottom: 40px; }
+    .sup .main, .sup .side { grid-column: 1 / -1; }
+    .sup h1 { font-size: 36px; } .sup .lead { font-size: 22px; }
+    .contacts .c { grid-template-columns: 1fr; gap: 4px; }
+    .danger { font-size: 22px; padding: 16px 18px; }
+    .sup .side { margin-top: 36px; }
+  }
+</style>
+</head>
+<body>
+<div data-topbar></div>
+<main class="sup grid">
+  <div class="main">
+    <h1>Need support?</h1>
+    <p class="lead">This story is fictional, but it can bring up real things. You can stop any time.</p>
+    <div class="contacts">
+      <div class="c"><span class="k">Wellbeing</span><span class="v"><span class="ph">[University wellbeing service: team to add contact]</span></span></div>
+      <div class="c"><span class="k">Emergency</span><span class="v"><span class="ph">[Emergency contact: team to add]</span></span></div>
+    </div>
+    <p class="danger">If you are in danger now, contact local emergency services.</p>
+    <div class="back"><a class="linkbtn" href="javascript:history.back()">Go back</a><a class="linkbtn" href="home.html">Home</a></div>
+  </div>
+  <aside class="side" aria-label="How the support card looks inside the story">
+    <div class="specimen">
+      <span class="eyebrow">Inside the story</span>
+      <p>It sounds like something real may be going on. You do not have to continue. <span class="ph">[University wellbeing service: team to add contact]</span></p>
+      <div class="row"><button class="btn">Carry on</button><button class="btn paper">Exit</button></div>
+    </div>
+    <p class="cap" style="font-size:var(--t-meta);color:var(--ink-soft);margin-top:12px">Shown in place of a follow-up if an answer suggests real harm. The answer is not scored.</p>
+  </aside>
+</main>
+<div data-footer></div>
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script>DT.init();</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI design pack: Desktop 1440</title>
+<link rel="stylesheet" href="css/gallery.css">
+</head>
+<body class="doc">
+<nav class="gnav" id="gnav" aria-label="Design pack"></nav>
+<div class="sheet">
+  <h1>Desktop layouts at 1440</h1>
+  <p class="intro">Every frame is the real page, shown at 1440 wide and shrunk to fit. Use &ldquo;Open full size&rdquo; to see one at 100% and to try the hover and focus states. The Home phone pings every 6 seconds, and the scene reacts to the pointer.</p>
+
+  <h2>Home</h2>
+  <p class="note">Asymmetric hero. The headline hangs over the diorama, and the diorama sits low with a torn edge (hero element 1 of 3). Four facts in a ruled strip. Four paper tabs at staggered heights. A made-up &ldquo;why&rdquo; with the thin-answer follow-up.</p>
+  <div class="frames f2" id="f-home"></div>
+
+  <h2>Start flow, five screens</h2>
+  <p class="note">One question per screen on paper. Step 4 has two parts, and a variant for learners who skip writing. Screen 5 shows the optional off-topic note.</p>
+  <div class="frames f2" id="f-start"></div>
+
+  <h2>Story player</h2>
+  <p class="note">The stage is 16:9 and fills the viewport. The caption plate holds the speaker chip. The chat panel is read-only history. Decision cards are identical in size, colour and weight, and nothing is focused by default. The Why panel slides the stage to 40% and opens a notebook (hero element 3 of 3 has the torn edge).</p>
+  <div class="frames f2" id="f-play"></div>
+
+  <h2>Ending and feedback</h2>
+  <p class="note">Ending title card with a torn edge (hero element 2 of 3). Then Ask, then Explain. Both screens carry the banner. The skipped-answer variant swaps in the second paragraph for Ending B.</p>
+  <div class="frames f2" id="f-end"></div>
+
+  <h2>Reflect (optional)</h2>
+  <div class="frames f2" id="f-reflect"></div>
+
+  <h2>About and AI use, Support, Lab</h2>
+  <p class="note">The Lab view is team only. It is the one place that shows levels, rules and flags.</p>
+  <div class="frames f2" id="f-misc"></div>
+</div>
+<script src="js/gallery.js"></script>
+<script>
+  GAL.nav('desktop.html');
+  const D = (src, title, note, o) => Object.assign({ src, w: 1440, h: 900, title, note }, o || {});
+  GAL.frames('#f-home', [D('home.html', 'Home', 'Full page.', { h: 3000, auto: true })]);
+  GAL.frames('#f-start', [
+    D('start.html?s=1', '1. Age gate', 'First thing the learner sees after Start.'),
+    D('start.html?s=1no', '1. Age gate, No', 'Ends here. Support stays reachable.'),
+    D('start.html?s=2', '2. Before you begin', 'Content note with the wellbeing placeholder.'),
+    D('start.html?s=3', '3. Input', 'Free text, or a theme chip. &ldquo;Skip writing&rdquo; is a link.'),
+    D('start.html?s=4a', '4a. Emotion guess', 'A labelled guess. Not graded. Seven chips to change it.'),
+    D('start.html?s=4b', '4b. Appraisal', 'One question. Four plain options.'),
+    D('start.html?s=4c', '4c. If they skipped writing', 'Same chips, different question.'),
+    D('start.html?s=5', '5. Match', 'Closest story, as a theatre programme.'),
+    D('start.html?s=5b', '5b. Match, off-topic text', 'Adds the one-story note.')
+  ]);
+  GAL.frames('#f-play', [
+    D('play.html?s=narration', 'Narration', 'Italic narration. &ldquo;Play with sound&rdquo; because audio starts muted.'),
+    D('play.html?s=dialogue', 'Dialogue', 'Speaker chip in Sarah&rsquo;s colour.'),
+    D('play.html?s=chat', 'Chat panel', 'Photo (hidden) tile. Newest bubble has the ping dot.'),
+    D('play.html?s=decision', 'Decision 1', 'Stage dims to 60%. Two equal cards. No default focus.'),
+    D('play.html?s=why', 'Why panel', 'Stage at 40%. Notebook with the question and helper text.'),
+    D('play.html?s=loading', 'Reading your answer', 'Three paper dots for about 1 to 2 seconds.'),
+    D('play.html?s=followup', 'Follow-up', 'Team-written question. Own textarea. Skip is a link.'),
+    D('play.html?s=error', 'Error', 'Text is kept. After two failures: &ldquo;Continue without a follow-up&rdquo;.'),
+    D('play.html?s=settings', 'Settings drawer', 'Sound, Simple visuals, text size, auto-advance.'),
+    D('play.html?s=exit', 'Exit check', 'Opens from the wordmark and from Exit.')
+  ]);
+  GAL.frames('#f-end', [
+    D('ending.html?s=title-a', 'Ending A: title card', ''),
+    D('ending.html?s=lines-a', 'Ending A: lines', ''),
+    D('ending.html?s=title-b', 'Ending B: title card', ''),
+    D('ending.html?s=lines-b', 'Ending B: lines', ''),
+    D('ending.html?s=ask-a', 'Feedback A: Ask', 'The tap is logged and not graded.', { auto: true }),
+    D('ending.html?s=explain-a', 'Feedback A: Explain', 'Paragraphs, then Your choices, then the closing line.', { auto: true }),
+    D('ending.html?s=ask-b', 'Feedback B: Ask', '', { auto: true }),
+    D('ending.html?s=explain-b', 'Feedback B: Explain', '', { auto: true }),
+    D('ending.html?s=explain-b-skipped', 'Feedback B: Explain, skipped answers', 'Uses the alternate second paragraph.', { auto: true }),
+    D('ending.html?s=end', 'End screen', 'Log, delete, play again, survey placeholder, support.', { auto: true })
+  ]);
+  GAL.frames('#f-reflect', [
+    D('reflect.html?s=offer', 'Offer', ''), D('reflect.html?s=scenario', 'Scenario and question', ''),
+    D('reflect.html?s=followup', 'Follow-up', ''), D('reflect.html?s=ack', 'Done', '')
+  ]);
+  GAL.frames('#f-misc', [
+    D('about.html', 'About and AI use', 'Plain list. The quiet Demo scoring tag is here.', { auto: true }),
+    D('support.html', 'Support', 'Placeholders for the team. Includes the in-story support card.', { auto: true }),
+    D('lab.html', 'Lab (team only)', 'Switches, ending decision, answers with rater form, log, CSV.', { auto: true })
+  ]);
+</script>
+</body>
+</html>

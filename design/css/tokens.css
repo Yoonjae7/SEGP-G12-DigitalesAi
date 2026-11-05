@@ -1,0 +1,68 @@
+/* DigiTales AI: design tokens (Phase 1 preview)
+   Paper theatre after midnight. One signal colour: ping. */
+@import url('https://fonts.googleapis.com/css2?family=Young+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+  /* colour (spec 3.2) */
+  --paper: #F4EEE3;
+  --paper-deep: #E7DFCE;
+  --ink: #1C1B19;
+  --ink-soft: #4A4741;
+  --night: #10242B;
+  --night-lift: #1D3B46;
+  --phone-glow: #CFE8EF;
+  --morning: #F6D9B8;
+  --ping: #E5502B;       /* primary button, notification dot, focus ring. Nothing else. */
+  --ping-ink: #8A2A12;   /* accent text on paper */
+  --moss: #3F6B4F;
+  --butter: #F0C75E;
+
+  /* derived, still from the palette */
+  --hairline: rgba(28, 27, 25, .22);
+  --hairline-strong: rgba(28, 27, 25, .55);
+  --dim: rgba(16, 36, 43, .40);          /* decision dim: stage shows at 60% */
+
+  /* speaker colours (character table, 3.5) */
+  --c-narrator: var(--ink);
+  --c-sarah: #2E7D7A;
+  --c-sarah-chip: #27706D;               /* Sarah's teal, one step darker so chip text passes AA */
+  --c-lisa: var(--butter);
+  --c-marco: #2F5D3A;
+  --c-dev: #37393D;
+  --c-you: #9A978F;
+
+  /* type */
+  --font-display: 'Young Serif', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-body: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', Verdana, sans-serif;
+  --t-body: 20px;        /* default. A- steps down to 18px, never below. */
+  --t-caption: 24px;     /* captions 22 to 26 */
+  --t-meta: 16px;        /* labels only (chips, speaker names, footer). Never body copy. */
+  --measure: 62ch;
+
+  /* spacing (4px base) */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px;
+
+  /* radius */
+  --r: 4px;
+  --r-bubble: 20px;      /* chat bubbles only */
+
+  /* paper lift shadows */
+  --lift: 0 1px 0 rgba(0,0,0,.12), 0 8px 16px rgba(0,0,0,.10);
+  --lift-sm: 0 1px 0 rgba(0,0,0,.12), 0 3px 6px rgba(0,0,0,.08);
+  --lift-night: 0 1px 0 rgba(0,0,0,.35), 0 12px 22px rgba(0,0,0,.40);
+  --stamp: 0 3px 0 var(--ink);           /* hard ticket shadow for buttons */
+
+  /* motion */
+  --ease-paper: cubic-bezier(.22, .7, .2, 1);
+  --d-paper: 420ms;      /* scene change, paper-slide */
+  --d-rise: 240ms;       /* choice cards rise 8px */
+  --d-line: 120ms;       /* lines appear whole */
+  --d-ping: 900ms;       /* the ping pop and wobble */
+  --d-pose: 500ms;       /* poses ease 400 to 600 */
+  --d-reduced: 150ms;    /* prefers-reduced-motion: crossfade only */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --d-paper: 150ms; --d-rise: 150ms; --d-ping: 150ms; --d-pose: 150ms; --d-line: 150ms; }
+}

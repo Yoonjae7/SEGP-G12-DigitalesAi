@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI: Lab (team only)</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+  body { font-size: 18px; }
+  .lab { padding-top: 36px; padding-bottom: 72px; align-items: start; row-gap: 40px; }
+  .lab .top { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: 16px; }
+  .lab h1 { font-size: 44px; }
+  .lab .sid { margin-left: auto; font-size: var(--t-meta); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .lab h2 { font-size: 26px; margin-bottom: 14px; }
+  .ctrl { grid-column: 1 / span 3; border: 2px solid var(--ink); border-radius: var(--r); padding: 20px; }
+  .ctrl .set { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--hairline); }
+  .ctrl .set:first-of-type { border-top: 0; }
+  .ctrl select { font: 500 17px var(--font-body); border: 2px solid var(--ink); background: var(--paper); border-radius: var(--r); padding: 8px 10px; min-height: 40px; }
+  .sw { position: relative; width: 56px; height: 32px; border: 2px solid var(--ink); border-radius: var(--r); background: var(--paper); padding: 0; }
+  .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; background: var(--ink); border-radius: 2px; }
+  .sw[aria-checked="true"] { background: var(--paper-deep); } .sw[aria-checked="true"]::after { transform: translateX(24px); }
+  .end-dec { grid-column: 4 / span 9; background: var(--paper-deep); border-radius: var(--r); padding: 20px 24px; border-top: 3px solid var(--ink); }
+  .end-dec b { font: 400 30px/1.2 var(--font-display); }
+  .ans { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .acard { border: 2px solid var(--ink); border-radius: var(--r); padding: 20px 22px; background: #FAF6EC; display: flex; flex-direction: column; gap: 12px; }
+  .acard header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .acard .id { font: 400 22px/1 var(--font-display); }
+  .acard blockquote { margin: 0; padding: 8px 14px; border-left: 4px solid var(--ink-soft); font-size: 18px; line-height: 1.45; }
+  .kv { display: grid; grid-template-columns: 112px 1fr; gap: 4px 12px; font-size: 16px; line-height: 1.45; font-variant-numeric: tabular-nums; }
+  .kv dt { color: var(--ink-soft); } .kv dd { margin: 0; overflow-wrap: anywhere; }
+  .kv code { font: 500 15px/1.3 var(--font-body); background: var(--paper-deep); padding: 1px 6px; border-radius: 3px; }
+  .rater { border-top: 1px solid var(--hairline-strong); padding-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; font-size: 15px; }
+  .rater label { display: grid; gap: 3px; color: var(--ink-soft); }
+  .rater select, .rater input { font: 500 16px var(--font-body); border: 2px solid var(--ink); background: var(--paper); border-radius: var(--r); padding: 6px 8px; min-height: 38px; color: var(--ink); }
+  .rater .notes { grid-column: 1 / -1; }
+  .logwrap { grid-column: 1 / -1; }
+  table { border-collapse: collapse; width: 100%; font-size: 16px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  th { font: 700 14px var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 2px solid var(--ink); }
+  td.n { color: var(--ink-soft); white-space: nowrap; }
+  .csv { grid-column: 1 / -1; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .csvprev { grid-column: 1 / -1; overflow: auto; border: 1px solid var(--hairline-strong); border-radius: var(--r); padding: 12px 16px; font: 500 14px/1.6 var(--font-body); white-space: pre; background: #FAF6EC; }
+  @media (max-width: 720px) {
+    .lab { padding-top: 20px; row-gap: 28px; }
+    .lab h1 { font-size: 34px; } .lab .sid { margin-left: 0; width: 100%; }
+    .ctrl, .end-dec { grid-column: 1 / -1; }
+    .ans { grid-template-columns: 1fr; }
+    .logwrap { overflow-x: auto; } table { min-width: 560px; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <span data-wordmark="sm"></span>
+  <nav aria-label="Lab"><a href="home.html">Leave the lab</a></nav>
+</header>
+<main class="lab grid">
+  <div class="top">
+    <h1>Lab</h1><span class="eyebrow">Team only</span><span class="tag-demo">Demo scoring</span>
+    <span class="sid">Session 3f2a91c4-7be0-4d1a-9c55-e1a40b8d27f6 &middot; this browser</span>
+  </div>
+
+  <section class="ctrl" aria-label="Switches">
+    <h2>Switches</h2>
+    <div class="set"><label for="prov">Provider</label><select id="prov"><option>mock</option></select></div>
+    <div class="set"><span>Force fail</span><button class="sw" role="switch" aria-checked="false" aria-label="Force fail"></button></div>
+    <div class="set"><span>Voice</span><button class="sw" role="switch" aria-checked="true" aria-label="Voice"></button></div>
+    <div class="set"><span>3D</span><button class="sw" role="switch" aria-checked="true" aria-label="3D"></button></div>
+  </section>
+
+  <section class="end-dec" aria-label="Ending decision">
+    <span class="eyebrow">Ending decision</span>
+    <p><b>Ending A</b></p>
+    <dl class="kv">
+      <dt>Final levels</dt><dd>Why 1: 3 &middot; Why 2: 2</dd>
+      <dt>Rule used</dt><dd>Both 2 or more, and at least one is 3.</dd>
+      <dt>Choices</dt><dd>D1 private &middot; D2 tell &middot; D3 hold. Choices never decide the ending.</dd>
+    </dl>
+  </section>
+
+  <section class="ans" aria-label="Answers">
+    <article class="acard">
+      <header><span class="id">why1 &middot; attempt 1</span><span class="tag-demo">Level 2</span></header>
+      <blockquote>Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.</blockquote>
+      <dl class="kv">
+        <dt>Flags</dt><dd>parties: lisa, forwarders, you<br>responsibility: yes<br>consequence: no</dd>
+        <dt>Rule</dt><dd><code>A-THIN-NO-CONSEQUENCE</code></dd>
+        <dt>Next</dt><dd>followup &middot; <code>why1_fu_consequence</code></dd>
+        <dt>Evidence</dt><dd>&ldquo;Lisa posted the photo&rdquo;<br>&ldquo;Marco and Dev passed it on&rdquo;</dd>
+        <dt>Provider</dt><dd>mock 1.0.0 &middot; 1243 ms</dd>
+      </dl>
+      <form class="rater"><label>Rater 1<select><option>0</option><option>1</option><option>2</option><option>3</option></select></label><label>Rater 2<select><option>0</option><option>1</option><option>2</option><option>3</option></select></label><label class="notes">Notes<input type="text"></label></form>
+    </article>
+    <article class="acard">
+      <header><span class="id">why1 &middot; attempt 2</span><span class="tag-demo">Level 3</span></header>
+      <blockquote>Sarah could be humiliated if more people save it. Lisa and the forwarders each made it spread.</blockquote>
+      <dl class="kv">
+        <dt>Flags</dt><dd>parties: lisa, forwarders, sarah<br>responsibility: yes<br>consequence: yes</dd>
+        <dt>Rule</dt><dd><code>A-SOLID-HARDER</code> (kept the higher level)</dd>
+        <dt>Next</dt><dd>continue &middot; <code>why1_ack_followup</code></dd>
+        <dt>Evidence</dt><dd>&ldquo;Sarah could be humiliated&rdquo;</dd>
+        <dt>Provider</dt><dd>mock 1.0.0 &middot; 1517 ms</dd>
+      </dl>
+      <form class="rater"><label>Rater 1<select><option>0</option><option>1</option><option>2</option><option selected>3</option></select></label><label>Rater 2<select><option>0</option><option>1</option><option>2</option><option>3</option></select></label><label class="notes">Notes<input type="text"></label></form>
+    </article>
+    <article class="acard">
+      <header><span class="id">why2 &middot; attempt 1</span><span class="tag-demo">Level 2</span></header>
+      <blockquote>I do not agree with Lisa. She should have asked first because Sarah did not consent.</blockquote>
+      <dl class="kv">
+        <dt>Flags</dt><dd>view: yes<br>reason: yes<br>consequence: no<br>counterview: no</dd>
+        <dt>Rule</dt><dd><code>E-THIN-NO-CONSEQUENCE</code></dd>
+        <dt>Next</dt><dd>followup &middot; <code>why2_fu_consequence</code></dd>
+        <dt>Evidence</dt><dd>&ldquo;I do not agree with Lisa&rdquo;<br>&ldquo;because Sarah did not consent&rdquo;</dd>
+        <dt>Provider</dt><dd>mock 1.0.0 &middot; 1102 ms</dd>
+      </dl>
+      <form class="rater"><label>Rater 1<select><option>0</option><option>1</option><option selected>2</option><option>3</option></select></label><label>Rater 2<select><option>0</option><option>1</option><option>2</option><option>3</option></select></label><label class="notes">Notes<input type="text"></label></form>
+    </article>
+  </section>
+
+  <section class="logwrap" aria-label="Event log">
+    <h2>Event log</h2>
+    <table>
+      <thead><tr><th>Time</th><th>Event</th><th>Payload</th></tr></thead>
+      <tbody>
+        <tr><td class="n">10:02:11</td><td>session_start</td><td>&nbsp;</td></tr>
+        <tr><td class="n">10:02:19</td><td>age_gate_pass</td><td>&nbsp;</td></tr>
+        <tr><td class="n">10:03:40</td><td>emotion_final</td><td>label: worried &middot; changed: no</td></tr>
+        <tr><td class="n">10:05:02</td><td>choice</td><td>d1: private</td></tr>
+        <tr><td class="n">10:06:15</td><td>why_submit</td><td>why1 &middot; attempt 1 &middot; 92 chars</td></tr>
+        <tr><td class="n">10:06:17</td><td>score_response</td><td>why1 &middot; A-THIN-NO-CONSEQUENCE &middot; 1243 ms</td></tr>
+        <tr><td class="n">10:06:17</td><td>followup_shown</td><td>why1_fu_consequence</td></tr>
+        <tr><td class="n">10:07:01</td><td>skipped</td><td>none</td></tr>
+        <tr><td class="n">10:12:48</td><td>ending</td><td>A &middot; why1 3 &middot; why2 2</td></tr>
+        <tr><td class="n">10:13:20</td><td>feedback_ask_tap</td><td>The photo deleted everywhere</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="csv" aria-label="Export">
+    <button class="btn">Export CSV</button>
+    <span class="soft small">Columns: sessionId, promptId, attempt, answer, aiLevel, rater1, rater2, rule, flags</span>
+  </section>
+  <pre class="csvprev">sessionId,promptId,attempt,answer,aiLevel,rater1,rater2,rule,flags
+3f2a91c4,why1,1,"Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.",2,,,A-THIN-NO-CONSEQUENCE,"parties=lisa|forwarders|you;consequence=no"
+3f2a91c4,why1,2,"Sarah could be humiliated if more people save it. Lisa and the forwarders each made it spread.",3,3,,A-SOLID-HARDER,"parties=lisa|forwarders|sarah;consequence=yes"</pre>
+</main>
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script>DT.init();</script>
+</body>
+</html>

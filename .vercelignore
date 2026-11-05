@@ -1,0 +1,9 @@
+node_modules
+.next
+design
+tests
+test-results
+playwright-report
+.env
+.env.local
+.audio-cache.json

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI: Story player</title>
+<link rel="stylesheet" href="css/play.css">
+</head>
+<body class="on-night">
+<div class="viewport">
+<div class="stage" id="stage">
+
+  <!-- scene art, by state -->
+  <div class="art" data-show="narration chat" data-scene="s1"></div>
+  <div class="art" data-show="dialogue settings exit" data-scene="s4"></div>
+  <div class="art" data-show="decision" data-scene="s2"></div>
+  <div class="art" data-show="why loading followup error" data-scene="s3"></div>
+  <div class="dim" data-show="decision exit settings"></div>
+
+  <!-- HUD -->
+  <header class="hud">
+    <div class="tab left">
+      <a class="wordmark sm" href="home.html" aria-label="DigiTales AI. Opens the leave-the-story check">Dig<span class="wm-i" aria-hidden="true">ı</span>Tales<span class="wm-ai" aria-hidden="true">AI</span></a>
+      <a class="imark" href="home.html" aria-label="DigiTales AI. Opens the leave-the-story check">i</a>
+    </div>
+    <div class="tab scene" id="sceneLabel" role="status">Scene 1 of 7</div>
+    <div class="tab right">
+      <button class="hbtn" aria-label="Sound is off. Turn sound on" data-icon="ic-sound-off"><span>Sound off</span></button>
+      <button class="hbtn" aria-label="Settings" data-icon="ic-settings"><span>Settings</span></button>
+      <a class="hbtn" href="support.html" aria-label="Need support?" data-icon="ic-support"><span>Need support?</span></a>
+      <button class="hbtn" aria-label="Exit" data-icon="ic-exit"><span>Exit</span></button>
+    </div>
+  </header>
+
+  <!-- narration -->
+  <div class="plate" data-show="narration" role="region" aria-label="Caption">
+    <span class="who narrator">Narrator</span>
+    <p class="line narr">Tuesday, 11:40 pm. Your phone buzzes.</p>
+    <div class="ctl"><button class="hbtn" disabled data-icon="ic-back" data-size="20">Back one line</button><button class="hbtn" data-icon="ic-sound" data-size="20">Play with sound</button><span class="hint">Click, tap or press Space to go on</span></div>
+  </div>
+
+  <!-- dialogue -->
+  <div class="plate" data-show="dialogue" role="region" aria-label="Caption">
+    <span class="who sarah">Sarah</span>
+    <p class="line">Morning. Is something wrong with my bag?</p>
+    <div class="ctl"><button class="hbtn" data-icon="ic-back" data-size="20">Back one line</button><button class="hbtn" data-icon="ic-replay" data-size="20">Replay line</button><span class="hint">Click, tap or press Space to go on</span></div>
+  </div>
+
+  <!-- chat line: the phone panel plus the caption -->
+  <aside class="chat" data-show="chat" aria-label="Chat: Study Crew">
+    <div class="ch-head"><b>Study Crew</b><span>12 people</span></div>
+    <div class="ch-body">
+      <div class="b"><span class="nm">Lisa</span><span data-photo="240x168"></span>Look who fell asleep on the shuttle.</div>
+      <div class="b"><span class="nm">Marco</span>Ha! Legend.</div>
+      <div class="b new"><span class="nm">Dev<i class="dot" aria-hidden="true"></i></span>Send this to Hall B.</div>
+    </div>
+  </aside>
+  <div class="plate" data-show="chat" role="region" aria-label="Caption">
+    <span class="who dev">Dev</span><span class="in">in the chat</span>
+    <p class="line">Send this to Hall B.</p>
+    <div class="ctl"><button class="hbtn" data-icon="ic-back" data-size="20">Back one line</button><button class="hbtn" data-icon="ic-replay" data-size="20">Replay line</button><span class="hint">Click, tap or press Space to go on</span></div>
+  </div>
+
+  <!-- decision -->
+  <div class="decide" data-show="decision">
+    <h2>What do you do?</h2>
+    <div class="cards" role="group" aria-label="Decision 1 of 3">
+      <button class="co"><span class="lab">Message Lisa privately.</span><span class="sub">Ask her to take it down, just between you two.</span></button>
+      <button class="co"><span class="lab">Reply in the group chat.</span><span class="sub">Say it where everyone can see.</span></button>
+    </div>
+  </div>
+
+  <!-- why panel and its follow-up states -->
+  <div class="nb-wrap" data-show="why loading followup error">
+    <section class="nb" id="nb" aria-label="Why 1 of 2">
+      <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+      <span class="eyebrow">Why 1</span>
+      <p class="q">The photo is now in three chats. Who is responsible for what? Think about Lisa, the people who forwarded it, Sarah, and you. Write 2 to 4 sentences.</p>
+
+      <div data-show="why">
+        <label class="sr" for="a1">Your answer</label>
+        <textarea id="a1" class="field" rows="3">Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.</textarea>
+        <p class="helper">2 to 4 sentences. There is no right answer, but reasons help.</p>
+        <div class="actions"><button class="btn">Send my answer</button><button class="linkbtn">I would rather not answer</button></div>
+      </div>
+
+      <div data-show="loading">
+        <blockquote class="yours"><span class="eyebrow">Your answer</span>Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.</blockquote>
+        <p class="reading" role="status">Reading your answer...</p>
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      </div>
+
+      <div data-show="followup">
+        <blockquote class="yours"><span class="eyebrow">Your answer</span>Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.</blockquote>
+        <div class="fu"><span class="eyebrow"><i class="dot" aria-hidden="true"></i>A question for you</span>You said who did what. Now add one thing: <span class="hl">what could happen to Sarah</span> because of it?</div>
+        <label class="sr" for="a2">Your reply</label>
+        <textarea id="a2" class="field" rows="3"></textarea>
+        <div class="actions"><button class="btn">Send</button><button class="linkbtn">Skip</button></div>
+      </div>
+
+      <div data-show="error">
+        <label class="sr" for="a3">Your answer</label>
+        <textarea id="a3" class="field" rows="3">Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.</textarea>
+        <div class="errbox" role="alert" style="margin-top:20px">We could not read your answer. Your text is saved. Try again.</div>
+        <div class="actions"><button class="btn">Try again</button></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- settings drawer -->
+  <aside class="drawer" data-show="settings" aria-label="Settings">
+    <h2>Settings</h2>
+    <div class="set"><div><b>Sound</b><small>Voices and quiet sounds. Starts off.</small></div><button class="sw" role="switch" aria-checked="false" aria-label="Sound"></button></div>
+    <div class="set"><div><b>Simple visuals</b><small>Flat pictures. No 3D. The story is the same.</small></div><button class="sw" role="switch" aria-checked="true" aria-label="Simple visuals"></button></div>
+    <div class="set"><div><b>Text size</b><small>Never smaller than the base size.</small></div><div class="sz" role="group" aria-label="Text size"><button aria-label="Smaller text">A-</button><button aria-label="Larger text">A+</button></div></div>
+    <div class="set"><div><b>Auto-advance</b><small>Lines move on by themselves. You can still go back.</small></div><button class="sw" role="switch" aria-checked="false" aria-label="Auto-advance"></button></div>
+    <p style="margin-top:28px"><button class="btn quiet">Close settings</button></p>
+  </aside>
+
+  <!-- exit check -->
+  <div class="modal" data-show="exit" role="dialog" aria-modal="true" aria-label="Leave the story?">
+    <div class="m">
+      <h2>Leave the story?</h2>
+      <p>Your place is saved on this device. You can come back and carry on.</p>
+      <div class="row"><button class="btn">Keep playing</button><button class="btn paper">Leave</button></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script>
+  const st = DT.state('narration');
+  const SC = { narration: 1, chat: 1, dialogue: 4, decision: 2, why: 3, loading: 3, followup: 3, error: 3, settings: 4, exit: 4 };
+  document.getElementById('sceneLabel').textContent = 'Scene ' + (SC[st] || 1) + ' of 7';
+  if (['why', 'loading', 'followup', 'error'].indexOf(st) > -1) document.getElementById('stage').classList.add('split');
+  DT.init();
+  if (document.getElementById('nb') && document.getElementById('nb').offsetWidth) DT.deckle(document.getElementById('nb'), { edges: 'l', amp: 9, step: 17, seed: 5 });
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI design pack: Tokens</title>
+<link rel="stylesheet" href="css/gallery.css">
+<style>
+  .type-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: baseline; padding: 18px 0; border-top: 1px solid var(--hairline-strong); }
+  .type-row .k { font: 700 14px/1.4 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+  .space-row { display: flex; align-items: center; gap: 16px; margin: 6px 0; font-size: 16px; }
+  .space-row i { display: block; height: 18px; background: var(--ink); }
+  .shape-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .shape { height: 120px; display: grid; place-items: center; font-size: 16px; text-align: center; padding: 10px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .lift-a { background: var(--paper); box-shadow: var(--lift); } .lift-b { background: var(--paper); box-shadow: var(--lift-sm); } .lift-c { background: var(--night-lift); color: var(--paper); box-shadow: var(--lift-night); }
+  .focus-demo { display: inline-flex; padding: 12px 20px; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper); outline: 3px solid var(--ping); outline-offset: 2px; box-shadow: 0 0 0 2px var(--paper); font-size: 18px; }
+  .on-deep { background: var(--paper-deep); padding: 22px; border-radius: 4px; }
+  .on-deep .focus-demo { box-shadow: 0 0 0 2px var(--paper); }
+  .eq { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .eq .co { position: static; animation: none; min-height: 150px; box-shadow: var(--lift); padding: 22px; }
+  .eq .co .lab { font-size: 28px; } .eq .co .sub { font-size: 19px; }
+  .plate-demo { position: relative; padding: 30px 28px 14px; background: var(--paper); box-shadow: var(--lift); border-top: 3px solid var(--ink); border-radius: 4px; margin-top: 18px; }
+  .plate-demo .who { position: absolute; top: -17px; left: 24px; }
+  .plate-demo p { font-size: 24px; margin: 0 0 6px; }
+</style>
+</head>
+<body class="doc">
+<nav class="gnav" id="gnav" aria-label="Design pack"></nav>
+<div class="sheet">
+  <h1>Design tokens</h1>
+  <p class="intro">Paper theatre after midnight. A small stage of cut-paper layers. Matte clay people. At night the only light is a phone. The interface is warm paper and ink, like a theatre programme. One signal colour means &ldquo;a notification just arrived&rdquo;.</p>
+
+  <h2>Colour</h2>
+  <p class="note">Twelve colours from the brief. No purple or blue-violet anywhere. No gradients except a flat two-stop sky behind a scene. Ping is used for three things only: the primary button, the notification dot and the focus ring.</p>
+  <div class="sw-grid" id="swatches"></div>
+
+  <h3>Speaker colours</h3>
+  <p class="note">These come from the character table. Sarah&rsquo;s sweater is #2E7D7A. Her name chip uses one step darker (#27706D) so paper text on it passes AA.</p>
+  <div class="row" id="speakers"></div>
+
+  <h3>Text pairings, checked against WCAG 2.2 AA</h3>
+  <p class="note">Computed live in this page from the hex values. Normal text needs 4.5. Large text and UI parts need 3.</p>
+  <table class="gt" id="contrast"><thead><tr><th>Pairing</th><th>Used for</th><th>Ratio</th><th>Needs</th><th>Result</th></tr></thead><tbody></tbody></table>
+
+  <h2>Type</h2>
+  <p class="note">Display: Young Serif for the wordmark, headings and scene titles. Body: Atkinson Hyperlegible Next. Body is 20px by default so the A- control can step down to the 18px floor and never below. Captions are 24px by default (22 to 26). Lines stay at 62 characters or fewer.</p>
+  <div class="type-row"><span class="k">Wordmark</span><span style="font-size:64px" id="wm"></span></div>
+  <div class="type-row"><span class="k">Display / hero<br>84 / 1.02</span><span style="font:400 84px/1.02 var(--font-display)">Stories about online life.</span></div>
+  <div class="type-row"><span class="k">Heading 1<br>56 / 1.06</span><span style="font:400 56px/1.06 var(--font-display)">How it works</span></div>
+  <div class="type-row"><span class="k">Heading 2<br>36 / 1.12</span><span style="font:400 36px/1.12 var(--font-display)">Message Lisa privately.</span></div>
+  <div class="type-row"><span class="k">Heading 3<br>28 / 1.3</span><span style="font:400 28px/1.3 var(--font-display)">Who is responsible for what?</span></div>
+  <div class="type-row"><span class="k">Body<br>20 / 1.55</span><span style="font-size:20px;line-height:1.55;max-width:62ch">A short interactive story for adults. Three decisions, two written answers, about ten minutes. No points. No scores. Just your thinking.</span></div>
+  <div class="type-row"><span class="k">Caption, narration<br>24 / 1.42 italic</span><span style="font-size:24px;line-height:1.42;font-style:italic">Tuesday, 11:40 pm. Your phone buzzes.</span></div>
+  <div class="type-row"><span class="k">Caption, dialogue<br>24 / 1.42</span><span style="font-size:24px;line-height:1.42">Morning. Is something wrong with my bag?</span></div>
+  <div class="type-row"><span class="k">Label<br>16 bold, tracked</span><span class="eyebrow">Step 3 of 5</span></div>
+
+  <h2>Space, shape and shadow</h2>
+  <div class="cols c2">
+    <div>
+      <h3>Spacing, 4px base</h3>
+      <div id="spaces"></div>
+    </div>
+    <div>
+      <h3>Radius, rules, torn edge</h3>
+      <div class="shape-grid">
+        <div class="shape" style="border:2px solid var(--ink);border-radius:4px">4px default</div>
+        <div class="shape" style="background:var(--phone-glow);border-radius:20px 20px 20px 6px">Chat bubble only: 20px</div>
+        <div class="shape" style="border-top:2px solid var(--ink);border-bottom:1px solid var(--hairline-strong)">Hairline rules, not boxes</div>
+        <div class="shape deckle-demo" id="torn" style="background:var(--paper-deep)">Torn edge: 3 hero elements at most</div>
+      </div>
+      <p class="note" style="margin-top:14px">The 4% paper grain is a tiny SVG noise on light surfaces. Dark stage surfaces have none.</p>
+    </div>
+  </div>
+  <h3>Paper lift</h3>
+  <div class="shape-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="shape lift-a">Lift<br><code class="code">0 1px 0 .12, 0 8px 16px .10</code></div>
+    <div class="shape lift-b">Lift, small<br><code class="code">0 1px 0 .12, 0 3px 6px .08</code></div>
+    <div class="shape lift-c">Lift on night<br><code class="code">0 12px 22px .40</code></div>
+  </div>
+
+  <h2>Components</h2>
+  <h3>Buttons and links</h3>
+  <div class="demo row">
+    <a class="btn" href="#">Start the story</a>
+    <a class="btn paper" href="#">Play again</a>
+    <button class="btn" disabled>Disabled</button>
+    <a class="linkbtn" href="#">Quiet link</a>
+    <span class="small soft">Primary label is ink on ping, not paper on ping (see the table: 4.5 vs 3.3).</span>
+  </div>
+  <h3>Chips and speaker chips</h3>
+  <div class="demo row">
+    <button class="chip">embarrassed</button><button class="chip" aria-pressed="true">worried</button><button class="chip" disabled>More themes later</button>
+    <span class="who narrator">Narrator</span><span class="who sarah">Sarah</span><span class="who lisa">Lisa</span><span class="who marco">Marco</span><span class="who dev">Dev</span><span class="who you">You</span><span class="who screen">Screen</span>
+  </div>
+  <h3>Focus ring</h3>
+  <div class="demo row">
+    <span class="focus-demo">On paper: ping, 3px, 2px offset</span>
+    <div class="on-deep"><span class="focus-demo">On paper-deep: paper halo fills the gap</span></div>
+    <span class="small soft">Ping on paper is 3.3:1. Ping on paper-deep is 2.9:1, so the halo is added.</span>
+  </div>
+  <h3>Decision cards: same size, same colour, same weight</h3>
+  <div class="demo dark"><div class="eq">
+    <div class="co"><span class="lab">Message Lisa privately.</span><span class="sub">Ask her to take it down, just between you two.</span></div>
+    <div class="co"><span class="lab">Reply in the group chat.</span><span class="sub">Say it where everyone can see.</span></div>
+  </div></div>
+  <h3>Caption plate</h3>
+  <div class="demo dark" style="padding-top:34px">
+    <div class="plate-demo"><span class="who sarah">Sarah</span><p>I do not want a fight. I just want it gone.</p></div>
+  </div>
+
+  <h2>Motion, short version</h2>
+  <p class="note">Full notes and live demos are on the <a href="motion-voice.html">Motion and voice</a> page.</p>
+  <table class="gt"><thead><tr><th>Move</th><th>Time</th><th>Curve</th><th>With reduced motion</th></tr></thead><tbody>
+    <tr><td>The ping: dot pops and wobbles</td><td>900 ms, every 6 s on Home</td><td><code>cubic-bezier(.22,.7,.2,1)</code></td><td>Dot shows, no animation</td></tr>
+    <tr><td>Paper-slide scene change</td><td>420 ms</td><td><code>cubic-bezier(.22,.7,.2,1)</code></td><td>150 ms crossfade</td></tr>
+    <tr><td>Lines appear whole</td><td>120 ms fade</td><td>linear</td><td>150 ms</td></tr>
+    <tr><td>Choice cards rise 8px</td><td>240 ms</td><td><code>cubic-bezier(.22,.7,.2,1)</code></td><td>150 ms fade</td></tr>
+    <tr><td>Pose to pose</td><td>400 to 600 ms</td><td>ease in-out</td><td>150 ms</td></tr>
+  </tbody></table>
+
+  <h2>Self-check against the &ldquo;fail the design if&rdquo; list</h2>
+  <table class="gt" id="fails"><thead><tr><th>Fails if</th><th>What the pack does instead</th></tr></thead><tbody>
+    <tr><td>Purple, indigo or blue-violet gradient, or gradient text</td><td>No purple anywhere. The only gradients are four flat two-stop skies behind scenes.</td></tr>
+    <tr><td>Glassmorphism, frosted cards, glowing borders</td><td>Opaque paper with a hard ink edge. Phone glow is drawn as flat stepped shapes.</td></tr>
+    <tr><td>Sparkle, star, magic-wand, robot, brain or chip imagery</td><td>None. Marks are a paper scrap, a signpost, a pencil and a curtain.</td></tr>
+    <tr><td>A floating assistant bubble or avatar</td><td>None. The reader is a quiet step: &ldquo;Reading your answer...&rdquo;.</td></tr>
+    <tr><td>Emoji used as icons</td><td>Icons are drawn as SVG.</td></tr>
+    <tr><td>Three equal feature cards in a row, or any bento grid</td><td>Four paper tabs at staggered heights and angles, each a different shape of mark.</td></tr>
+    <tr><td>Inter, Roboto, Poppins, Space Grotesk or system-default look</td><td>Young Serif and Atkinson Hyperlegible Next.</td></tr>
+    <tr><td>Stock illustration or lorem text</td><td>All art is drawn for this story. All text is from the brief.</td></tr>
+    <tr><td>Everything a pill, everything rounded</td><td>4px by default. Only chat bubbles are heavily rounded.</td></tr>
+    <tr><td>Copy that sounds like a launch page</td><td>Short plain sentences from the brief. No banned words.</td></tr>
+  </tbody></table>
+</div>
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script src="js/gallery.js"></script>
+<script>
+  DT.init(); GAL.nav('tokens.html');
+  document.getElementById('wm').innerHTML = DT.wordmark();
+  const C = { 'paper': '#F4EEE3', 'paper-deep': '#E7DFCE', 'ink': '#1C1B19', 'ink-soft': '#4A4741', 'night': '#10242B', 'night-lift': '#1D3B46', 'phone-glow': '#CFE8EF', 'morning': '#F6D9B8', 'ping': '#E5502B', 'ping-ink': '#8A2A12', 'moss': '#3F6B4F', 'butter': '#F0C75E', 'sarah': '#2E7D7A', 'sarah-chip': '#27706D', 'marco': '#2F5D3A', 'dev': '#37393D', 'you': '#9A978F' };
+  const USE = { 'paper': 'Main background, caption plate', 'paper-deep': 'Panels, hairlines', 'ink': 'Text, outlines', 'ink-soft': 'Secondary text', 'night': 'Night scenes, stage frame', 'night-lift': 'Night scene layers', 'phone-glow': 'Phone light, chat panel', 'morning': 'Morning scenes', 'ping': 'Primary button, notification dot, focus ring. Nothing else', 'ping-ink': 'Accent text on paper', 'moss': 'Calm confirmation', 'butter': 'Highlighter under key words, Lisa’s coat' };
+  document.getElementById('swatches').innerHTML = Object.keys(USE).map(k => `<div class="swatch"><div class="chipc" style="background:${C[k]}"></div><div class="meta"><b>${k}</b><code>${C[k]}</code><br>${USE[k]}</div></div>`).join('');
+  document.getElementById('speakers').innerHTML = [['narrator', '#1C1B19', 'Narrator'], ['sarah', '#27706D', 'Sarah'], ['lisa', '#F0C75E', 'Lisa'], ['marco', '#2F5D3A', 'Marco'], ['dev', '#37393D', 'Dev'], ['you', '#9A978F', 'You']].map(s => `<span class="who ${s[0]}">${s[2]}</span> <code class="code">${s[1]}</code>`).join(' &nbsp; ');
+  const lum = h => { const a = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4)); return .2126 * a[0] + .7152 * a[1] + .0722 * a[2]; };
+  const cr = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+  const P = [
+    ['ink', 'paper', 'Body text', 4.5], ['ink-soft', 'paper', 'Secondary text', 4.5], ['ink', 'paper-deep', 'Text on panels', 4.5], ['ink-soft', 'paper-deep', 'Secondary text on panels', 4.5],
+    ['paper', 'night', 'Text on the stage frame', 4.5], ['phone-glow', 'night', 'Light text on night', 4.5], ['ink', 'phone-glow', 'Chat panel text', 4.5], ['ink-soft', 'phone-glow', 'Chat panel names', 4.5],
+    ['ink', 'ping', 'Primary button label', 4.5], ['paper', 'ping', 'Rejected: paper label on ping', 4.5],
+    ['ping-ink', 'paper', 'Accent text', 4.5], ['ping-ink', 'paper-deep', 'Accent text on panels', 4.5], ['ping-ink', 'morning', 'Accent text on morning', 4.5],
+    ['moss', 'paper', 'Calm confirmation text', 4.5], ['moss', 'paper-deep', 'Calm confirmation on panels', 4.5],
+    ['ink', 'butter', 'Lisa chip, highlighter', 4.5], ['ink', 'morning', 'Text on morning', 4.5], ['paper', 'night-lift', 'Text on night layers', 4.5],
+    ['paper', 'sarah-chip', 'Sarah chip', 4.5], ['paper', 'sarah', 'Rejected: paper on sweater teal', 4.5], ['paper', 'marco', 'Marco chip', 4.5], ['paper', 'dev', 'Dev chip', 4.5], ['ink', 'you', 'You chip', 4.5],
+    ['ping', 'paper', 'Focus ring on paper (UI part)', 3], ['ping', 'night', 'Focus ring on the stage (UI part)', 3], ['ping', 'paper-deep', 'Focus ring on paper-deep, before the halo', 3], ['ink', 'paper', 'Borders and outlines (UI part)', 3]
+  ];
+  document.querySelector('#contrast tbody').innerHTML = P.map(p => { const r = cr(C[p[0]], C[p[1]]); const rej = /^Rejected|before the halo/.test(p[2]); const ok = r >= p[3];
+    return `<tr><td><span style="display:inline-block;width:14px;height:14px;background:${C[p[0]]};border:1px solid #1C1B19;vertical-align:-2px"></span> ${p[0]} on <span style="display:inline-block;width:14px;height:14px;background:${C[p[1]]};border:1px solid #1C1B19;vertical-align:-2px"></span> ${p[1]}</td><td>${p[2]}</td><td>${r.toFixed(2)}:1</td><td>${p[3]}:1</td><td class="${ok ? 'pass' : 'fail'}">${ok ? 'Pass' : (rej ? 'Fails, so not used (fixed in the design)' : 'Fails')}</td></tr>`; }).join('');
+  document.getElementById('spaces').innerHTML = [4, 8, 12, 16, 24, 32, 48, 64, 96].map((v, i) => `<div class="space-row"><code class="code">--s${i + 1}</code><i style="width:${v * 3}px"></i>${v}px</div>`).join('');
+  DT.deckle(document.getElementById('torn'), { amp: 7, step: 14, seed: 3 });
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI: About and AI use</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+  .about { padding-top: 72px; padding-bottom: 96px; align-items: start; }
+  .about .head { grid-column: 1 / span 4; position: sticky; top: 24px; }
+  .about h1 { font-size: clamp(36px, 4.2vw, 58px); line-height: 1.06; margin-bottom: 20px; }
+  .about .head p { font-size: 22px; }
+  .about .list { grid-column: 5 / span 8; border-top: 2px solid var(--ink); }
+  .about .row { display: grid; grid-template-columns: 200px 1fr; gap: 28px; padding: 26px 0; border-bottom: 1px solid var(--hairline-strong); }
+  .about .row .k { font: 700 var(--t-meta)/1.5 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); padding-top: 6px; }
+  .about .row p { margin: 0; font-size: 22px; line-height: 1.55; max-width: 46ch; }
+  .about .row p + p { margin-top: 10px; }
+  .about .row.no { background: var(--paper-deep); padding-left: 18px; padding-right: 18px; margin: 0 -18px; }
+  @media (max-width: 720px) {
+    .about { padding-top: 32px; padding-bottom: 56px; }
+    .about .head, .about .list { grid-column: 1 / -1; position: static; }
+    .about .head { margin-bottom: 28px; } .about h1 { font-size: 36px; }
+    .about .row { grid-template-columns: 1fr; gap: 4px; padding: 20px 0; } .about .row p { font-size: 20px; }
+    .about .row.no { margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+  }
+</style>
+</head>
+<body>
+<div data-topbar></div>
+<main class="about grid">
+  <div class="head">
+    <h1>About and AI use</h1>
+    <p>A plain list of how this prototype was made, and what it does with your answers.</p>
+    <p class="small soft">SEGP Group 012. Prototype for supervisor feedback.</p>
+  </div>
+  <div class="list">
+    <div class="row"><span class="k">Story</span><p>Story text was drafted with AI help, then reviewed and edited by the team.</p></div>
+    <div class="row"><span class="k">Voice</span><p>Voice lines are made with ElevenLabs from team-approved text.</p></div>
+    <div class="row"><span class="k">Characters and scenes</span><p>Characters and scenes are built in code by the team.</p></div>
+    <div class="row"><span class="k">Reading your answers</span><div><p>In this demo build, answers are read by written rules inside the app. A model API can be switched in later.</p><p><span class="tag-demo">Demo scoring</span></p></div></div>
+    <div class="row"><span class="k">Data</span><p>Data: anonymous session ID, stored in your browser only. Hosting provider may keep standard request logs.</p></div>
+    <div class="row no"><span class="k">What it does not do</span><p>What this prototype does not do: no claim that it improves learning.</p></div>
+  </div>
+</main>
+<div data-footer></div>
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script>
+  DT.init();
+</script>
+</body>
+</html>

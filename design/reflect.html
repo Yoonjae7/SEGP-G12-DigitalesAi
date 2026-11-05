@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI: Reflect</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+  .s { padding-top: 64px; padding-bottom: 96px; align-items: start; min-height: calc(100vh - 92px); }
+  .s .meta { grid-column: 1 / span 2; padding-top: 22px; }
+  .s .content { grid-column: 3 / span 7; }
+  .s .deco { grid-column: 10 / span 3; justify-self: end; transform: rotate(-3deg); margin-top: 16px; }
+  .s h1 { font-size: clamp(34px, 4.4vw, 60px); line-height: 1.08; max-width: 18ch; margin-bottom: 28px; }
+  .lead { font-size: 24px; line-height: 1.5; max-width: 38ch; }
+  .actions { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 32px; }
+  .actions .btn { min-width: 220px; }
+  .scenario { background: var(--paper-deep); border-radius: var(--r); box-shadow: var(--lift); padding: 26px 30px; margin: 4px 0 26px; max-width: 52ch; position: relative; border-top: 3px solid var(--ink); }
+  .scenario p { margin: 0; font: 400 25px/1.42 var(--font-display); }
+  .scenario .bub { margin-top: 18px; background: var(--phone-glow); border-radius: var(--r-bubble); border-bottom-left-radius: 6px; padding: 12px 18px; font: 400 21px/1.4 var(--font-body); display: inline-block; max-width: 36ch; }
+  .q { font: 400 28px/1.35 var(--font-display); max-width: 36ch; margin: 0 0 18px; }
+  .fu { background: var(--paper-deep); border-left: 6px solid var(--ink); border-radius: var(--r); padding: 16px 22px; margin: 0 0 20px; font: 400 25px/1.4 var(--font-display); max-width: 34ch; }
+  .fu .eyebrow { display: flex; align-items: center; gap: 8px; font-family: var(--font-body); margin-bottom: 8px; }
+  .fu .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--ping); display: inline-block; }
+  @media (max-width: 720px) {
+    .s { padding-top: 28px; padding-bottom: 56px; }
+    .s .meta, .s .content { grid-column: 1 / -1; } .s .meta { padding-top: 0; margin-bottom: 8px; } .s .deco { display: none; }
+    .s h1 { font-size: 34px; } .lead { font-size: 21px; }
+    .actions { flex-direction: column; align-items: stretch; } .actions .btn { width: 100%; min-width: 0; }
+    .scenario { padding: 20px 18px; } .scenario p { font-size: 21px; } .scenario .bub { font-size: 19px; }
+    .q { font-size: 23px; } .fu { font-size: 21px; } .field { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div data-topbar></div>
+<main>
+  <section class="s grid" data-show="offer">
+    <div class="meta"><span class="eyebrow">Optional</span></div>
+    <div class="content">
+      <h1>Want one more? A short, similar moment.</h1>
+      <p class="lead">You can skip this. Nothing changes if you do.</p>
+      <div class="actions"><a class="btn" href="reflect.html?s=scenario">Yes, one more</a><a class="btn paper" href="ending.html?s=end">No thanks</a></div>
+    </div>
+    <div class="deco" data-mark="mk-choice" data-size="170"></div>
+  </section>
+
+  <section class="s grid" data-show="scenario">
+    <div class="meta"><span class="eyebrow">One more</span></div>
+    <div class="content">
+      <div class="scenario">
+        <p>A friend sends you a screenshot of a private chat. In it, a classmate says something personal. Your friend says:</p>
+        <span class="bub">&ldquo;Pass it to the class group. Just for a laugh.&rdquo;</span>
+      </div>
+      <p class="q">What do you think happens next if you pass it on? Write one or two sentences about who is affected and how.</p>
+      <label class="sr" for="r1">Your answer</label>
+      <textarea id="r1" class="field" rows="3"></textarea>
+      <p class="helper">One or two sentences. There is no right answer, but reasons help.</p>
+      <div class="actions"><a class="btn" href="reflect.html?s=followup">Send my answer</a><a class="linkbtn" href="reflect.html?s=ack">Skip</a></div>
+    </div>
+  </section>
+
+  <section class="s grid" data-show="followup">
+    <div class="meta"><span class="eyebrow">One more</span></div>
+    <div class="content">
+      <div class="fu"><span class="eyebrow"><i class="dot" aria-hidden="true"></i>A question for you</span>Take one more step. What might happen after that?</div>
+      <label class="sr" for="r2">Your reply</label>
+      <textarea id="r2" class="field" rows="3"></textarea>
+      <div class="actions"><a class="btn" href="reflect.html?s=ack">Send</a><a class="linkbtn" href="reflect.html?s=ack">Skip</a></div>
+    </div>
+  </section>
+
+  <section class="s grid" data-show="ack">
+    <div class="meta"><span class="eyebrow">One more</span></div>
+    <div class="content">
+      <h1>Thanks. That is the end of the story.</h1>
+      <div class="actions"><a class="btn" href="ending.html?s=end">Finish</a></div>
+    </div>
+  </section>
+</main>
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script>DT.state('offer'); DT.init();</script>
+</body>
+</html>

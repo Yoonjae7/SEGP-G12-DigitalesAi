@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI design pack: Characters</title>
+<link rel="stylesheet" href="css/gallery.css">
+<style>
+  .notes { margin: 0; padding: 0; list-style: none; font-size: 18px; line-height: 1.5; }
+  .notes li { padding: 8px 0 8px 22px; border-top: 1px solid var(--hairline); position: relative; }
+  .notes li::before { content: ""; position: absolute; left: 2px; top: 17px; width: 8px; height: 8px; background: var(--ink); }
+  .notes b { font-weight: 700; }
+  .turn svg { overflow: visible; }
+  .poses { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .poses .cell { background: #FBF8F0; border: 1px solid var(--hairline-strong); border-radius: var(--r); text-align: center; padding: 8px 4px 10px; font-size: 16px; }
+  .poses .cell code { display: block; margin: 4px auto 0; width: max-content; }
+  .poses .cell svg { overflow: visible; }
+  .hands-crop { border: 1px solid var(--ink); background: var(--night); }
+  .hands-crop svg { display: block; width: 100%; height: auto; }
+  .gt td.n, .gt th.n { text-align: right; font-variant-numeric: tabular-nums; padding-right: 14px; }
+  .specs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .specs div { border: 1px solid var(--hairline-strong); border-radius: var(--r); padding: 14px 16px; font-size: 17px; line-height: 1.45; background: #FBF8F0; }
+  .specs b { display: block; font: 700 13px/1.6 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+  @media (max-width: 1100px) { .poses, .specs { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body class="doc">
+<nav class="gnav" id="gnav" aria-label="Design pack"></nav>
+<div class="sheet">
+  <h1>Character sheets</h1>
+  <p class="intro">Five people, drawn as matte clay. The 3D build uses capsule bodies, squashed sphere heads and small sphere hands, and every figure here uses the same joints. These flat versions are also the cut-outs for &ldquo;Simple visuals&rdquo;.</p>
+
+  <div class="specs">
+    <div><b>Material</b>Matte clay. No gloss, no realistic skin.</div>
+    <div><b>Outline</b>Thin ink line from an inverted-hull pass. A little wobble, so it looks hand-inked.</div>
+    <div><b>Shading</b>Toon, three steps: light, base, shade. Light from top left. Shadows lean cool.</div>
+    <div><b>Faces</b>Two dots, brow lines, a small mouth. Expressions swap by changing the face texture.</div>
+    <div><b>Shadow</b>A baked contact blob under the feet. No real-time shadows.</div>
+  </div>
+
+  <h2>Cast, to scale</h2>
+  <p class="note">Sarah is the shortest. Lisa is the tallest. Marco is the roundest. Dev is the thinnest. Skin and hair colours are varied across the cast and are not tied to role or personality.</p>
+  <div class="lineup" id="lineup"></div>
+
+  <div id="cards"></div>
+
+  <h2>Pose library</h2>
+  <p class="note">Nine procedural poses, shown on Lisa. Each pose is a table of joint rotations (head, shoulders, elbows) with an ease between them, 400 to 600 ms. A pose is a string in <code class="code">story.json</code>, so changing it never needs a code change.</p>
+  <div class="poses" id="poses"></div>
+  <table class="gt" id="posetable" style="margin-top:26px">
+    <thead><tr><th>Pose</th><th class="n">Shoulder L</th><th class="n">Elbow L</th><th class="n">Shoulder R</th><th class="n">Elbow R</th><th class="n">Lean</th><th class="n">Head roll</th><th class="n">Head nod</th><th>Used for</th></tr></thead><tbody></tbody>
+  </table>
+  <p class="note">Shoulder is the upper arm angle from hanging straight down, in degrees, positive away from the body. Elbow is the extra turn of the forearm: positive opens it outward and up, negative folds it inward. Lean is the whole upper body about the hips. Head nod is positive when looking down. The build reads this table directly.</p>
+
+  <h2>Build route</h2>
+  <ul class="notes">
+    <li><b>Default:</b> characters built in code from primitives (capsule body, squashed sphere head, small sphere hands) with react-three-fiber. Poses are joint tables. Faces are a texture atlas, one cell per expression.</li>
+    <li><b>Swap later:</b> a <code class="code">CharacterModel</code> interface lets GLB models replace them at <code class="code">/public/models/*.glb</code> without touching scene code. The build never waits for model files.</li>
+    <li><b>Fallback:</b> &ldquo;Simple visuals&rdquo; uses the flat cut-outs on this page, same colours, same poses.</li>
+    <li><b>The photo:</b> never depicted. Always a blurred stripe tile labelled &ldquo;Photo (hidden)&rdquo;.</li>
+  </ul>
+</div>
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script src="js/gallery.js"></script>
+<script>
+  DT.init(); GAL.nav('characters.html');
+  const R = window.Rig;
+  const INFO = {
+    sarah: { role: 'A classmate in your tutorial group. Quiet, works hard. Not in the chat.', ht: '0.80', build: 'Shortest of the cast. Round body, average head.', look: ['Round glasses with thin ink frames', 'Low braid', 'Big backpack', 'Teal sweater #2E7D7A, mustard scarf, olive backpack'], posture: 'Slightly hunched, holds the strap.', tags: ['Calm', 'Worried', 'Hurt', 'Steady'], voice: 'Soft, steady, young adult.' },
+    lisa: { role: 'Your friend since first year. Funny and quick. Not cruel. Posted the photo as a joke.', ht: '1.00', build: 'Tallest. Long coat, wide stance.', look: ['High ponytail', 'Butter-yellow raincoat', 'Denim', 'Striped socks'], posture: 'Wide gestures. Laughing, smirk, defensive, ashamed, sorry.', tags: [], voice: 'Bright, quick, young adult. Softer when sorry.' },
+    marco: { role: 'In the chat. Forwards the photo to Film Night. Background level.', ht: '0.87', build: 'Roundest. Body 1.32 times wide, larger head.', look: ['Forest-green beanie with bobble', 'Grey tee'], posture: 'Relaxed. Amused, shrug, embarrassed.', tags: [], voice: 'Relaxed, easy, lower register.' },
+    dev: { role: 'In the chat. Forwards the photo to Hall B. Background level.', ht: '0.96', build: 'Tall and thin. Body 0.80 times wide.', look: ['Headphones around his neck', 'Charcoal hoodie'], posture: 'Flat, bored, uneasy.', tags: [], voice: 'Dry, flat, a little bored.' },
+    you: { role: 'The learner. Unnamed.', ht: '0.90', build: 'Middle height. Never shown from the front.', look: ['Stone-grey sweater', 'Dark trousers', 'Seen from behind, or as hands, phone and shoulder'], posture: 'Phone in hand, leaning in, still.', tags: [], voice: 'No voice. Lines show as text only.' }
+  };
+  const swatchRow = (c) => `<div class="pal">${[['Skin', c.skin], ['Hair', c.hair], ['Top', c.top], ['Bottom', c.bottom]].concat(c.beanie ? [['Beanie', c.beanie]] : []).concat(c.scarf ? [['Scarf', c.scarf], ['Backpack', c.pack]] : []).concat(c.phones ? [['Headphones', c.phones]] : []).map(a => `<i style="--c:${a[1]}">${a[0]} <code class="code">${a[1]}</code></i>`).join('')}</div>`;
+
+  // lineup, same scale
+  document.getElementById('lineup').innerHTML = ['sarah', 'dev', 'lisa', 'marco', 'you'].map(id => `<figure>${R.svg(id, { view: id === 'you' ? 'back' : 'front', w: 200, h: 360, scale: 3.2, expr: { sarah: 'calm', dev: 'flat', lisa: 'smirk', marco: 'amused', you: 'calm' }[id], guides: false })}<figcaption>${R.CHARS[id].name} <span class="soft" style="font-weight:400">${INFO[id].ht}</span></figcaption></figure>`).join('');
+
+  // sheets
+  const hands = (() => { const m = Scenes.META.s1; return `<svg viewBox="560 380 760 520" class="scene-svg" aria-label="The learner's hands and phone, close up">${m.fn()}</svg>`; })();
+  document.getElementById('cards').innerHTML = ['sarah', 'lisa', 'marco', 'dev', 'you'].map(id => {
+    const C = R.CHARS[id], I = INFO[id];
+    const ex = (R.EXPR_SETS[id] || []).map(e => `<div class="cell">${R.headSvg(id, e[0], 150)}<br>${e[1]}</div>`).join('');
+    const views = id === 'you'
+      ? `<figure>${R.svg(id, { view: 'back', w: 250, h: 380, scale: 3.4, guides: true })}<figcaption>Back, standing</figcaption></figure><figure>${R.svg(id, { view: 'back', pose: 'look-phone', w: 250, h: 380, scale: 3.4, guides: true })}<figcaption>Back, on the phone</figcaption></figure><figure>${R.svg(id, { view: 'back', pose: 'stand-firm', w: 250, h: 380, scale: 3.4, guides: true })}<figcaption>Back, standing firm</figcaption></figure>`
+      : ['front', 'side', 'back'].map(v => `<figure>${R.svg(id, { view: v, w: 250, h: 400, scale: 3.4, guides: true, expr: { sarah: 'calm', lisa: 'smirk', marco: 'amused', dev: 'flat' }[id] })}<figcaption>${v[0].toUpperCase() + v.slice(1)}</figcaption></figure>`).join('');
+    return `<section class="sheetcard" aria-label="${C.name}"><header><h3>${C.name}</h3><span class="soft">${I.role}</span></header>
+      <div class="cols c2" style="grid-template-columns:1.7fr 1fr;align-items:start">
+        <div class="turn">${views}</div>
+        <div>
+          <ul class="notes">
+            <li><b>Height</b> ${I.ht} of the tallest. ${I.build}</li>
+            <li><b>Look</b> ${I.look.join('. ')}.</li>
+            <li><b>Posture</b> ${I.posture}</li>
+            <li><b>Voice</b> ${I.voice}</li>
+          </ul>
+          ${swatchRow(C)}
+        </div>
+      </div>
+      ${id === 'you' ? `<h3>Hands and phone</h3><div class="hands-crop" style="max-width:560px">${hands}</div><p class="note" style="margin-top:10px">The learner has no face and no voice. Close shots use the hands, the phone and the shoulder.</p>` : `<h3>Expressions, one face cell each</h3><div class="atlas">${ex}</div>`}
+    </section>`;
+  }).join('');
+
+  // pose library on Lisa
+  const USE = { 'idle-breathe': 'Default hold. The chest rises 2% over 2.4 s.', 'look-phone': 'The learner in S1 to S3. Marco and Dev in the café.', 'laugh': 'Lisa in S1 and S2.', 'shrug': 'Lisa in S6. Marco.', 'turn-away': 'Lisa in Ending B. Sarah in S5.', 'hands-to-head': 'Lisa on &ldquo;I didn&rsquo;t think.&rdquo;', 'slump': 'Sarah in Ending B. After D3 hold.', 'stand-firm': 'Sarah in Ending A. The learner after D3 hold.', 'reach-out': 'Lisa and Sarah in Ending A.' };
+  document.getElementById('poses').innerHTML = Object.keys(R.POSES).map(p => `<div class="cell">${R.svg('lisa', { view: 'front', pose: p, w: 250, h: 380, scale: 3.1, expr: p === 'laugh' ? 'laughing' : p === 'hands-to-head' ? 'ashamed' : p === 'shrug' ? 'defensive' : p === 'slump' ? 'sorry' : 'calm' })}<code class="code">${p}</code></div>`).join('');
+  document.querySelector('#posetable tbody').innerHTML = Object.keys(R.POSES).map(p => { const q = R.POSES[p]; return `<tr><td><code class="code">${p}</code></td><td class="n">${q.L[0]}</td><td class="n">${q.L[1]}</td><td class="n">${q.R[0]}</td><td class="n">${q.R[1]}</td><td class="n">${q.lean}</td><td class="n">${q.tilt}</td><td class="n">${q.pitch}</td><td>${USE[p]}</td></tr>`; }).join('');
+</script>
+</body>
+</html>

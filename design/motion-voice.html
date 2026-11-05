@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI design pack: Motion and voice</title>
+<link rel="stylesheet" href="css/gallery.css">
+<style>
+  body.rm * { animation-duration: .15s !important; animation-iteration-count: 1 !important; transition-duration: .15s !important; }
+  @keyframes breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.02); } }
+  .breath { transform-origin: 50% 100%; animation: breathe 2.4s ease-in-out infinite; display: inline-block; }
+  .linebox { width: 80%; background: var(--paper); border-top: 3px solid var(--ink); padding: 14px 18px; font-size: 20px; min-height: 60px; border-radius: 4px; }
+  .linebox p { margin: 0; animation: lineIn var(--d-line) linear both; }
+  @keyframes lineIn { from { opacity: 0; } to { opacity: 1; } }
+  details { border-top: 1px solid var(--hairline-strong); padding: 10px 0; }
+  details summary { cursor: pointer; font-weight: 700; font-size: 18px; min-height: 44px; display: flex; align-items: center; }
+  .lines { display: grid; grid-template-columns: 90px 1fr; gap: 4px 16px; font-size: 17px; margin: 8px 0 14px; }
+  .lines code { align-self: start; }
+  .cpm { display: flex; gap: 14px; flex-wrap: wrap; margin: 14px 0 6px; }
+  .cpm div { border: 1px solid var(--hairline-strong); border-radius: var(--r); padding: 10px 16px; background: #FBF8F0; }
+  .cpm b { font: 400 30px/1 var(--font-display); display: block; }
+  .parallax-note { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+</style>
+</head>
+<body class="doc">
+<nav class="gnav" id="gnav" aria-label="Design pack"></nav>
+<div class="sheet">
+  <h1>Motion and voice</h1>
+  <p class="intro">Few moves, each with a job. One signature move, the ping. Voice is a layer on top of the reading. If sound is off, the story still works.</p>
+  <p><label class="row" style="gap:10px;font-size:18px"><input type="checkbox" id="rm" style="width:22px;height:22px"> Preview reduced motion (every move becomes a 150 ms fade)</label></p>
+
+  <h2>Motion notes</h2>
+  <div class="mdemo">
+    <div class="mbox"><h3>The ping</h3><p class="note" style="margin:0">A persimmon dot pops on the phone with a small wobble. It means a notification just arrived. Home pings every 6 seconds.</p>
+      <div class="stagebox"><div class="ping-demo"><i class="ping-i"></i></div></div></div>
+    <div class="mbox"><h3>Paper-slide scene change</h3><p class="note" style="margin:0">Layers move at different speeds. Far layers go least, near layers go most. 420 ms.</p>
+      <div class="stagebox"><div class="slide-l"><i class="lay-far"></i><i class="lay-mid"></i><i class="lay-near"></i></div></div><button class="btn paper go-btn" id="slide" style="min-height:44px;padding:6px 16px;font-size:17px">Play</button></div>
+    <div class="mbox"><h3>Lines appear whole</h3><p class="note" style="margin:0">No typewriter. The line fades in as one piece in 120 ms.</p>
+      <div class="stagebox"><div class="linebox" id="lb"><p>Nobody asked Sarah. She does not know.</p></div></div><button class="btn paper" id="nextline" style="min-height:44px;padding:6px 16px;font-size:17px;margin-top:12px">Next line</button></div>
+    <div class="mbox"><h3>Choice cards rise 8px</h3><p class="note" style="margin:0">Both cards rise together, the same distance. Choosing commits at once.</p>
+      <div class="stagebox"><div style="display:flex;gap:14px"><div class="rise-card go" data-r>Option</div><div class="rise-card go" data-r>Option</div></div></div><button class="btn paper" id="rise" style="min-height:44px;padding:6px 16px;font-size:17px;margin-top:12px">Play</button></div>
+    <div class="mbox"><h3>Reading your answer</h3><p class="note" style="margin:0">Three paper dots, 1 to 2 seconds. Real loading and error states.</p>
+      <div class="stagebox paper"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div></div>
+    <div class="mbox"><h3>Pose to pose</h3><p class="note" style="margin:0">Joint rotations ease in 500 ms. The chest breathes by 2% over 2.4 s.</p>
+      <div class="stagebox paper" style="height:290px"><span class="breath" id="posehost"></span></div>
+      <button class="btn paper" id="posebtn" style="min-height:44px;padding:6px 16px;font-size:17px;margin-top:12px">Next pose</button> <span id="posename" class="code">idle-breathe</span></div>
+  </div>
+
+  <table class="gt" style="margin-top:34px"><thead><tr><th>Move</th><th>Where</th><th>Time</th><th>Curve</th><th>With reduced motion</th></tr></thead><tbody>
+    <tr><td>Ping</td><td>Home phone, chat panel newest bubble, wordmark on hover</td><td>900 ms pop and wobble. Home repeats every 6 s.</td><td><code>cubic-bezier(.22,.7,.2,1)</code></td><td>Dot is shown. No motion.</td></tr>
+    <tr><td>Paper-slide</td><td>Every scene change</td><td>420 ms, layers at depth &times; speed</td><td><code>cubic-bezier(.22,.7,.2,1)</code></td><td>150 ms crossfade</td></tr>
+    <tr><td>Line in</td><td>Each caption line</td><td>120 ms fade, whole line</td><td>linear</td><td>150 ms</td></tr>
+    <tr><td>Card rise</td><td>Decision cards</td><td>240 ms, 8 px</td><td><code>cubic-bezier(.22,.7,.2,1)</code></td><td>150 ms fade</td></tr>
+    <tr><td>Stage to 40%</td><td>When a Why opens</td><td>420 ms, notebook slides in from the right</td><td><code>cubic-bezier(.22,.7,.2,1)</code></td><td>150 ms</td></tr>
+    <tr><td>Stage dim</td><td>Decisions</td><td>240 ms to 60%</td><td>linear</td><td>150 ms</td></tr>
+    <tr><td>Reading dots</td><td>After Send</td><td>1 s loop, 150 ms stagger</td><td><code>cubic-bezier(.22,.7,.2,1)</code></td><td>Static dots</td></tr>
+    <tr><td>Pose change</td><td>Characters</td><td>400 to 600 ms</td><td>ease in-out</td><td>150 ms</td></tr>
+    <tr><td>Parallax</td><td>Home diorama, stage</td><td>Follows pointer or tilt</td><td>direct</td><td>Off</td></tr>
+    <tr><td>Camera push, pan, sway</td><td>S1, S2, S3, S7</td><td>Slow, 5 to 12 s</td><td>ease in-out</td><td>Off</td></tr>
+    <tr><td>Button press</td><td>Primary and paper buttons</td><td>120 ms, drops 2 px</td><td>ease</td><td>None</td></tr>
+  </tbody></table>
+  <p class="note">Never used: flashing, shaking, typewriter text, confetti, score counters, streaks, timers.</p>
+
+  <h2>Voice casting sheet</h2>
+  <p class="note">Voices are made with ElevenLabs at build time, from team-approved text. The key never reaches the browser. The team picks each voice from the ElevenLabs library using these notes and pastes the IDs into <code class="code">voices.json</code>. Settings below are starting points, tune them by ear. Chat lines are voiced in the sender&rsquo;s voice. Screen text is not voiced. The learner has no voice.</p>
+  <div class="cpm" id="counts"></div>
+  <div id="cast"></div>
+
+  <h3>Spoken lines that may run past about 6 seconds</h3>
+  <p class="note">The brief says to keep every spoken line under about 6 seconds and also says not to shorten the story. I kept the story as written. These two are the longest. If they run long in the audio, the team can decide whether to edit them in <code class="code">story.json</code>.</p>
+  <table class="gt"><thead><tr><th>Line</th><th>Speaker</th><th>Words</th><th>Text</th></tr></thead><tbody>
+    <tr><td><code>eA_05</code></td><td>Narrator</td><td>19</td><td>Marco and Dev delete it. Some copies may still be out there. Sarah knows. She decides what happens next.</td></tr>
+    <tr><td><code>s4d_04</code></td><td>Narrator</td><td>17</td><td>Two copies gone. Many are not. Sarah is still waiting for her coffee. She does not know.</td></tr>
+  </tbody></table>
+
+  <h3>Pipeline and fallbacks</h3>
+  <ul class="notes" style="list-style:none;padding:0;font-size:19px;line-height:1.55">
+    <li>Generated at build time. One mp3 per line, named by the line ID, such as <code class="code">s1_01.mp3</code>. Cached by a hash of speaker, text and voice, so only changed lines are made again.</li>
+    <li>Starts muted. The learner taps &ldquo;Play with sound&rdquo;. Each line has a replay button. Preloaded one scene ahead.</li>
+    <li>If a file is missing or fails, captions only, and the story carries on. Audio never blocks.</li>
+    <li>If ElevenLabs keeps failing, the team can make the files from the line list below and drop them in <code class="code">public/audio</code> with the same names.</li>
+  </ul>
+  <h3>Every voiced line, by speaker</h3>
+  <div id="linelist"></div>
+</div>
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script src="js/gallery.js"></script>
+<script>
+  DT.init(); GAL.nav('motion-voice.html');
+  document.getElementById('rm').addEventListener('change', e => document.body.classList.toggle('rm', e.target.checked));
+
+  // ping demo: one pop, repeating every 6 s via the class
+  const pi = document.querySelector('.ping-i');
+  function pingOnce() { pi.style.animation = 'none'; void pi.offsetWidth; pi.style.animation = 'ping-pop-once ' + (document.body.classList.contains('rm') ? '.15s' : '.9s') + ' cubic-bezier(.22,.7,.2,1) both'; }
+  pingOnce(); setInterval(pingOnce, 6000);
+  pi.parentElement.addEventListener('click', pingOnce);
+
+  // slide demo
+  const sl = document.getElementById('slide'); sl.addEventListener('click', () => { document.querySelectorAll('.slide-l i').forEach(i => { i.classList.remove('go'); void i.offsetWidth; i.classList.add('go'); }); }); sl.click();
+  // lines
+  const L = ['Nobody asked Sarah. She does not know.', 'Lisa is your friend. She is not cruel. She is laughing.', 'You have a few seconds. What do you do?']; let li = 0;
+  document.getElementById('nextline').addEventListener('click', () => { li = (li + 1) % L.length; const p = document.querySelector('#lb p'); p.remove(); const n = document.createElement('p'); n.textContent = L[li]; document.getElementById('lb').appendChild(n); });
+  // rise
+  document.getElementById('rise').addEventListener('click', () => document.querySelectorAll('[data-r]').forEach(c => { c.classList.remove('go'); void c.offsetWidth; c.classList.add('go'); }));
+  // pose tween
+  const R = window.Rig, names = ['idle-breathe', 'shrug', 'laugh', 'reach-out', 'hands-to-head', 'slump', 'stand-firm', 'look-phone'], expr = { shrug: 'defensive', laugh: 'laughing', 'hands-to-head': 'ashamed', slump: 'sorry' };
+  const mix = (A, B, t) => { const o = {}, l = (a, b) => a + (b - a) * t; ['lean', 'tilt', 'pitch', 'rise', 'drop', 'stance', 'yaw'].forEach(k => o[k] = l(A[k] || 0, B[k] || 0, t)); o.L = [l(A.L[0], B.L[0]), l(A.L[1], B.L[1])]; o.R = [l(A.R[0], B.R[0]), l(A.R[1], B.R[1])]; o.prop = t > .5 ? B.prop : A.prop; return o; };
+  const host = document.getElementById('posehost'); let cur = 0;
+  const draw = (P, ex) => { host.innerHTML = R.svg('lisa', { view: 'front', pose: 'idle-breathe', poseData: P, expr: ex, w: 300, h: 250, scale: 2.5, wobble: true }); };
+  draw(R.POSES[names[0]], 'calm');
+  document.getElementById('posebtn').addEventListener('click', () => {
+    const from = R.POSES[names[cur]], nx = (cur + 1) % names.length, to = R.POSES[names[nx]], dur = document.body.classList.contains('rm') ? 150 : 500, t0 = performance.now();
+    const ex = expr[names[nx]] || 'calm';
+    (function step(now) { let t = Math.min(1, (now - t0) / dur); const e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; draw(mix(from, to, e), t > .5 ? ex : (expr[names[cur]] || 'calm')); if (t < 1) requestAnimationFrame(step); })(t0);
+    cur = nx; document.getElementById('posename').textContent = names[cur];
+  });
+
+  // voice casting
+  const CAST = [
+    { k: 'narrator', n: 'Narrator', dir: 'Calm, warm, mid-range, slightly slow. Late-night documentary, not a trailer.', pace: 'Slow. About 2 words a second.', set: 'stability 0.60, similarity 0.75, style 0.10, speed 0.92', n_lines: 33, samples: ['Tuesday, 11:40 pm. Your phone buzzes.', 'Sarah is asleep. She does not know.'] },
+    { k: 'lisa', n: 'Lisa', dir: 'Bright, quick, young adult. Light laugh. Softer when sorry.', pace: 'Quick. Slows and softens for the apology.', set: 'stability 0.40, similarity 0.75, style 0.30, speed 1.05', n_lines: 12, samples: ['Isn’t it perfect?', 'I posted a photo of you without asking. That was wrong. I’m sorry.'] },
+    { k: 'sarah', n: 'Sarah', dir: 'Soft, steady, young adult. Quiet strength. Not tearful, not dramatic.', pace: 'Even, a little slow.', set: 'stability 0.65, similarity 0.80, style 0.10, speed 0.95', n_lines: 6, samples: ['Morning. Is something wrong with my bag?', 'I do not want a fight. I just want it gone.'] },
+    { k: 'marco', n: 'Marco', dir: 'Relaxed, easy, lower register.', pace: 'Easy, unhurried.', set: 'stability 0.50, similarity 0.75, style 0.15, speed 1.00', n_lines: 4, samples: ['Ha! Legend.', 'Relax. It’s funny.'] },
+    { k: 'dev', n: 'Dev', dir: 'Dry, flat, a little bored.', pace: 'Flat, slightly clipped.', set: 'stability 0.70, similarity 0.75, style 0.00, speed 0.97', n_lines: 3, samples: ['Send this to Hall B.', 'Others already saved it.'] },
+    { k: 'you', n: 'You', dir: 'No voice. Your lines show as text only.', pace: '—', set: '—', n_lines: 0, samples: [] }
+  ];
+  document.getElementById('counts').innerHTML = CAST.filter(c => c.n_lines).map(c => `<div><b>${c.n_lines}</b>${c.n}</div>`).join('') + '<div><b>58</b>voiced lines in all, with every variant</div>';
+  document.getElementById('cast').innerHTML = CAST.map(c => `<div class="spk"><div><span class="who ${c.k}">${c.n}</span></div><div><p style="margin:0 0 6px;font-size:20px"><b>Direction.</b> ${c.dir}</p>${c.n_lines ? `<p style="margin:0 0 4px"><b>Pace.</b> ${c.pace}</p><p style="margin:0 0 4px"><b>Start with.</b> <code class="code">${c.set}</code></p><p style="margin:0 0 4px"><b>Voice ID.</b> <span class="ph">[team to pick from the ElevenLabs library]</span></p><blockquote>${c.samples.join('<br>')}</blockquote>` : ''}</div></div>`).join('');
+  const LINES = {
+    Narrator: [['s1_01', 'Tuesday, 11:40 pm. Your phone buzzes.'], ['s1_03', 'It is Sarah. Mouth open. Bag on her lap.'], ['s1_07', 'Laughing faces fill the screen. You are not laughing.'], ['s2_01', 'Nobody asked Sarah. She does not know.'], ['s2_03', 'Lisa is your friend. She is not cruel. She is laughing.'], ['s2_04', 'You have a few seconds. What do you do?'], ['s2p_03', 'Lisa did not say no. She did not delete it either.'], ['s2g_04', 'Two people agree with you. Others go quiet. Lisa goes quiet too.'], ['s3_01', 'By midnight, the photo has moved.'], ['s3_05a', 'Lisa has not written again. Your message sits there. Read.'], ['s3_05b', 'Lisa is silent. Others keep sending laughing faces.'], ['s3_06', 'Sarah is asleep. She does not know.'], ['s4_01', 'Wednesday, 8:30 am. The campus café.'], ['s4_02', 'People look at their phones. Then at Sarah.'], ['s4_04', 'She does not know. You do. Marco and Dev are three steps away.'], ['s4t_03', 'You tell her. She asks to see it. Her face goes still.'], ['s4t_04', 'Behind you, Marco and Dev still have it on their phones.'], ['s4d_04', 'Two copies gone. Many are not. Sarah is still waiting for her coffee. She does not know.'], ['s5_01b', 'You turn to Sarah and tell her. It is ten minutes late.'], ['s5_02', 'Sarah’s hands shake a little.'], ['s5_04', 'She picks up her bag. She leaves her coffee.'], ['s5_05', 'The door opens. Lisa walks in, laughing. She sees your face. She stops.'], ['s6_04', 'She sounds sorry. She also sounds like she wants this to end.'], ['s6a_03', 'Lisa relaxes. Your friendship feels safe. Sarah has not heard from her.'], ['s6h_04', 'Lisa goes red. She is hurt. She stops arguing.'], ['s7_01', 'Friday. Two days later. You check the chats again.'], ['eA_01', 'Sarah asks to meet on the library steps. Lisa is there too.'], ['eA_05', 'Marco and Dev delete it. Some copies may still be out there. Sarah knows. She decides what happens next.'], ['eA_06', 'The steps are quiet. Sarah is not smiling. But she does not leave.'], ['eB_01', 'Sarah does not come to tutorial. Her seat is empty.'], ['eB_03', 'Lisa avoids you. Marco and Dev say it is old news.'], ['eB_04', 'Nobody has said sorry. Sarah is carrying this alone.'], ['eB_05', 'You open a message to Sarah. The cursor blinks.']],
+    Lisa: [['s1_02', 'Look who fell asleep on the shuttle.'], ['s2_02', 'Isn’t it perfect?'], ['s2p_02', 'It’s a joke! She’ll never see it.'], ['s2g_03', 'Wow. Okay.'], ['s6_01', 'What? It was one joke.'], ['s6_02', 'I only shared it with close friends.'], ['s6_03', 'I didn’t expect anyone to forward it.'], ['s6_05', 'Come on. You know me.'], ['s6a_02', 'Thank you. I’ll tell them to stop.'], ['s6h_02', 'That’s not fair!'], ['s6h_03', '...I didn’t think.'], ['eA_02', 'I posted a photo of you without asking. That was wrong. I’m sorry.']],
+    Sarah: [['s4_03', 'Morning. Is something wrong with my bag?'], ['s4t_02', 'Posted? What?'], ['s5_01a', 'Thank you for telling me first. It helps. A little.'], ['s5_01c', 'You tried to stop it. I get that. I wish you had told me first.'], ['s5_03', 'I do not want a fight. I just want it gone.'], ['eA_03', 'Thank you. I want it gone from every chat.']],
+    Marco: [['s1_04', 'Ha! Legend.'], ['s2g_02', 'Relax. It’s funny.'], ['s3_03', 'Film Night too. They love it.'], ['s4d_02', 'Fine. Deleted.']],
+    Dev: [['s1_05', 'Send this to Hall B.'], ['s3_02', 'Sent it to Hall B.'], ['s4d_03', 'Others already saved it.']]
+  };
+  document.getElementById('linelist').innerHTML = Object.keys(LINES).map(k => `<details><summary>${k} (${LINES[k].length} lines)</summary><div class="lines">${LINES[k].map(l => `<code class="code">${l[0]}</code><span>${l[1]}</span>`).join('')}</div></details>`).join('');
+</script>
+</body>
+</html>

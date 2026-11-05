@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI: Ending and feedback</title>
+<link rel="stylesheet" href="css/play.css">
+<style>
+  /* feedback and end screens sit on paper, outside the stage */
+  body.paper-page { background: var(--paper); color: var(--ink); }
+  body.paper-page .viewport { display: block; background: none; min-height: 0; }
+  .fb { padding-top: 56px; padding-bottom: 96px; align-items: start; }
+  .fb .main { grid-column: 3 / span 7; }
+  .fb .side { grid-column: 10 / span 3; justify-self: end; margin-top: 90px; transform: rotate(3deg); }
+  .banner { display: flex; gap: 14px; align-items: center; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--hairline-strong); padding: 14px 0; margin-bottom: 40px; font-size: 19px; }
+  .banner::before { content: ""; flex: none; width: 14px; height: 14px; background: var(--butter); border: 2px solid var(--ink); transform: rotate(45deg); }
+  .fb h1 { font-size: clamp(32px, 3.6vw, 50px); line-height: 1.12; max-width: 24ch; margin: 8px 0 30px; }
+  .fb .tap { margin: 6px 0; }
+  .fb .actions { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 34px; }
+  .para { font-size: 22px; line-height: 1.55; max-width: 52ch; margin: 0 0 18px; }
+  .para.n { padding-left: 52px; position: relative; }
+  .para.n::before { content: attr(data-n); position: absolute; left: 0; top: 0; width: 34px; height: 34px; display: grid; place-items: center; font: 400 20px/1 var(--font-display); border: 2px solid var(--ink); border-radius: var(--r); }
+  .choices { margin: 40px 0 8px; border-top: 2px solid var(--ink); }
+  .choices h2 { font-size: 30px; margin: 20px 0 8px; }
+  .choices li { display: grid; grid-template-columns: 130px 1fr; gap: 20px; padding: 16px 0; border-top: 1px solid var(--hairline-strong); font-size: 21px; line-height: 1.5; }
+  .choices li:first-of-type { border-top: 0; }
+  .choices .k { font: 700 var(--t-meta)/1.6 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  .closing { font: italic 400 24px/1.5 var(--font-body); max-width: 46ch; margin: 28px 0 0; padding-left: 20px; border-left: 6px solid var(--butter); }
+  .end { padding-top: 96px; padding-bottom: 110px; }
+  .end .main { grid-column: 3 / span 8; }
+  .end h1 { font-size: clamp(44px, 5.4vw, 80px); line-height: 1.04; margin-bottom: 36px; }
+  .end .btns { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 32px; }
+  .end .btns .btn { min-width: 220px; }
+  .end .links { display: grid; gap: 14px; border-top: 1px solid var(--hairline-strong); padding-top: 26px; font-size: 20px; }
+  @media (max-width: 720px) {
+    .fb { padding-top: 24px; padding-bottom: 56px; }
+    .fb .main { grid-column: 1 / -1; } .fb .side { display: none; }
+    .banner { font-size: 17px; margin-bottom: 24px; }
+    .fb h1 { font-size: 30px; }
+    .para { font-size: 20px; } .para.n { padding-left: 46px; }
+    .choices li { grid-template-columns: 1fr; gap: 2px; font-size: 20px; }
+    .closing { font-size: 21px; }
+    .end { padding-top: 40px; } .end .main { grid-column: 1 / -1; }
+    .end h1 { font-size: 40px; } .end .btns { flex-direction: column; } .end .btns .btn { width: 100%; }
+  }
+</style>
+</head>
+<body class="on-night" id="pg">
+
+<!-- ENDING on the stage -->
+<div class="viewport" data-show="title-a title-b lines-a lines-b">
+  <div class="stage" id="stage">
+    <div class="art" data-show="title-a lines-a" data-scene="s7a"></div>
+    <div class="art" data-show="title-b lines-b" data-scene="s7b"></div>
+    <header class="hud">
+      <div class="tab left"><a class="wordmark sm" href="home.html" aria-label="DigiTales AI">Dig<span class="wm-i" aria-hidden="true">ı</span>Tales<span class="wm-ai" aria-hidden="true">AI</span></a><a class="imark" href="home.html" aria-label="DigiTales AI">i</a></div>
+      <div class="tab scene" role="status">Scene 7 of 7</div>
+      <div class="tab right">
+        <button class="hbtn" aria-label="Sound is off" data-icon="ic-sound-off"><span>Sound off</span></button>
+        <button class="hbtn" aria-label="Settings" data-icon="ic-settings"><span>Settings</span></button>
+        <a class="hbtn" href="support.html" aria-label="Need support?" data-icon="ic-support"><span>Need support?</span></a>
+        <button class="hbtn" aria-label="Exit" data-icon="ic-exit"><span>Exit</span></button>
+      </div>
+    </header>
+
+    <div class="titlecard-wrap" data-show="title-a title-b">
+      <div class="titlecard" id="tc">
+        <span class="eyebrow">Ending</span>
+        <h1 data-show="title-a">A Way Forward</h1>
+        <h1 data-show="title-b">Still Out There</h1>
+        <p>Click, tap or press Space to go on.</p>
+      </div>
+    </div>
+
+    <div class="plate" data-show="lines-a" role="region" aria-label="Caption">
+      <span class="who lisa">Lisa</span>
+      <p class="line">I posted a photo of you without asking. That was wrong. I&rsquo;m sorry.</p>
+      <div class="ctl"><button class="hbtn" data-icon="ic-back" data-size="20">Back one line</button><button class="hbtn" data-icon="ic-replay" data-size="20">Replay line</button><span class="hint">Click, tap or press Space to go on</span></div>
+    </div>
+    <div class="plate" data-show="lines-b" role="region" aria-label="Caption">
+      <span class="who narrator">Narrator</span>
+      <p class="line narr">Nobody has said sorry. Sarah is carrying this alone.</p>
+      <div class="ctl"><button class="hbtn" data-icon="ic-back" data-size="20">Back one line</button><button class="hbtn" data-icon="ic-replay" data-size="20">Replay line</button><span class="hint">Click, tap or press Space to go on</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FEEDBACK on paper -->
+<div class="paper-wrap" data-show="ask-a ask-b explain-a explain-b explain-b-skipped end">
+  <div data-topbar></div>
+
+  <main class="fb grid" data-show="ask-a">
+    <div class="main">
+      <p class="banner">Your ending came from your written answers, not from which option you picked.</p>
+      <span class="eyebrow">A Way Forward</span>
+      <h1>Sarah is going to meet Lisa. What do you think she needs most from Lisa?</h1>
+      <div class="opt-list" role="radiogroup" aria-label="What does Sarah need most?">
+        <label class="opt"><span class="mark"></span>A clear sorry</label>
+        <label class="opt on"><span class="mark"></span>The photo deleted everywhere</label>
+        <label class="opt"><span class="mark"></span>Time and space</label>
+        <label class="opt"><span class="mark"></span>Not sure</label>
+      </div>
+      <p class="helper">This is not graded.</p>
+      <div class="actions"><a class="btn" href="ending.html?s=explain-a">Show me what happened</a></div>
+    </div>
+    <div class="side" data-mark="mk-see" data-size="150"></div>
+  </main>
+
+  <main class="fb grid" data-show="ask-b">
+    <div class="main">
+      <p class="banner">Your ending came from your written answers, not from which option you picked.</p>
+      <span class="eyebrow">Still Out There</span>
+      <h1>The photo is still in two chats. What do you think would help most now?</h1>
+      <div class="opt-list" role="radiogroup" aria-label="What would help most?">
+        <label class="opt"><span class="mark"></span>Lisa speaks up first</label>
+        <label class="opt"><span class="mark"></span>Each chat removes the photo</label>
+        <label class="opt"><span class="mark"></span>Sarah hears a clear sorry</label>
+        <label class="opt"><span class="mark"></span>Not sure</label>
+      </div>
+      <p class="helper">This is not graded.</p>
+      <div class="actions"><a class="btn" href="ending.html?s=explain-b">Show me what happened</a></div>
+    </div>
+    <div class="side" data-mark="mk-see" data-size="150"></div>
+  </main>
+
+  <main class="fb grid" data-show="explain-a">
+    <div class="main">
+      <p class="banner">Your ending came from your written answers, not from which option you picked.</p>
+      <span class="eyebrow">A Way Forward</span>
+      <h1>What happened</h1>
+      <p class="para n" data-n="1">Lisa said what she did and said sorry. Sarah did not have to ask for it. That is what made it possible to talk.</p>
+      <p class="para n" data-n="2">The photo came down in all three chats. Copies may still exist, so some risk stays with Sarah. That part could not be undone.</p>
+      <p class="para n" data-n="3">In your answers, you separated who did what: posting, forwarding and responding. That let you act without taking Sarah&rsquo;s choices from her.</p>
+      <div class="choices">
+        <h2>Your choices</h2>
+        <ul>
+          <li><span class="k">Decision 1</span><span>You messaged Lisa privately. That spared her in front of others. It also gave the photo more time to spread.</span></li>
+          <li><span class="k">Decision 2</span><span>You told Sarah first. She heard it from someone kind. She was also hurt in a public place.</span></li>
+          <li><span class="k">Decision 3</span><span>You held Lisa responsible. She had to face it. The friendship felt shaky for a while.</span></li>
+        </ul>
+      </div>
+      <p class="closing">There is no one right path. Another person might choose differently and still have good reasons. What matters here is being able to say who is responsible for what, and why.</p>
+      <div class="actions"><a class="btn" href="reflect.html?s=offer">Continue</a></div>
+    </div>
+  </main>
+
+  <main class="fb grid" data-show="explain-b explain-b-skipped">
+    <div class="main">
+      <p class="banner">Your ending came from your written answers, not from which option you picked.</p>
+      <span class="eyebrow">Still Out There</span>
+      <h1>What happened</h1>
+      <p class="para n" data-n="1">In this story, nobody took full responsibility. Lisa&rsquo;s excuse stood. The forwarders stayed quiet. Sarah carried it alone.</p>
+      <p class="para n" data-n="2" data-show="explain-b">Your answers named some of the people involved. They did not always say who owed what, or what it meant for Sarah. That makes it hard to know where to start.</p>
+      <p class="para n" data-n="2" data-show="explain-b-skipped">You chose not to write some answers, so this ending comes from the story alone. Nobody in it said who owed what, and Sarah carried it alone.</p>
+      <p class="para n" data-n="3">It is not too late in the story. A clear sorry, a request to delete, and asking Sarah what she wants would all still help.</p>
+      <div class="choices">
+        <h2>Your choices</h2>
+        <ul>
+          <li><span class="k">Decision 1</span><span>You replied in the group. People saw you speak up. It also made Lisa feel called out.</span></li>
+          <li><span class="k">Decision 2</span><span>You asked for deletions first. Some copies were stopped. Sarah heard later and wished she had been first.</span></li>
+          <li><span class="k">Decision 3</span><span>You accepted Lisa&rsquo;s excuse. The friendship stayed calm. Lisa did not have to face what she did right away.</span></li>
+        </ul>
+      </div>
+      <p class="closing">There is no one right path. Another person might choose differently and still have good reasons. What matters here is being able to say who is responsible for what, and why.</p>
+      <div class="actions"><a class="btn" href="reflect.html?s=offer">Continue</a></div>
+    </div>
+  </main>
+
+  <main class="end grid" data-show="end">
+    <div class="main">
+      <h1>Thanks for playing.</h1>
+      <div class="btns"><button class="btn">Download my log</button><button class="btn paper">Delete my data</button><button class="btn paper">Play again</button></div>
+      <div class="links">
+        <a href="#"><span class="ph">[usability survey link: team to add]</span></a>
+        <a href="support.html">Need support?</a>
+        <span class="soft small">Your log stays in this browser. Delete my data clears it.</span>
+      </div>
+    </div>
+  </main>
+  <div data-footer></div>
+</div>
+
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script>
+  const st = DT.state('title-a');
+  if (!/^(title|lines)/.test(st)) { document.body.className = 'paper-page'; }
+  DT.init();
+  const tc = document.getElementById('tc');
+  if (tc && tc.offsetWidth) DT.deckle(tc, { amp: 8, step: 16, seed: 21 });
+</script>
+</body>
+</html>

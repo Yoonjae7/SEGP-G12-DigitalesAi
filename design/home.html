@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI: Home</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+  .hero { padding-top: 56px; padding-bottom: 80px; align-items: start; position: relative; }
+  .hero-text { grid-column: 1 / span 7; position: relative; z-index: 2; }
+  .hero h1 { font-size: clamp(40px, 5.7vw, 84px); line-height: 1.02; white-space: nowrap; margin-bottom: 36px; }
+  .hero h1 > span { display: block; }
+  .lede { font-size: 24px; line-height: 1.5; max-width: 40ch; margin-bottom: 32px; }
+  .cta { display: flex; align-items: center; gap: 32px; }
+  .hero-art { grid-column: 8 / span 5; margin-top: 120px; position: relative; z-index: 1; }
+  .hero-art .tilt { transform: rotate(1.1deg); }
+  .diorama { aspect-ratio: 960 / 830; position: relative; overflow: hidden; background: var(--night); }
+  .diorama > div { position: absolute; inset: 0; }
+  .hero-art .cap { font-size: var(--t-meta); color: var(--ink-soft); margin: 18px 0 0 8px; max-width: 40ch; }
+
+  .facts { border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+  .facts ul { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 1440px; margin: 0 auto; padding: 0 64px; }
+  .facts li { font: 400 30px/1.2 var(--font-display); padding: 28px 20px 28px 0; border-right: 1px solid var(--hairline-strong); }
+  .facts li + li { padding-left: 28px; }
+  .facts li:last-child { border-right: 0; }
+
+  .how { padding-top: 96px; padding-bottom: 72px; }
+  .how h2 { font-size: 56px; line-height: 1.05; grid-column: 1 / span 6; margin-bottom: 8px; }
+  .how .sub { grid-column: 1 / span 6; font-size: 22px; color: var(--ink-soft); margin-bottom: 48px; }
+  .tabs { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; align-items: start; padding-bottom: 56px; }
+  .tab { position: relative; background: var(--paper); border-radius: var(--r); box-shadow: var(--lift); padding: 44px 26px 30px; border-top: 2px solid var(--ink); }
+  .tab::before { content: attr(data-n); position: absolute; top: -34px; height: 34px; min-width: 62px; padding: 0 16px; display: flex; align-items: center; justify-content: center; background: var(--paper); border: 2px solid var(--ink); border-bottom: 0; border-radius: var(--r) var(--r) 0 0; font: 400 22px/1 var(--font-display); }
+  .tab:nth-child(1) { margin-top: 36px; transform: rotate(-.6deg); } .tab:nth-child(1)::before { left: 18px; }
+  .tab:nth-child(2) { margin-top: 84px; transform: rotate(.5deg); }  .tab:nth-child(2)::before { left: 46%; }
+  .tab:nth-child(3) { margin-top: 52px; transform: rotate(-.3deg); } .tab:nth-child(3)::before { left: 28%; }
+  .tab:nth-child(4) { margin-top: 100px; transform: rotate(.7deg); } .tab:nth-child(4)::before { right: 18px; }
+  .tab .mk { margin: 0 0 14px -4px; }
+  .tab h3 { font-size: 30px; line-height: 1.12; margin-bottom: 10px; }
+  .tab p { margin: 0; font-size: 20px; line-height: 1.5; }
+
+  .sample { padding-top: 24px; padding-bottom: 96px; align-items: start; }
+  .sample .intro { grid-column: 1 / span 4; }
+  .sample .intro h2 { font-size: 46px; line-height: 1.08; margin: 14px 0 18px; }
+  .sample .card { grid-column: 5 / span 8; }
+  .notebook { position: relative; background: var(--paper); box-shadow: var(--lift); border-radius: var(--r); padding: 36px 44px 36px 76px; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='34'><path d='M0 33.5H40' stroke='%231C1B19' stroke-opacity='.10'/></svg>"); }
+  .notebook::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 48px; border-right: 2px solid var(--ping-ink); opacity: .55; }
+  .notebook .holes { position: absolute; left: 14px; top: 40px; bottom: 40px; display: flex; flex-direction: column; justify-content: space-between; }
+  .notebook .holes i { width: 16px; height: 16px; border-radius: 50%; background: var(--paper-deep); box-shadow: inset 0 2px 0 rgba(0,0,0,.2); }
+  .q { font: 400 26px/1.35 var(--font-display); margin: 8px 0 22px; max-width: 38ch; }
+  .ans { background: #FAF6EC; border: 2px solid var(--ink); border-radius: var(--r); padding: 16px 18px; font-size: 22px; line-height: 1.5; }
+  .ans .lab, .fu .lab { display: block; margin-bottom: 6px; }
+  .arrow { display: flex; align-items: center; gap: 12px; margin: 22px 0 14px 18px; font-size: 18px; color: var(--ink-soft); }
+  .arrow::before { content: ""; width: 2px; height: 34px; background: var(--ink); }
+  .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--ping); }
+  .fu { background: var(--paper-deep); border-radius: var(--r); padding: 18px 20px; font: 400 24px/1.4 var(--font-display); border-left: 6px solid var(--ink); }
+  .fu .lab { font-family: var(--font-body); }
+  .note { margin: 16px 0 0; font-size: var(--t-meta); color: var(--ink-soft); }
+
+  .before { padding-bottom: 96px; }
+  .before .box { grid-column: 3 / span 8; }
+  .before h2 { font-size: 40px; margin-bottom: 16px; }
+  .before li { padding: 10px 0 10px 34px; border-top: 1px solid var(--hairline); position: relative; font-size: 22px; }
+  .before li::before { content: ""; position: absolute; left: 4px; top: 21px; width: 12px; height: 12px; background: var(--ink); clip-path: polygon(0 55%, 18% 40%, 40% 62%, 82% 8%, 100% 24%, 40% 100%); }
+  .before .supp { margin: 18px 0 0; }
+
+  @media (max-width: 720px) {
+    .hero { padding-top: 28px; padding-bottom: 48px; }
+    .hero-text, .hero-art { grid-column: 1 / -1; }
+    .hero h1 { white-space: normal; font-size: 44px; margin-bottom: 20px; }
+    .lede { font-size: 20px; margin-bottom: 24px; }
+    .cta { flex-direction: column; align-items: stretch; gap: 10px; }
+    .cta .linkbtn { justify-content: center; }
+    .hero-art { margin-top: 36px; }
+    .facts ul { grid-template-columns: 1fr 1fr; padding: 0 16px; }
+    .facts li { font-size: 24px; padding: 18px 12px 18px 0; border-right: 0; border-bottom: 1px solid var(--hairline-strong); }
+    .facts li:nth-child(odd) { padding-left: 0; }
+    .facts li:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--hairline-strong); }
+    .facts li:nth-last-child(-n+2) { border-bottom: 0; }
+    .how { padding-top: 56px; padding-bottom: 32px; }
+    .how h2 { font-size: 38px; grid-column: 1 / -1; }
+    .how .sub { grid-column: 1 / -1; font-size: 20px; margin-bottom: 40px; }
+    .tabs { grid-template-columns: 1fr; gap: 56px; padding-bottom: 24px; }
+    .tab:nth-child(n) { margin-top: 0; }
+    .tab:nth-child(1)::before { left: 18px; } .tab:nth-child(2)::before { left: 40%; } .tab:nth-child(3)::before { left: 18px; } .tab:nth-child(4)::before { left: 40%; right: auto; }
+    .sample .intro, .sample .card { grid-column: 1 / -1; }
+    .sample .intro h2 { font-size: 34px; }
+    .sample .card { margin-top: 28px; }
+    .notebook { padding: 24px 18px 24px 52px; }
+    .notebook::before { width: 34px; }
+    .notebook .holes { left: 8px; }
+    .q { font-size: 22px; }
+    .ans { font-size: 20px; }
+    .fu { font-size: 21px; }
+    .before .box { grid-column: 1 / -1; padding: 22px 18px; }
+    .before h2 { font-size: 32px; }
+    .before li { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="sr" href="#main">Skip to content</a>
+<div data-topbar></div>
+
+<main id="main">
+  <section class="hero grid">
+    <div class="hero-text">
+      <h1><span>Stories about online life.</span><span>You choose.</span><span>Then you <span class="hl">say why.</span></span></h1>
+      <p class="lede">A short interactive story for adults. Three decisions, two written answers, about ten minutes. No points. No scores. Just your thinking.</p>
+      <div class="cta"><a class="btn" href="start.html">Start the story</a><a class="linkbtn" href="#how">How it works</a></div>
+    </div>
+    <div class="hero-art">
+      <div class="deckle-wrap"><div class="tilt"><div class="diorama" id="hero-diorama"><div data-scene="s1" data-mode="home"></div></div></div></div>
+      <p class="cap">The room in scene 1. The phone pings every 6 seconds. Move the pointer or tilt your phone to look around.</p>
+    </div>
+  </section>
+
+  <section class="facts" aria-label="At a glance">
+    <ul><li>About 10 minutes</li><li>3 decisions</li><li>2 written answers</li><li>No scores</li></ul>
+  </section>
+
+  <section class="how grid" id="how">
+    <h2>How it works</h2>
+    <p class="sub">Four steps. You can stop at any time.</p>
+    <div class="tabs">
+      <article class="tab" data-n="1"><span data-mark="mk-tell" data-size="72"></span><h3>Tell us a little.</h3><p>Share an online moment, or pick a theme.</p></article>
+      <article class="tab" data-n="2"><span data-mark="mk-choice" data-size="72"></span><h3>Make a choice.</h3><p>The story gives you a hard call. Neither option is wrong.</p></article>
+      <article class="tab" data-n="3"><span data-mark="mk-why" data-size="72"></span><h3>Say why.</h3><p>Write a few sentences. The system reads your answer and asks a question that fits it.</p></article>
+      <article class="tab" data-n="4"><span data-mark="mk-see" data-size="72"></span><h3>See what happened.</h3><p>We ask you something first. Then we explain.</p></article>
+    </div>
+  </section>
+
+  <section class="sample grid" aria-labelledby="sample-h">
+    <div class="intro">
+      <span class="eyebrow">A made-up example</span>
+      <h2 id="sample-h">What a &ldquo;why&rdquo; looks like</h2>
+      <p>After two of the decisions, you write a few sentences. Then you get a short question that fits what you wrote.</p>
+      <p class="soft">This answer is made up. Yours can be shorter, longer or different.</p>
+    </div>
+    <div class="card">
+      <div class="notebook">
+        <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+        <span class="eyebrow">Why 1</span>
+        <p class="q">The photo is now in three chats. Who is responsible for what? Think about Lisa, the people who forwarded it, Sarah, and you. Write 2 to 4 sentences.</p>
+        <div class="ans"><span class="eyebrow lab">Sample answer</span>Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.</div>
+        <div class="arrow"><span class="dot" aria-hidden="true"></span>The story replies</div>
+        <div class="fu"><span class="eyebrow lab">Follow-up</span>You said who did what. Now add one thing: <span class="hl">what could happen to Sarah</span> because of it?</div>
+        <p class="note">Every follow-up is written by the team. The reader only chooses which one to show.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="before grid" aria-labelledby="before-h">
+    <div class="box">
+      <h2 id="before-h">Before you start</h2>
+      <ul>
+        <li>The story is fictional.</li>
+        <li>You must be 18 or older.</li>
+        <li>Answers are anonymous.</li>
+        <li>You can stop any time.</li>
+      </ul>
+      <p class="supp"><a href="support.html">Need support?</a></p>
+    </div>
+  </section>
+</main>
+
+<div data-footer></div>
+
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script>
+  DT.init();
+  DT.deckle(document.getElementById('hero-diorama'), { amp: 7, step: 15, seed: 11 });
+</script>
+</body>
+</html>

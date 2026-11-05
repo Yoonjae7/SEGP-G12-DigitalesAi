@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTales AI design pack: Scene boards</title>
+<link rel="stylesheet" href="css/gallery.css">
+<style>
+  .boards { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 32px; }
+  .tools { display: flex; align-items: center; gap: 16px; margin: 0 0 28px; }
+  .layers { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .layers span { font-size: 14px; border: 1px solid var(--hairline-strong); border-radius: 3px; padding: 2px 7px; background: #FBF8F0; font-variant-numeric: tabular-nums; }
+  @media (max-width: 1100px) { .boards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body class="doc">
+<nav class="gnav" id="gnav" aria-label="Design pack"></nav>
+<div class="sheet">
+  <h1>Scene boards</h1>
+  <p class="intro">One frame for each scene, S1 to S7, and both endings. Each is a stack of cut-paper layers with a depth number. Layers move at different speeds on a scene change (the paper-slide) and with the pointer or tilt.</p>
+  <div class="tools"><button class="btn paper" id="crop" aria-pressed="false">Show the phone crop</button><span class="soft small">On a phone the stage is portrait, so it shows the dashed column only. Every key moment sits inside it.</span></div>
+  <div class="boards" id="boards"></div>
+
+  <h2>Light recipes</h2>
+  <p class="note">Each scene gets one recipe, so the whole story reads as one stage. Characters get the same tint as the scene, applied as a colour filter in 2D and as a light colour in 3D.</p>
+  <table class="gt"><thead><tr><th>Recipe</th><th>Scenes</th><th>Key light</th><th>Fill and shadow</th><th>Sky</th></tr></thead><tbody>
+    <tr><td>Night, phone</td><td>S1, S2, S3</td><td>Phone glow <code>#CFE8EF</code>, drawn as 3 flat stepped shapes</td><td>Night <code>#10242B</code> and night-lift <code>#1D3B46</code>. Warm lamp spill <code>#F0C75E</code> at low opacity in S1.</td><td>Flat two-stop night sky</td></tr>
+    <tr><td>Morning</td><td>S4, S5, S6</td><td>Window light, stepped shafts at low opacity. S5 is softer. S6 is flatter.</td><td>Morning <code>#F6D9B8</code> walls. Long amber shadows.</td><td>Flat two-stop sky, glow to morning</td></tr>
+    <tr><td>Warm, low sun</td><td>S7, Ending A</td><td>Low sun at left, soft halo in 3 steps</td><td>Long warm shadows to the right</td><td>Flat two-stop, morning to butter</td></tr>
+    <tr><td>Flat grey-blue</td><td>S7, Ending B</td><td>No sun. Even, cold.</td><td>Long cool shadow, low contrast</td><td>Flat two-stop, grey-blue</td></tr>
+  </tbody></table>
+
+  <h2>Motion between frames</h2>
+  <ul class="notes" style="list-style:none;padding:0;font-size:19px;line-height:1.55">
+    <li>Scene change is the paper-slide: layers move at different speeds, 420 ms. With reduced motion it is a 150 ms crossfade.</li>
+    <li>Camera moves (push-in, pan, sway) run slowly on the layer depths below. They stop when the learner turns on reduced motion.</li>
+    <li>Pointer parallax on desktop. Device tilt on mobile, only after the learner allows it. Never asked on load.</li>
+  </ul>
+</div>
+<script src="js/rig.js"></script><script src="js/scenes.js"></script><script src="js/chrome.js"></script>
+<script src="js/gallery.js"></script>
+<script>
+  DT.init(); GAL.nav('scenes.html');
+  const B = [
+    { id: 's1', set: 'Dorm room. Bed, desk, lamp, window. Layers of curtain, shelf and poster shapes (no real posters).', light: 'Night. Cool phone glow on the learner&rsquo;s hands. Warm lamp spill.', cam: 'Over the shoulder on the bed, phone in the foreground. Slow push-in.', who: 'You, from behind, <code class="code">look-phone</code>.', lines: 's1_01 to s1_07', layers: ['Wall and window .08', 'Curtains .16', 'Shelf and posters .24', 'Desk and lamp .34', 'Pillow .5', 'Learner .62', 'Bed .8', 'Hands and phone 1.0'], move: 'Push-in 100% to 106% over 12 s.' },
+    { id: 's2', set: 'Same room. The phone fills the frame. Chat bubbles float as paper cut-outs.', light: 'Night. Phone glow only.', cam: 'Close on the phone. Slight handheld sway.', who: 'None. The learner is out of frame.', lines: 's2_01 to s2_04, then the D1 beats', layers: ['Wall .05', 'Curtains .14', 'Phone .5', 'Photo (hidden) cut-out 1.0', 'Floating bubbles 1.1'], move: 'Sway: 0.6 degrees, 5 s loop.' },
+    { id: 's3', set: 'Three phone panels in a row, joined by paper strips like a paper chain. A photo tile on each.', light: 'Night. Three small glows.', cam: 'Wide. Side-pan left to right as the photo moves.', who: 'None.', lines: 's3_01 to s3_06, then Why 1', layers: ['Rooms .12', 'Paper chain .4', 'Study Crew .6', 'Hall B .7', 'Film Night .8'], move: 'Pan left to right over 9 s. In 3D the set is wider than the frame. On a phone it holds on one panel at a time.' },
+    { id: 's4', set: 'Campus café. Counter, queue rail, tall windows, small tables. A paper crowd of faceless shapes.', light: 'Morning. Warm window light, long shadows.', cam: 'Medium. The learner is behind Sarah in the queue.', who: 'You and Sarah from behind. Marco <code class="code">look-phone</code> amused. Dev <code class="code">look-phone</code> flat.', lines: 's4_01 to s4_04, then the D2 beats', layers: ['Wall and floor .05', 'Windows .12', 'Light shafts .2', 'Counter .3', 'Crowd .42', 'Queue rail .5', 'Marco and Dev .56', 'Sarah .7', 'Learner .9'], move: 'Slow drift left, 40 px over 8 s.' },
+    { id: 's5', set: 'Café table, two-shot.', light: 'Morning, softer.', cam: 'Two-shot. Sarah left, you (from behind) right.', who: 'Sarah <code class="code">idle-breathe</code>, <em>hurt</em>. You from behind.', lines: 's5_01a to s5_06', layers: ['Wall and floor .05', 'Windows .12', 'Sarah .4', 'Table and cups .6', 'Learner .9'], move: 'Hold. A very small push-in.' },
+    { id: 's6', set: 'Café corner by the door. Coats on hooks, a notice board.', light: 'Morning, flatter.', cam: 'Two-shot. Lisa faces the camera, you from behind.', who: 'Lisa <code class="code">shrug</code>, <em>defensive</em>. You from behind.', lines: 's6_01 to s6_05, then the D3 beats and Why 2', layers: ['Wall and floor .05', 'Door .14', 'Light on the floor .2', 'Hooks and board .3', 'Lisa .6', 'Learner .9'], move: 'Hold.' },
+    { id: 's7a', set: 'Library steps. Four steps, columns, an arched door.', light: 'Ending A. Warm, low sun. Long warm shadows.', cam: 'Wide, then a slow push to the three of them.', who: 'Sarah <code class="code">idle-breathe</code>, <em>steady</em>. Lisa <code class="code">idle-breathe</code>, <em>sorry</em>. You from behind.', lines: 's7_01, eA_01 to eA_06', layers: ['Sky and sun .0', 'Library .14', 'Steps .3', 'Shadows .55', 'Sarah and Lisa .7', 'Learner .9'], move: 'Push-in 100% to 108% over 10 s.' },
+    { id: 's7b', set: 'Library steps. A bench with nothing on it.', light: 'Ending B. Flat grey-blue, long shadow.', cam: 'Wide, then a slow push to Sarah&rsquo;s empty place.', who: 'You from behind, <code class="code">look-phone</code>. Marco, Dev, small and far. Lisa walking away.', lines: 's7_01, eB_01 to eB_05', layers: ['Sky .0', 'Library .14', 'Steps .3', 'Bench .5', 'Shadows .55', 'Marco, Dev, Lisa .6', 'Learner .9'], move: 'Push toward the bench, 100% to 112% over 10 s.' }
+  ];
+  document.getElementById('boards').innerHTML = B.map(b => {
+    const m = Scenes.META[b.id], left = Math.max(0, Math.min(1600 - 585, m.focus - 292.5)) / 16, w = 585 / 16;
+    return `<figure class="board"><div class="art">${Scenes.render(b.id)}<div class="crop" style="left:${left}%;width:${w}%"></div></div>
+      <h3>${m.id}. ${m.title}</h3>
+      <dl><dt>Set</dt><dd>${b.set}</dd><dt>Light</dt><dd>${b.light}</dd><dt>Camera</dt><dd>${b.cam}</dd><dt>Move</dt><dd>${b.move}</dd><dt>People</dt><dd>${b.who}</dd><dt>Lines</dt><dd>${b.lines}</dd><dt>Layers</dt><dd><div class="layers">${b.layers.map(l => `<span>${l}</span>`).join('')}</div></dd></dl></figure>`;
+  }).join('');
+  const btn = document.getElementById('crop');
+  btn.addEventListener('click', () => { const on = btn.getAttribute('aria-pressed') !== 'true'; btn.setAttribute('aria-pressed', on); btn.textContent = on ? 'Hide the phone crop' : 'Show the phone crop'; document.querySelectorAll('.board').forEach(b => b.classList.toggle('showcrop', on)); });
+</script>
+</body>
+</html>
