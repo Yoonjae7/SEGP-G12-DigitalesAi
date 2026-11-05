@@ -115,26 +115,32 @@ test('sound and auto-play start on, and Pause and the sound button turn them off
   await expect(page.getByRole('button', { name: /Turn sound on/ })).toBeVisible();
 });
 
-test('Home says it is for learning digital citizenship, has the made-up note and wellbeing email, and shows no photo', async ({ page }) => {
+test('Home is short: digital citizenship through an adaptive story, the made-up note and wellbeing email, no photo, no 18+ line', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('digital citizenship');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('adaptive story');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('The choice is yours.');
+  await expect(page.getByText('18', { exact: false })).toHaveCount(0);
+  await expect(page.getByText('About 10 minutes')).toHaveCount(0);
+  await expect(page.getByText('Tell us a little')).toHaveCount(0);
   await expect(page.getByText('This story is made up.').first()).toBeVisible();
   await expect(page.getByRole('link', { name: 'Wellbeing.Ambassadors@nottingham.edu.my' }).first()).toBeVisible();
   await expect(page.getByRole('link', { name: 'Start the story' })).toBeVisible();
   await expect(page.locator('.photo-tile, .diorama')).toHaveCount(0);
 });
 
-test('Home offers Continue and Start again once a story is under way', async ({ page }) => {
+test('Start the story always starts from the beginning, even after a story was under way', async ({ page }) => {
   await startStory(page);
   await page.goto('/');
-  await expect(page.getByRole('link', { name: 'Continue the story' })).toBeVisible();
-  await page.getByRole('button', { name: 'Start again' }).click();
+  await expect(page.getByRole('link', { name: /continue/i })).toHaveCount(0);
+  await page.getByRole('link', { name: 'Start the story' }).click();
   await expect(page).toHaveURL(/\/start/);
   await expect(page.getByRole('button', { name: 'Yes, I am 18 or older' })).toBeVisible();
 });
 
-test('Support shows the wellbeing and group leader emails, and no emergency row', async ({ page }) => {
+test('Support shows the wellbeing email and the group leader (Wei Feng) with their email, and no emergency row', async ({ page }) => {
   await page.goto('/support');
+  await expect(page.getByText('Wei Feng')).toBeVisible();
   await expect(page.getByRole('link', { name: 'hfywh4@nottingham.edu.my' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Wellbeing.Ambassadors@nottingham.edu.my' })).toBeVisible();
   await expect(page.getByText('Emergency', { exact: true })).toHaveCount(0);

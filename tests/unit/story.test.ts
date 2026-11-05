@@ -46,6 +46,7 @@ describe('story.json', () => {
   it('never claims a learning impact, has the wellbeing and group leader emails, and still has the survey placeholder', () => {
     expect(uiRaw).toContain('Wellbeing.Ambassadors@nottingham.edu.my');
     expect(uiRaw).toContain('hfywh4@nottingham.edu.my');
+    expect(uiRaw).toContain('Wei Feng');
     expect(uiRaw.toLowerCase()).not.toContain('emergency contact');
     expect(uiRaw).toContain('[usability survey link: team to add]');
   });

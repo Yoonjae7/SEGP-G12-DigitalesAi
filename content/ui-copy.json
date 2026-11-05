@@ -8,78 +8,26 @@
   },
   "contacts": {
     "wellbeingEmail": "Wellbeing.Ambassadors@nottingham.edu.my",
-    "groupLeaderEmail": "hfywh4@nottingham.edu.my"
+    "groupLeaderEmail": "hfywh4@nottingham.edu.my",
+    "groupLeaderName": "Wei Feng"
   },
   "placeholders": {
     "survey": "[usability survey link: team to add]"
   },
   "home": {
-    "eyebrow": "Digital citizenship · for adults 18 and over",
+    "eyebrow": "Digital citizenship",
     "headline": [
       "Learn digital citizenship",
-      "through a short story.",
-      "Choose. Then say why."
+      "through an adaptive story.",
+      "The choice is yours."
     ],
-    "headlineMark": "say why.",
-    "lede": "DigiTales AI is a short interactive story about how we treat each other online: sharing, privacy, consent and who is responsible. You make three decisions and explain your thinking twice. About ten minutes. No points. No scores. Just your thinking.",
+    "headlineMark": "yours.",
+    "lede": "The story adapts to what you write. No points. No scores.",
     "start": "Start the story",
-    "continue": "Continue the story",
-    "again": "Start again",
-    "how": "How it works",
     "notice": {
       "title": "Before you start",
       "text": "This story is made up. It is about a photo shared without someone's consent, so it might remind you of something real. You can stop at any time.",
       "contact": "If it affects you, email the university wellbeing service:"
-    },
-    "facts": [
-      "About 10 minutes",
-      "3 decisions",
-      "2 written answers",
-      "No scores"
-    ],
-    "howTitle": "How it works",
-    "howSub": "Four steps. You can stop at any time.",
-    "steps": [
-      {
-        "title": "Tell us a little.",
-        "text": "Share an online moment, or pick a theme."
-      },
-      {
-        "title": "Make a choice.",
-        "text": "The story gives you a hard call. Neither option is wrong."
-      },
-      {
-        "title": "Say why.",
-        "text": "Write a few sentences. The system reads your answer and asks a question that fits it."
-      },
-      {
-        "title": "See what happened.",
-        "text": "We ask you something first. Then we explain."
-      }
-    ],
-    "sample": {
-      "eyebrow": "A made-up example",
-      "title": "What a “why” looks like",
-      "intro1": "After two of the decisions, you write a few sentences. Then you get a short question that fits what you wrote.",
-      "intro2": "This answer is made up. Yours can be shorter, longer or different.",
-      "whyLabel": "Why 1",
-      "answerLabel": "Sample answer",
-      "answer": "Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.",
-      "reply": "The story replies",
-      "followupLabel": "Follow-up",
-      "followupBefore": "You've said who did what. Can you add ",
-      "followupMark": "what could happen to Sarah",
-      "followupAfter": " because of it?",
-      "note": "Every follow-up is written by the team. The reader only chooses which one to show."
-    },
-    "before": {
-      "title": "Before you start",
-      "items": [
-        "The story is fictional.",
-        "You must be 18 or older.",
-        "Answers are anonymous.",
-        "You can stop any time."
-      ]
     }
   },
   "start": {

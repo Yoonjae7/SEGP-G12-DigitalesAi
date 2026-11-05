@@ -31,7 +31,7 @@ describe('mock scoring: Why 1 (analysis)', () => {
     expect(r.rule).toBe('A-THIN-NO-CONSEQUENCE');
     expect(r.next.textId).toBe('why1_fu_consequence');
   });
-  it('the sample on the Home page gets the follow-up shown there', () => {
+  it('a good first try that misses the consequence gets the consequence follow-up', () => {
     const r = scoreText(why1('Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.'));
     expect(r.next.textId).toBe('why1_fu_consequence');
   });

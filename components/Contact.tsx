@@ -6,8 +6,14 @@ export function WellbeingEmail() {
   return <a className="mail" href={`mailto:${email}`}>{email}</a>;
 }
 
-/** The project group leader's email, for questions about the study. */
-export function GroupLeaderEmail() {
-  const email = copy.contacts.groupLeaderEmail;
-  return <a className="mail" href={`mailto:${email}`}>{email}</a>;
+/** The project group leader: name, then email. */
+export function GroupLeader() {
+  const { groupLeaderName: name, groupLeaderEmail: email } = copy.contacts;
+  return (
+    <>
+      <span className="who-name">{name}</span>
+      <br />
+      <a className="mail" href={`mailto:${email}`}>{email}</a>
+    </>
+  );
 }

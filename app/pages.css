@@ -3,6 +3,8 @@
 /* ---------- home ---------- */
 .p-home .hero { padding-top: 56px; padding-bottom: 80px; align-items: start; position: relative; }
 .p-home .hero-text { grid-column: 1 / span 7; position: relative; z-index: 2; }
+.p-home { display: flex; flex-direction: column; min-height: 100vh; }
+.p-home main { flex: 1; }
 .p-home .hero .eyebrow { display: block; margin-bottom: 20px; }
 .p-home .hero h1 { font-size: clamp(36px, 3.9vw, 56px); line-height: 1.08; margin-bottom: 28px; }
 .p-home .hero h1 > span { display: block; }
@@ -252,6 +254,7 @@
 .p-support .contacts .c { padding: 22px 0; border-bottom: 1px solid var(--hairline-strong); display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: baseline; }
 .p-support .contacts .k { font: 700 var(--t-meta)/1.4 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
 .p-support .contacts .v { font-size: 22px; }
+.p-support .contacts .who-name { font-weight: 700; }
 .p-support .danger { margin-top: 30px; border: 2px solid var(--ink); border-radius: var(--r); padding: 20px 26px; font: 400 26px/1.4 var(--font-display); max-width: 30ch; }
 .p-support .back { margin-top: 30px; display: flex; gap: 24px; flex-wrap: wrap; }
 .p-support .sup .side { grid-column: 9 / span 4; }
