@@ -31,9 +31,11 @@ Open http://localhost:3000. Copy `.env.example` to `.env.local` first if you wan
 Everything the learner reads or hears is in two files. You do not need to touch code.
 
 - `content/story.json`: the story, the decisions, the two "why" questions and every follow-up, the endings, the feedback, the Reflect scene. Each line has an `id`. The id is also the audio file name. `when` shows a line only if an earlier choice matches. `pose` and `expression` drive the 3D people.
-- `content/ui-copy.json`: all interface words (Home, Start flow, buttons, About, Support). Placeholders for the team (wellbeing contact, emergency contact, survey link) are at the top, under `placeholders`.
+- `content/ui-copy.json`: all interface words (Home, Start flow, buttons, About, Support). The university wellbeing email is under `contacts`. The placeholders the team still has to fill (emergency contact, survey link) are under `placeholders`.
 
 Tests check these files for real brand names, banned words and the "no points" rule, so a slip is caught.
+
+Writing or changing a story? Follow [`content/WRITING-GUIDE.md`](content/WRITING-GUIDE.md). It says what the project is about (digital citizenship) and how the words should sound.
 
 ## How a written answer is read
 

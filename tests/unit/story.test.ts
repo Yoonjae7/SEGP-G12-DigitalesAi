@@ -43,10 +43,16 @@ describe('story.json', () => {
     for (const w of ['unlock', 'supercharge', 'journey', 'empower', 'seamless', 'improves', 'proven', 'boosts']) expect(hay.includes(w), w).toBe(false);
   });
 
-  it('never claims a learning impact and has the placeholders the team must fill', () => {
-    expect(uiRaw).toContain('[University wellbeing service: team to add contact]');
+  it('never claims a learning impact, has the wellbeing email, and still has the placeholders the team must fill', () => {
+    expect(uiRaw).toContain('Wellbeing.Ambassadors@nottingham.edu.my');
     expect(uiRaw).toContain('[Emergency contact: team to add]');
     expect(uiRaw).toContain('[usability survey link: team to add]');
+  });
+
+  it('keeps to the writing guide: no stiff phrases and no local jargon (content/WRITING-GUIDE.md)', () => {
+    const stiff = ['not trying to', 'fill the screen', 'goes still', 'sits there', 'cursor blinks', 'goes red', 'now add one thing', 'hall b', 'film night', 'legend'];
+    const hay = storyRaw.toLowerCase();
+    for (const w of stiff) expect(hay.includes(w), w).toBe(false);
   });
 
   it('18. the photo is only ever a tile: no line describes drawing it', () => {

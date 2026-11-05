@@ -122,7 +122,7 @@ test('13 (support). "Need support?" is reachable from every screen', async ({ pa
   await page.getByRole('button', { name: 'No thanks' }).click();
   await has('end');
   await page.getByRole('link', { name: 'Need support?' }).first().click();
-  await expect(page.getByText('[University wellbeing service: team to add contact]')).toBeVisible();
+  await expect(page.getByText('Wellbeing.Ambassadors@nottingham.edu.my')).toBeVisible();
   await expect(page.getByText('If you are in danger now, contact local emergency services.')).toBeVisible();
 });
 

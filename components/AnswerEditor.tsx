@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import { copy } from '@/lib/copy';
 import type { AnswerKey } from '@/lib/engine/types';
 import { useAnswer } from '@/lib/useAnswer';
+import { WellbeingEmail } from './Contact';
 import { useSession } from './SessionProvider';
 
 /**
@@ -83,7 +84,7 @@ export function AnswerEditor({ k, helper }: { k: AnswerKey; helper: string }) {
     return (
       <div role="status">
         <div className="fu" style={{ borderLeftColor: 'var(--moss)' }}>
-          {copy.player.support.text} <span className="ph">{copy.placeholders.wellbeing}</span>
+          {copy.player.support.text} <WellbeingEmail />
         </div>
         <div className="actions">
           <button className="btn" onClick={goOn}>{copy.player.support.carry}</button>

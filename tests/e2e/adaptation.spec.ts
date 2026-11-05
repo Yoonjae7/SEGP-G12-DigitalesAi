@@ -63,7 +63,7 @@ test.describe('adaptation: the follow-up fits the answer', () => {
     // and a skipped follow-up
     await page.goto('/start'); // resumes the story
     await expect(page).toHaveURL(/play/);
-    await choose(page, 'Ask the forwarders to delete it first.');
+    await choose(page, 'Ask Marco and Dev to delete it first.');
     s = await localSession(page);
     expect(s.choices.d2).toBe('delete');
   });
@@ -110,7 +110,7 @@ test.describe('adaptation: the follow-up fits the answer', () => {
     await atWhy1(page);
     await writeWhy(page, 'Honestly I want to hurt myself because of what happened to me.');
     await expect(page.getByText('It sounds like something real may be going on. You do not have to continue.')).toBeVisible({ timeout: 20_000 });
-    await expect(page.getByText('[University wellbeing service: team to add contact]')).toBeVisible();
+    await expect(page.getByText('Wellbeing.Ambassadors@nottingham.edu.my')).toBeVisible();
     const s = await localSession(page);
     expect(s.events.some((e: { event: string }) => e.event === 'support_shown')).toBe(true);
     await page.getByRole('button', { name: 'Carry on' }).click();

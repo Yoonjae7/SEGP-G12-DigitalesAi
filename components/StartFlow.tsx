@@ -6,6 +6,7 @@ import { guessEmotion, matchStory } from '@/lib/ai/client';
 import { EMOTION_LABELS, type EmotionLabel } from '@/lib/ai/types';
 import { copy, fill } from '@/lib/copy';
 import { Footer, TopBar } from './Brand';
+import { WellbeingEmail } from './Contact';
 import { Mark } from './Marks';
 import { SceneArt } from './SceneArt';
 import { useSession, useStepGuard } from './SessionProvider';
@@ -86,7 +87,7 @@ function Note() {
     <Frame step={2} deco={<Mark id="mk-lamp" size={170} />}>
       <Heading>{c.note.title}</Heading>
       <p className="lead">{c.note.text}</p>
-      <p className="callout"><span className="ph">{copy.placeholders.wellbeing}</span></p>
+      <p className="callout"><WellbeingEmail /></p>
       <div className="actions"><button className="btn" onClick={() => dispatch({ t: 'noteOk' })}>{c.note.ok}</button></div>
     </Frame>
   );

@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test';
 
 export const D1 = { private: 'Message Lisa privately.', group: 'Reply in the group chat.' };
-export const D2 = { tell: 'Tell Sarah what is happening.', delete: 'Ask the forwarders to delete it first.' };
+export const D2 = { tell: 'Tell Sarah what is happening.', delete: 'Ask Marco and Dev to delete it first.' };
 export const D3 = { accept: 'Accept her excuse.', hold: 'Hold her responsible.' };
 
 /** Gets through the start flow. Leaves the page on the first line of the story. */

@@ -6,43 +6,43 @@
     {
       "id": "s1", "n": 1, "title": "Ping", "art": "s1",
       "description": "A dark dorm room at night. You sit on the bed, seen from behind. Your phone lights your hands. A lamp glows on the desk.",
-      "chat": "Study Crew",
+      "chat": "Close Friends",
       "stage": { "set": "s1", "characters": [{ "id": "you", "view": "back", "pose": "look-phone" }] },
       "lines": [
         { "id": "s1_01", "speaker": "narrator", "kind": "narration", "text": "Tuesday, 11:40 pm. Your phone buzzes.", "voiced": true, "pose": "look-phone" },
-        { "id": "s1_02", "speaker": "lisa", "kind": "chat", "text": "Look who fell asleep on the shuttle.", "voiced": true, "showPhotoTile": true },
-        { "id": "s1_03", "speaker": "narrator", "kind": "narration", "text": "It is Sarah. Mouth open. Bag on her lap.", "voiced": true },
-        { "id": "s1_04", "speaker": "marco", "kind": "chat", "text": "Ha! Legend.", "voiced": true },
-        { "id": "s1_05", "speaker": "dev", "kind": "chat", "text": "Send this to Hall B.", "voiced": true },
-        { "id": "s1_06", "speaker": "screen", "kind": "screen", "text": "12 people are in Study Crew. Sarah is not one of them.", "voiced": false },
-        { "id": "s1_07", "speaker": "narrator", "kind": "narration", "text": "Laughing faces fill the screen. You are not laughing.", "voiced": true }
+        { "id": "s1_02", "speaker": "lisa", "kind": "chat", "text": "Haha, look who fell asleep on the bus.", "voiced": true, "showPhotoTile": true },
+        { "id": "s1_03", "speaker": "narrator", "kind": "narration", "text": "It's a photo of Sarah asleep on the bus with her mouth open.", "voiced": true },
+        { "id": "s1_04", "speaker": "marco", "kind": "chat", "text": "Haha, this is so good.", "voiced": true },
+        { "id": "s1_05", "speaker": "dev", "kind": "chat", "text": "Send this to our study group chat.", "voiced": true },
+        { "id": "s1_06", "speaker": "screen", "kind": "screen", "text": "12 people are in this chat. Sarah isn't one of them.", "voiced": false },
+        { "id": "s1_07", "speaker": "narrator", "kind": "narration", "text": "Everyone in the chat is laughing, but you don't think it's funny.", "voiced": true }
       ]
     },
     {
       "id": "s2", "n": 2, "title": "Your Move", "art": "s2",
       "description": "Close on your phone. Chat bubbles float in the dark, like paper cut-outs.",
-      "chat": "Study Crew",
+      "chat": "Close Friends",
       "stage": { "set": "s2", "characters": [] },
       "lines": [
-        { "id": "s2_01", "speaker": "narrator", "kind": "narration", "text": "Nobody asked Sarah. She does not know.", "voiced": true },
-        { "id": "s2_02", "speaker": "lisa", "kind": "chat", "text": "Isn't it perfect?", "voiced": true },
-        { "id": "s2_03", "speaker": "narrator", "kind": "narration", "text": "Lisa is your friend. She is not cruel. She is laughing.", "voiced": true },
-        { "id": "s2_04", "speaker": "narrator", "kind": "narration", "text": "You have a few seconds. What do you do?", "voiced": true }
+        { "id": "s2_01", "speaker": "narrator", "kind": "narration", "text": "Nobody asked Sarah before posting it, and she has no idea the photo exists.", "voiced": true },
+        { "id": "s2_02", "speaker": "lisa", "kind": "chat", "text": "This is so funny, right?", "voiced": true },
+        { "id": "s2_03", "speaker": "narrator", "kind": "narration", "text": "Lisa is your friend. She doesn't mean any harm. She just finds it funny and takes it lightly.", "voiced": true },
+        { "id": "s2_04", "speaker": "narrator", "kind": "narration", "text": "You've got a few seconds. What do you do?", "voiced": true }
       ]
     },
     {
       "id": "s3", "n": 3, "title": "Two More Groups", "art": "s3",
       "description": "Three phones in a row, joined by paper strips like a paper chain. Each one shows the hidden photo.",
-      "chat": "Study Crew",
+      "chat": "Close Friends",
       "stage": { "set": "s3", "characters": [] },
       "lines": [
-        { "id": "s3_01", "speaker": "narrator", "kind": "narration", "text": "By midnight, the photo has moved.", "voiced": true },
-        { "id": "s3_02", "speaker": "dev", "kind": "chat", "text": "Sent it to Hall B.", "voiced": true },
-        { "id": "s3_03", "speaker": "marco", "kind": "chat", "text": "Film Night too. They love it.", "voiced": true },
-        { "id": "s3_04", "speaker": "screen", "kind": "screen", "text": "Now it is in three chats. Anyone can save it.", "voiced": false, "showPhotoTile": true },
-        { "id": "s3_05a", "speaker": "narrator", "kind": "narration", "text": "Lisa has not written again. Your message sits there. Read.", "voiced": true, "when": { "d1": "private" } },
-        { "id": "s3_05b", "speaker": "narrator", "kind": "narration", "text": "Lisa is silent. Others keep sending laughing faces.", "voiced": true, "when": { "d1": "group" } },
-        { "id": "s3_06", "speaker": "narrator", "kind": "narration", "text": "Sarah is asleep. She does not know.", "voiced": true }
+        { "id": "s3_01", "speaker": "narrator", "kind": "narration", "text": "By midnight, the photo has already been forwarded to other chats.", "voiced": true },
+        { "id": "s3_02", "speaker": "dev", "kind": "chat", "text": "Just sent it to our study group chat.", "voiced": true },
+        { "id": "s3_03", "speaker": "marco", "kind": "chat", "text": "Sent it to my football group too. They love it.", "voiced": true },
+        { "id": "s3_04", "speaker": "screen", "kind": "screen", "text": "Now it's in three chats, and anyone can save it.", "voiced": false, "showPhotoTile": true },
+        { "id": "s3_05a", "speaker": "narrator", "kind": "narration", "text": "Lisa read your message but hasn't replied.", "voiced": true, "when": { "d1": "private" } },
+        { "id": "s3_05b", "speaker": "narrator", "kind": "narration", "text": "Lisa hasn't replied. Everyone else is still laughing in the chat.", "voiced": true, "when": { "d1": "group" } },
+        { "id": "s3_06", "speaker": "narrator", "kind": "narration", "text": "Sarah is asleep and has no idea about any of this.", "voiced": true }
       ]
     },
     {
@@ -50,10 +50,10 @@
       "description": "The campus café, Wednesday morning. You stand behind Sarah in the queue. Marco and Dev are near the counter, looking at their phones.",
       "stage": { "set": "s4", "characters": [{ "id": "you", "view": "back", "pose": "idle-breathe" }, { "id": "sarah", "view": "back", "pose": "idle-breathe" }, { "id": "marco", "view": "front", "pose": "look-phone", "expression": "amused" }, { "id": "dev", "view": "front", "pose": "look-phone", "expression": "flat" }] },
       "lines": [
-        { "id": "s4_01", "speaker": "narrator", "kind": "narration", "text": "Wednesday, 8:30 am. The campus café.", "voiced": true },
-        { "id": "s4_02", "speaker": "narrator", "kind": "narration", "text": "People look at their phones. Then at Sarah.", "voiced": true },
-        { "id": "s4_03", "speaker": "sarah", "kind": "dialogue", "text": "Morning. Is something wrong with my bag?", "voiced": true, "expression": "calm" },
-        { "id": "s4_04", "speaker": "narrator", "kind": "narration", "text": "She does not know. You do. Marco and Dev are three steps away.", "voiced": true }
+        { "id": "s4_01", "speaker": "narrator", "kind": "narration", "text": "It's Wednesday, 8:30 am, at the campus café.", "voiced": true },
+        { "id": "s4_02", "speaker": "narrator", "kind": "narration", "text": "People in the café look at their phones, then at Sarah.", "voiced": true },
+        { "id": "s4_03", "speaker": "sarah", "kind": "dialogue", "text": "Morning. Why is everyone looking at me?", "voiced": true, "expression": "calm" },
+        { "id": "s4_04", "speaker": "narrator", "kind": "narration", "text": "Sarah has no idea about the photo, but you do. Marco and Dev are standing nearby.", "voiced": true }
       ]
     },
     {
@@ -61,14 +61,14 @@
       "description": "A café table. Sarah sits across from you, and you are seen from behind. The light is softer.",
       "stage": { "set": "s5", "characters": [{ "id": "sarah", "view": "front", "pose": "idle-breathe", "expression": "hurt" }, { "id": "you", "view": "back", "pose": "idle-breathe" }] },
       "lines": [
-        { "id": "s5_01a", "speaker": "sarah", "kind": "dialogue", "text": "Thank you for telling me first. It helps. A little.", "voiced": true, "expression": "steady", "when": { "d2": "tell" } },
-        { "id": "s5_01b", "speaker": "narrator", "kind": "narration", "text": "You turn to Sarah and tell her. It is ten minutes late.", "voiced": true, "when": { "d2": "delete" } },
-        { "id": "s5_01c", "speaker": "sarah", "kind": "dialogue", "text": "You tried to stop it. I get that. I wish you had told me first.", "voiced": true, "expression": "hurt", "when": { "d2": "delete" } },
-        { "id": "s5_02", "speaker": "narrator", "kind": "narration", "text": "Sarah's hands shake a little.", "voiced": true },
-        { "id": "s5_03", "speaker": "sarah", "kind": "dialogue", "text": "I do not want a fight. I just want it gone.", "voiced": true, "expression": "hurt" },
-        { "id": "s5_04", "speaker": "narrator", "kind": "narration", "text": "She picks up her bag. She leaves her coffee.", "voiced": true },
-        { "id": "s5_05", "speaker": "narrator", "kind": "narration", "text": "The door opens. Lisa walks in, laughing. She sees your face. She stops.", "voiced": true },
-        { "id": "s5_06", "speaker": "screen", "kind": "screen", "text": "Lisa knows something is wrong.", "voiced": false }
+        { "id": "s5_01a", "speaker": "sarah", "kind": "dialogue", "text": "Thank you for telling me first. It helps, a little.", "voiced": true, "expression": "steady", "when": { "d2": "tell" } },
+        { "id": "s5_01b", "speaker": "narrator", "kind": "narration", "text": "You tell Sarah about the photo now, about ten minutes later than you should have.", "voiced": true, "when": { "d2": "delete" } },
+        { "id": "s5_01c", "speaker": "sarah", "kind": "dialogue", "text": "I know you tried to stop it, and I get that. I just wish you'd told me first.", "voiced": true, "expression": "hurt", "when": { "d2": "delete" } },
+        { "id": "s5_02", "speaker": "narrator", "kind": "narration", "text": "Sarah's hands are shaking a little.", "voiced": true },
+        { "id": "s5_03", "speaker": "sarah", "kind": "dialogue", "text": "I don't want a fight. I just want it gone.", "voiced": true, "expression": "hurt" },
+        { "id": "s5_04", "speaker": "narrator", "kind": "narration", "text": "Sarah picks up her bag and leaves. She doesn't even take her coffee.", "voiced": true },
+        { "id": "s5_05", "speaker": "narrator", "kind": "narration", "text": "Lisa walks in laughing. She sees the look on your face and stops.", "voiced": true },
+        { "id": "s5_06", "speaker": "screen", "kind": "screen", "text": "Lisa can tell something's wrong.", "voiced": false }
       ]
     },
     {
@@ -76,10 +76,10 @@
       "description": "A corner of the café by the door. Lisa faces you. You are seen from behind. The light is flat.",
       "stage": { "set": "s6", "characters": [{ "id": "lisa", "view": "front", "pose": "shrug", "expression": "defensive" }, { "id": "you", "view": "back", "pose": "idle-breathe" }] },
       "lines": [
-        { "id": "s6_01", "speaker": "lisa", "kind": "dialogue", "text": "What? It was one joke.", "voiced": true, "expression": "defensive", "pose": "shrug" },
+        { "id": "s6_01", "speaker": "lisa", "kind": "dialogue", "text": "What? It was just one joke.", "voiced": true, "expression": "defensive", "pose": "shrug" },
         { "id": "s6_02", "speaker": "lisa", "kind": "dialogue", "text": "I only shared it with close friends.", "voiced": true, "expression": "defensive" },
-        { "id": "s6_03", "speaker": "lisa", "kind": "dialogue", "text": "I didn't expect anyone to forward it.", "voiced": true, "expression": "defensive" },
-        { "id": "s6_04", "speaker": "narrator", "kind": "narration", "text": "She sounds sorry. She also sounds like she wants this to end.", "voiced": true },
+        { "id": "s6_03", "speaker": "lisa", "kind": "dialogue", "text": "I didn't think anyone would forward it.", "voiced": true, "expression": "defensive" },
+        { "id": "s6_04", "speaker": "narrator", "kind": "narration", "text": "Lisa sounds a bit sorry, but mostly she just wants this conversation to end.", "voiced": true },
         { "id": "s6_05", "speaker": "lisa", "kind": "dialogue", "text": "Come on. You know me.", "voiced": true, "expression": "smirk" }
       ]
     },
@@ -88,7 +88,7 @@
       "description": "The library steps, on Friday.",
       "stage": { "set": "s7", "characters": [] },
       "lines": [
-        { "id": "s7_01", "speaker": "narrator", "kind": "narration", "text": "Friday. Two days later. You check the chats again.", "voiced": true }
+        { "id": "s7_01", "speaker": "narrator", "kind": "narration", "text": "It's Friday, two days later. You check the chats again.", "voiced": true }
       ]
     }
   ],
@@ -99,18 +99,18 @@
         {
           "id": "d1_private", "label": "Message Lisa privately.", "sub": "Ask her to take it down, just between you two.",
           "beat": [
-            { "id": "s2p_01", "speaker": "you", "kind": "screen", "text": "Can you delete the photo? Sarah did not say yes.", "voiced": false },
+            { "id": "s2p_01", "speaker": "you", "kind": "screen", "text": "Can you delete the photo? Sarah never said it was okay.", "voiced": false },
             { "id": "s2p_02", "speaker": "lisa", "kind": "chat", "text": "It's a joke! She'll never see it.", "voiced": true },
-            { "id": "s2p_03", "speaker": "narrator", "kind": "narration", "text": "Lisa did not say no. She did not delete it either.", "voiced": true }
+            { "id": "s2p_03", "speaker": "narrator", "kind": "narration", "text": "Lisa doesn't delete the photo, and she doesn't say she will.", "voiced": true }
           ]
         },
         {
           "id": "d1_group", "label": "Reply in the group chat.", "sub": "Say it where everyone can see.",
           "beat": [
-            { "id": "s2g_01", "speaker": "you", "kind": "screen", "text": "Can we take this down? Sarah did not agree to it.", "voiced": false },
-            { "id": "s2g_02", "speaker": "marco", "kind": "chat", "text": "Relax. It's funny.", "voiced": true },
+            { "id": "s2g_01", "speaker": "you", "kind": "screen", "text": "Can we take this down? Sarah never agreed to it.", "voiced": false },
+            { "id": "s2g_02", "speaker": "marco", "kind": "chat", "text": "Relax. It's just a joke.", "voiced": true },
             { "id": "s2g_03", "speaker": "lisa", "kind": "chat", "text": "Wow. Okay.", "voiced": true },
-            { "id": "s2g_04", "speaker": "narrator", "kind": "narration", "text": "Two people agree with you. Others go quiet. Lisa goes quiet too.", "voiced": true }
+            { "id": "s2g_04", "speaker": "narrator", "kind": "narration", "text": "Two people agree with you, but everyone else stays quiet. Lisa stops replying.", "voiced": true }
           ]
         }
       ]
@@ -121,19 +121,19 @@
         {
           "id": "d2_tell", "label": "Tell Sarah what is happening.", "sub": "Take her aside and tell her now.",
           "beat": [
-            { "id": "s4t_01", "speaker": "you", "kind": "screen", "text": "Sarah, can we sit for a minute? Something was posted about you.", "voiced": false },
-            { "id": "s4t_02", "speaker": "sarah", "kind": "dialogue", "text": "Posted? What?", "voiced": true, "expression": "worried" },
-            { "id": "s4t_03", "speaker": "narrator", "kind": "narration", "text": "You tell her. She asks to see it. Her face goes still.", "voiced": true },
-            { "id": "s4t_04", "speaker": "narrator", "kind": "narration", "text": "Behind you, Marco and Dev still have it on their phones.", "voiced": true }
+            { "id": "s4t_01", "speaker": "you", "kind": "screen", "text": "Sarah, can we sit down? Someone posted a photo of you in a chat.", "voiced": false },
+            { "id": "s4t_02", "speaker": "sarah", "kind": "dialogue", "text": "A photo? What photo?", "voiced": true, "expression": "worried" },
+            { "id": "s4t_03", "speaker": "narrator", "kind": "narration", "text": "You tell her about it and she asks to see it. She looks shocked.", "voiced": true },
+            { "id": "s4t_04", "speaker": "narrator", "kind": "narration", "text": "Marco and Dev still have the photo on their phones.", "voiced": true }
           ]
         },
         {
-          "id": "d2_delete", "label": "Ask the forwarders to delete it first.", "sub": "Ask Marco and Dev to take it down.",
+          "id": "d2_delete", "label": "Ask Marco and Dev to delete it first.", "sub": "Get the photo removed before you talk to Sarah.",
           "beat": [
-            { "id": "s4d_01", "speaker": "you", "kind": "screen", "text": "Marco, Dev. Please delete that photo. Now.", "voiced": false },
+            { "id": "s4d_01", "speaker": "you", "kind": "screen", "text": "Marco, Dev, please delete that photo right now.", "voiced": false },
             { "id": "s4d_02", "speaker": "marco", "kind": "dialogue", "text": "Fine. Deleted.", "voiced": true, "expression": "shrugF" },
-            { "id": "s4d_03", "speaker": "dev", "kind": "dialogue", "text": "Others already saved it.", "voiced": true, "expression": "flat" },
-            { "id": "s4d_04", "speaker": "narrator", "kind": "narration", "text": "Two copies gone. Many are not. Sarah is still waiting for her coffee. She does not know.", "voiced": true }
+            { "id": "s4d_03", "speaker": "dev", "kind": "dialogue", "text": "Other people already saved it, though.", "voiced": true, "expression": "flat" },
+            { "id": "s4d_04", "speaker": "narrator", "kind": "narration", "text": "Two copies are gone, but plenty of others aren't. Sarah is still waiting for her coffee and has no idea.", "voiced": true }
           ]
         }
       ]
@@ -142,20 +142,20 @@
       "id": "d3", "scene": "s6", "prompt": "What do you say to Lisa?",
       "options": [
         {
-          "id": "d3_accept", "label": "Accept her excuse.", "sub": "Say you know she did not mean harm.",
+          "id": "d3_accept", "label": "Accept her excuse.", "sub": "Say you know she didn't mean any harm.",
           "beat": [
-            { "id": "s6a_01", "speaker": "you", "kind": "screen", "text": "Okay. I know you did not mean for this to happen.", "voiced": false },
+            { "id": "s6a_01", "speaker": "you", "kind": "screen", "text": "Okay. I know you didn't mean for this to happen.", "voiced": false },
             { "id": "s6a_02", "speaker": "lisa", "kind": "dialogue", "text": "Thank you. I'll tell them to stop.", "voiced": true, "expression": "calm" },
-            { "id": "s6a_03", "speaker": "narrator", "kind": "narration", "text": "Lisa relaxes. Your friendship feels safe. Sarah has not heard from her.", "voiced": true }
+            { "id": "s6a_03", "speaker": "narrator", "kind": "narration", "text": "Lisa relaxes, and things between you two feel fine. But Sarah still hasn't heard anything from her.", "voiced": true }
           ]
         },
         {
           "id": "d3_hold", "label": "Hold her responsible.", "sub": "Say the post was her choice.",
           "beat": [
-            { "id": "s6h_01", "speaker": "you", "kind": "screen", "text": "You posted it. You did not ask Sarah. That part is on you.", "voiced": false },
+            { "id": "s6h_01", "speaker": "you", "kind": "screen", "text": "You posted it, and you didn't ask Sarah first. That part is on you.", "voiced": false },
             { "id": "s6h_02", "speaker": "lisa", "kind": "dialogue", "text": "That's not fair!", "voiced": true, "expression": "defensive" },
             { "id": "s6h_03", "speaker": "lisa", "kind": "dialogue", "text": "...I didn't think.", "voiced": true, "expression": "ashamed", "pose": "hands-to-head" },
-            { "id": "s6h_04", "speaker": "narrator", "kind": "narration", "text": "Lisa goes red. She is hurt. She stops arguing.", "voiced": true }
+            { "id": "s6h_04", "speaker": "narrator", "kind": "narration", "text": "Lisa looks embarrassed and a bit hurt. She stops arguing.", "voiced": true }
           ]
         }
       ]
@@ -165,31 +165,31 @@
     "why1": {
       "id": "why1", "criterion": "analysis", "after": "s3", "scene": "s3",
       "question": "The photo is now in three chats. Who is responsible for what? Think about Lisa, the people who forwarded it, Sarah, and you. Write 2 to 4 sentences.",
-      "helper": "2 to 4 sentences. There is no right answer, but reasons help.",
+      "helper": "2 to 4 sentences. There's no right answer, but reasons help.",
       "followups": {
-        "why1_fu_consequence": "You said who did what. Now add one thing: what could happen to Sarah because of it?",
-        "why1_fu_parties": "You named one person. Who else played a part, and what was their part?",
-        "why1_fu_split": "Try to split it up. What is Lisa's part? What is the part of the people who forwarded it?"
+        "why1_fu_consequence": "You've said who did what. Can you add what could happen to Sarah because of it?",
+        "why1_fu_parties": "You've named one person. Who else played a part, and what did they do?",
+        "why1_fu_split": "Can you split it up? What's Lisa's part, and what's the part of the people who forwarded it?"
       },
-      "harder": "Now look from Sarah's side. She is not in the chat and she did not agree to the photo. What does she need from each person, and who can give it?",
-      "nudge": "Say a little more. Two or three sentences about who did what.",
-      "ackFollowup": "Thanks. Let's go on.",
-      "ackHarder": "Thanks. That adds a side the chat never heard.",
-      "skipped": "That is fine. Let's go on."
+      "harder": "Now try it from Sarah's side. She isn't in the chat and never agreed to the photo. What does she need from each person, and who can actually give it?",
+      "nudge": "Can you say a bit more? Two or three sentences about who did what would be great.",
+      "ackFollowup": "Thanks, let's keep going.",
+      "ackHarder": "Thanks. That brings in a side the chat never heard.",
+      "skipped": "That's fine, let's keep going."
     },
     "why2": {
       "id": "why2", "criterion": "evaluation", "after": "s6", "scene": "s6",
-      "question": "Lisa says she only shared the photo with close friends and did not expect anyone to forward it. Do you agree with her? Give your reasons. Write 2 to 4 sentences.",
-      "helper": "2 to 4 sentences. There is no right answer, but reasons help.",
+      "question": "Lisa says she only shared the photo with close friends and didn't expect anyone to forward it. Do you agree with her? Give your reasons. Write 2 to 4 sentences.",
+      "helper": "2 to 4 sentences. There's no right answer, but reasons help.",
       "followups": {
-        "why2_fu_reason": "You said what you think. Now say why. What is one reason for your view?",
-        "why2_fu_consequence": "Think about Sarah. What changes for her if Lisa's excuse is accepted, and what changes if it is not? Add one to your answer."
+        "why2_fu_reason": "You've said what you think. Can you say why? Give one reason for your view.",
+        "why2_fu_consequence": "Think about Sarah. What changes for her if Lisa's excuse is accepted, and what changes if it isn't? Add one of those to your answer."
       },
-      "harder": "Write the best reason someone could give for the opposite view. Then say if it changes your mind.",
-      "nudge": "Say a little more. Do you agree with Lisa? Give one reason.",
-      "ackFollowup": "Thanks. Let's go on.",
+      "harder": "What's the best reason someone could give for the opposite view? Does it change your mind?",
+      "nudge": "Can you say a bit more? Do you agree with Lisa, and why?",
+      "ackFollowup": "Thanks, let's keep going.",
       "ackHarder": "Thanks. It helps to hear the other side.",
-      "skipped": "That is fine. Let's go on."
+      "skipped": "That's fine, let's keep going."
     }
   },
   "endings": {
@@ -198,21 +198,21 @@
       "description": "Warm, low sun on the library steps. Sarah, Lisa and you.",
       "stage": { "set": "s7a", "characters": [{ "id": "sarah", "view": "front", "pose": "stand-firm", "expression": "steady" }, { "id": "lisa", "view": "front", "pose": "reach-out", "expression": "sorry" }, { "id": "you", "view": "back", "pose": "idle-breathe" }] },
       "lines": [
-        { "id": "eA_01", "speaker": "narrator", "kind": "narration", "text": "Sarah asks to meet on the library steps. Lisa is there too.", "voiced": true },
-        { "id": "eA_02", "speaker": "lisa", "kind": "dialogue", "text": "I posted a photo of you without asking. That was wrong. I'm sorry.", "voiced": true, "expression": "sorry" },
+        { "id": "eA_01", "speaker": "narrator", "kind": "narration", "text": "Sarah asks to meet on the library steps, and Lisa is there too.", "voiced": true },
+        { "id": "eA_02", "speaker": "lisa", "kind": "dialogue", "text": "I posted a photo of you without asking, and that was wrong. I'm sorry.", "voiced": true, "expression": "sorry" },
         { "id": "eA_03", "speaker": "sarah", "kind": "dialogue", "text": "Thank you. I want it gone from every chat.", "voiced": true, "expression": "steady" },
-        { "id": "eA_04", "speaker": "screen", "kind": "screen", "text": "Lisa, in all three chats: \"I posted a photo of Sarah without asking. Please delete it. Do not share it.\"", "voiced": false },
-        { "id": "eA_05", "speaker": "narrator", "kind": "narration", "text": "Marco and Dev delete it. Some copies may still be out there. Sarah knows. She decides what happens next.", "voiced": true },
-        { "id": "eA_06", "speaker": "narrator", "kind": "narration", "text": "The steps are quiet. Sarah is not smiling. But she does not leave.", "voiced": true }
+        { "id": "eA_04", "speaker": "screen", "kind": "screen", "text": "Lisa writes in all three chats: \"I posted a photo of Sarah without asking. Please delete it and don't share it.\"", "voiced": false },
+        { "id": "eA_05", "speaker": "narrator", "kind": "narration", "text": "Marco and Dev delete the photo. Some people might still have a copy, and Sarah knows that. What she does next is up to her.", "voiced": true },
+        { "id": "eA_06", "speaker": "narrator", "kind": "narration", "text": "Nobody says much. Sarah isn't smiling, but she stays.", "voiced": true }
       ],
       "ask": {
         "question": "Sarah is going to meet Lisa. What do you think she needs most from Lisa?",
         "taps": ["A clear sorry", "The photo deleted everywhere", "Time and space", "Not sure"]
       },
       "explain": [
-        "Lisa said what she did and said sorry. Sarah did not have to ask for it. That is what made it possible to talk.",
-        "The photo came down in all three chats. Copies may still exist, so some risk stays with Sarah. That part could not be undone.",
-        "In your answers, you separated who did what: posting, forwarding and responding. That let you act without taking Sarah's choices from her."
+        "Lisa said what she did and said sorry without Sarah having to ask. That's what made it possible to talk.",
+        "The photo came down in all three chats. Some copies might still exist, so there's still some risk for Sarah, and that can't be undone.",
+        "In your answers, you separated who did what: posting, forwarding and responding. That helped you act without taking Sarah's choices away from her."
       ]
     },
     "B": {
@@ -220,39 +220,39 @@
       "description": "Flat grey-blue light on the library steps. A bench with nothing on it.",
       "stage": { "set": "s7b", "characters": [{ "id": "you", "view": "back", "pose": "look-phone" }, { "id": "marco", "view": "front", "pose": "idle-breathe", "expression": "shrugF" }, { "id": "dev", "view": "front", "pose": "idle-breathe", "expression": "flat" }, { "id": "lisa", "view": "back", "pose": "turn-away" }] },
       "lines": [
-        { "id": "eB_01", "speaker": "narrator", "kind": "narration", "text": "Sarah does not come to tutorial. Her seat is empty.", "voiced": true },
-        { "id": "eB_02", "speaker": "screen", "kind": "screen", "text": "The photo is still in two chats. A new group has it now.", "voiced": false, "showPhotoTile": true },
-        { "id": "eB_03", "speaker": "narrator", "kind": "narration", "text": "Lisa avoids you. Marco and Dev say it is old news.", "voiced": true },
-        { "id": "eB_04", "speaker": "narrator", "kind": "narration", "text": "Nobody has said sorry. Sarah is carrying this alone.", "voiced": true },
-        { "id": "eB_05", "speaker": "narrator", "kind": "narration", "text": "You open a message to Sarah. The cursor blinks.", "voiced": true }
+        { "id": "eB_01", "speaker": "narrator", "kind": "narration", "text": "Sarah doesn't come to tutorial, and her seat is empty.", "voiced": true },
+        { "id": "eB_02", "speaker": "screen", "kind": "screen", "text": "The photo is still in two chats, and a new group has it now.", "voiced": false, "showPhotoTile": true },
+        { "id": "eB_03", "speaker": "narrator", "kind": "narration", "text": "Lisa avoids you. Marco and Dev say it's old news.", "voiced": true },
+        { "id": "eB_04", "speaker": "narrator", "kind": "narration", "text": "Nobody has said sorry to Sarah, so she's dealing with this on her own.", "voiced": true },
+        { "id": "eB_05", "speaker": "narrator", "kind": "narration", "text": "You open a message to Sarah, but you haven't written anything yet.", "voiced": true }
       ],
       "ask": {
         "question": "The photo is still in two chats. What do you think would help most now?",
         "taps": ["Lisa speaks up first", "Each chat removes the photo", "Sarah hears a clear sorry", "Not sure"]
       },
       "explain": [
-        "In this story, nobody took full responsibility. Lisa's excuse stood. The forwarders stayed quiet. Sarah carried it alone.",
-        "Your answers named some of the people involved. They did not always say who owed what, or what it meant for Sarah. That makes it hard to know where to start.",
-        "It is not too late in the story. A clear sorry, a request to delete, and asking Sarah what she wants would all still help."
+        "In this story, nobody took full responsibility. Lisa never said sorry, the people who forwarded the photo stayed quiet, and Sarah was left to deal with it alone.",
+        "Your answers named some of the people involved, but they didn't always say who owed what or what it meant for Sarah. That makes it hard to know where to start.",
+        "It's not too late in the story. A clear sorry, asking people to delete the photo, and asking Sarah what she wants would all still help."
       ],
-      "explainIfSkipped": "You chose not to write some answers, so this ending comes from the story alone. Nobody in it said who owed what, and Sarah carried it alone."
+      "explainIfSkipped": "You chose not to write some of your answers, so this ending comes from the story alone. Nobody in it said who owed what, and Sarah was left to deal with it on her own."
     }
   },
   "choiceLines": {
-    "d1_private": "You messaged Lisa privately. That spared her in front of others. It also gave the photo more time to spread.",
-    "d1_group": "You replied in the group. People saw you speak up. It also made Lisa feel called out.",
-    "d2_tell": "You told Sarah first. She heard it from someone kind. She was also hurt in a public place.",
-    "d2_delete": "You asked for deletions first. Some copies were stopped. Sarah heard later and wished she had been first.",
-    "d3_accept": "You accepted Lisa's excuse. The friendship stayed calm. Lisa did not have to face what she did right away.",
-    "d3_hold": "You held Lisa responsible. She had to face it. The friendship felt shaky for a while."
+    "d1_private": "You messaged Lisa privately, so she wasn't embarrassed in front of everyone. But that also gave the photo more time to spread.",
+    "d1_group": "You replied in the group chat, and everyone saw you speak up. But Lisa may have felt called out.",
+    "d2_tell": "You told Sarah first, so she heard it from someone who cares. But she was still upset in a public place.",
+    "d2_delete": "You asked for the photo to be deleted first, and some copies were removed. Sarah heard about it later and wished she'd been told first.",
+    "d3_accept": "You accepted Lisa's excuse, so the friendship stayed calm. But Lisa didn't have to face what she did.",
+    "d3_hold": "You held Lisa responsible, so she had to face it. The friendship felt shaky for a while."
   },
-  "closing": "There is no one right path. Another person might choose differently and still have good reasons. What matters here is being able to say who is responsible for what, and why.",
+  "closing": "There's no single right path. Someone else might choose differently and still have good reasons. What matters here is being able to say who's responsible for what, and why.",
   "reflect": {
-    "offer": "Want one more? A short, similar moment.",
-    "scenario": "A friend sends you a screenshot of a private chat. In it, a classmate says something personal. Your friend says: \"Pass it to the class group. Just for a laugh.\"",
+    "offer": "Want to try one more? It's a short, similar situation.",
+    "scenario": "A friend sends you a screenshot of a private chat. In it, a classmate says something personal. Your friend says: \"Send it to the class group, just for a laugh.\"",
     "question": "What do you think happens next if you pass it on? Write one or two sentences about who is affected and how.",
-    "ref_fu_next": "Take one more step. What might happen after that?",
-    "ref_harder": "What is one thing you could do at the start to change that outcome?",
-    "ref_ack": "Thanks. That is the end of the story."
+    "ref_fu_next": "What might happen after that?",
+    "ref_harder": "What's one thing you could do at the start to change how it turns out?",
+    "ref_ack": "Thanks. That's the end of the story."
   }
 }

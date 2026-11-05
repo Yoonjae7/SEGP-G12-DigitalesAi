@@ -120,7 +120,7 @@ import { Rig } from './rig';
     // hands and phone, the nearest layer
     let hd = '';
     hd += cutN(pa('M590,900 L760,900 L950,790 L880,690 Z', '#8F8D86', OUT) + pa('M1000,900 L1170,900 L1190,800 L1100,750 Z', '#8F8D86', OUT));
-    hd += phone(1030, 520, 250, 430, { rot: -9, ping: true, content: (sx, sy, sw, sh) => chat(sx, sy, sw, sh, 'Study Crew', '12', [{ k: 'photo', side: 'l', h: sw * .46 }, { k: 'bars', side: 'l', n: 2 }, { k: 'bars', side: 'l', n: 1, wf: .5 }, { k: 'bars', side: 'l', n: 1, wf: .7 }]) });
+    hd += phone(1030, 520, 250, 430, { rot: -9, ping: true, content: (sx, sy, sw, sh) => chat(sx, sy, sw, sh, 'Close Friends', '12', [{ k: 'photo', side: 'l', h: sw * .46 }, { k: 'bars', side: 'l', n: 2 }, { k: 'bars', side: 'l', n: 1, wf: .5 }, { k: 'bars', side: 'l', n: 1, wf: .7 }]) });
     hd += cutN(pa('M860,770 C830,720 870,660 930,670 C960,676 962,720 950,748 C942,792 880,800 860,770Z', '#C79A74', OUT) + pa('M934,672 C940,632 962,612 976,622 C984,640 966,668 958,690Z', '#C79A74', OUT));
     hd += cutN(pa('M1090,780 C1070,740 1110,690 1170,704 C1196,712 1190,756 1170,784 C1150,812 1104,806 1090,780Z', '#C79A74', OUT) + pa('M1112,706 C1100,676 1112,648 1130,650 C1146,656 1144,684 1140,708Z', '#C79A74', OUT));
     o += LY(1, hd);
@@ -131,16 +131,16 @@ import { Rig } from './rig';
   function s2() {
     let o = LY(.05, r(0, 0, 1600, 900, K.night) + r(0, 640, 1600, 260, '#0E1F25'));
     o += LY(.14, curtain(-40, 0, 230, 800) + curtain(1410, 0, 230, 800));
-    const chatC = (sx, sy, sw, sh) => chat(sx, sy, sw, sh, 'Study Crew', '12 people', [
+    const chatC = (sx, sy, sw, sh) => chat(sx, sy, sw, sh, 'Close Friends', '12 people', [
       { k: 'photo', side: 'l', who: 'Lisa', h: sw * .42 },
-      { k: 'text', side: 'l', who: 'Marco', lines: ['Ha! Legend.'] },
-      { k: 'text', side: 'l', who: 'Dev', lines: ['Send this to Hall B.'] },
-      { k: 'text', side: 'l', who: 'Lisa', lines: ['Isn’t it perfect?'] }]) +
+      { k: 'text', side: 'l', who: 'Marco', lines: ['Ha! This is great.'] },
+      { k: 'text', side: 'l', who: 'Dev', lines: ['Send this to our', 'study group chat.'] },
+      { k: 'text', side: 'l', who: 'Lisa', lines: ['This is so funny, right?'] }]) +
       rr(sx + sw * .04, sy + sh - sh * .075, sw * .92, sh * .055, sh * .028, K.deep) + `<text x="${sx + sw * .08}" y="${sy + sh - sh * .037}" ${FONT} font-size="${sw * .05}" fill="#4A4741">Message</text>`;
     o += LY(.5, phone(800, 450, 540, 880, { rot: -3, content: chatC }));
     // floating paper cut-out bubbles, nearest depth
     const fl = (x, y, rot, w, h, t, f) => cutN(`<g transform="translate(${x} ${y}) rotate(${rot})">${rr(-w / 2, -h / 2, w, h, h / 2.2, f || K.paper, OUT)}<text x="0" y="${h * .16}" text-anchor="middle" ${FONT} font-weight="700" font-size="${h * .4}" fill="#1C1B19">${t}</text></g>`);
-    o += LY(1.1, fl(1250, 250, 7, 330, 96, 'Isn’t it perfect?') + fl(290, 600, -8, 230, 84, 'Ha! Legend.') + fl(1290, 760, -5, 300, 84, 'Send this to Hall B.', K.morning));
+    o += LY(1.1, fl(1220, 250, 7, 520, 90, 'This is so funny, right?') + fl(310, 600, -8, 380, 84, 'Ha! This is great.') + fl(1130, 770, -5, 700, 84, 'Send this to our study group chat.', K.morning));
     o += LY(1.0, cutN(`<g transform="translate(1300 480) rotate(8)">${photo(-95, -75, 190, 150)}</g>`));
     return o;
   }
@@ -160,9 +160,9 @@ import { Rig } from './rig';
     const cs = [K.butter, K.deep, K.glow];
     for (let i = 0; i < 18; i++) chain += link(i * 95 - 10, 470 + (i % 2 ? 0 : 0), 118, 54, cs[i % 3]);
     o += LY(.4, cutN(chain));
-    o += LY(.6, phone(340, 450, 330, 580, { rot: -4, content: mk('Study Crew', '12', items) }));
-    o += LY(.7, phone(800, 450, 330, 580, { rot: 0, content: mk('Hall B', '31', items) }));
-    o += LY(.8, phone(1260, 450, 330, 580, { rot: 4, content: mk('Film Night', '24', items) }));
+    o += LY(.6, phone(340, 450, 330, 580, { rot: -4, content: mk('Close Friends', '12', items) }));
+    o += LY(.7, phone(800, 450, 330, 580, { rot: 0, content: mk('Study Group', '31', items) }));
+    o += LY(.8, phone(1260, 450, 330, 580, { rot: 4, content: mk('Football Group', '24', items) }));
     return o;
   }
 

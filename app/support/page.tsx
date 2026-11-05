@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Footer, TopBar } from '@/components/Brand';
 import { BackLink } from '@/components/BackLink';
+import { WellbeingEmail } from '@/components/Contact';
 import { copy } from '@/lib/copy';
 
 export const metadata: Metadata = { title: 'Need support?' };
@@ -17,7 +18,7 @@ export default function Support() {
           <h1>{s.title}</h1>
           <p className="lead">{s.lead}</p>
           <div className="contacts">
-            <div className="c"><span className="k">{s.wellbeing}</span><span className="v"><span className="ph">{p.wellbeing}</span></span></div>
+            <div className="c"><span className="k">{s.wellbeing}</span><span className="v"><WellbeingEmail /></span></div>
             <div className="c"><span className="k">{s.emergency}</span><span className="v"><span className="ph">{p.emergency}</span></span></div>
           </div>
           <p className="danger">{s.danger}</p>

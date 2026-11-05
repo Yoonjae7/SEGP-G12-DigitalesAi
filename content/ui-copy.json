@@ -6,8 +6,10 @@
   "footer": {
     "line": "SEGP Group 012. Prototype for supervisor feedback."
   },
+  "contacts": {
+    "wellbeingEmail": "Wellbeing.Ambassadors@nottingham.edu.my"
+  },
   "placeholders": {
-    "wellbeing": "[University wellbeing service: team to add contact]",
     "emergency": "[Emergency contact: team to add]",
     "survey": "[usability survey link: team to add]"
   },
@@ -58,7 +60,7 @@
       "answer": "Lisa posted the photo and Marco and Dev passed it on. I should have said something sooner.",
       "reply": "The story replies",
       "followupLabel": "Follow-up",
-      "followupBefore": "You said who did what. Now add one thing: ",
+      "followupBefore": "You've said who did what. Can you add ",
       "followupMark": "what could happen to Sarah",
       "followupAfter": " because of it?",
       "note": "Every follow-up is written by the team. The reader only chooses which one to show."

@@ -26,9 +26,9 @@ test.describe('the whole journey', () => {
     await page.getByRole('radio', { name: 'A clear sorry' }).click();
     await page.getByRole('button', { name: 'Show me what happened' }).click();
     await expect(page.getByRole('heading', { name: 'What happened' })).toBeVisible();
-    await expect(page.getByText('You messaged Lisa privately.')).toBeVisible();
-    await expect(page.getByText('You held Lisa responsible.')).toBeVisible();
-    await expect(page.getByText('There is no one right path.')).toBeVisible();
+    await expect(page.getByText('You messaged Lisa privately')).toBeVisible();
+    await expect(page.getByText('You held Lisa responsible')).toBeVisible();
+    await expect(page.getByText("There's no single right path.")).toBeVisible();
   });
 
   test('4. Ending B is reachable, and the same choices do not decide it', async ({ page }) => {
@@ -100,12 +100,12 @@ test('Reflect: the optional extra moment follows the same pattern and is skippab
   await playThrough(page, ['group', 'delete', 'accept'], null, null);
   await page.getByRole('button', { name: 'Show me what happened' }).click();
   await page.getByRole('button', { name: 'Continue' }).click();
-  await expect(page.getByRole('heading', { name: 'Want one more? A short, similar moment.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: "Want to try one more? It's a short, similar situation." })).toBeVisible();
   await page.getByRole('button', { name: 'Yes, one more' }).click();
   await expect(page.getByText('A friend sends you a screenshot of a private chat.')).toBeVisible();
   await page.locator('textarea').fill('It would hurt a classmate in the class group, and then people would pass it on and it spreads.');
   await page.getByRole('button', { name: 'Send my answer' }).click();
-  await expect(page.getByText('What is one thing you could do at the start to change that outcome?')).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText("What's one thing you could do at the start to change how it turns out?")).toBeVisible({ timeout: 20_000 });
   await page.getByRole('button', { name: 'Skip' }).click();
   await expect(page.getByRole('heading', { name: 'Thanks for playing.' })).toBeVisible();
 });
