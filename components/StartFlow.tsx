@@ -200,6 +200,7 @@ function Match() {
   return (
     <Frame step={5}>
       <Heading>{c.match.title}</Heading>
+      <p className="callout">{c.match.reminder} <WellbeingEmail /></p>
       <div className="prog">
         <div className="in">
           <div className="thumb"><SceneArt id="s1" mode="home" /></div>

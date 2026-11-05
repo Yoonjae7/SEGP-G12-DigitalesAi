@@ -3,15 +3,16 @@
 /* ---------- home ---------- */
 .p-home .hero { padding-top: 56px; padding-bottom: 80px; align-items: start; position: relative; }
 .p-home .hero-text { grid-column: 1 / span 7; position: relative; z-index: 2; }
-.p-home .hero h1 { font-size: clamp(40px, 5.7vw, 84px); line-height: 1.02; white-space: nowrap; margin-bottom: 36px; }
+.p-home .hero .eyebrow { display: block; margin-bottom: 20px; }
+.p-home .hero h1 { font-size: clamp(36px, 3.9vw, 56px); line-height: 1.08; margin-bottom: 28px; }
 .p-home .hero h1 > span { display: block; }
-.p-home .lede { font-size: 24px; line-height: 1.5; max-width: 40ch; margin-bottom: 32px; }
+.p-home .lede { font-size: 22px; line-height: 1.5; max-width: 46ch; margin-bottom: 32px; }
 .p-home .cta { display: flex; align-items: center; gap: 32px; }
-.p-home .hero-art { grid-column: 8 / span 5; margin-top: 120px; position: relative; z-index: 1; }
-.p-home .hero-art .tilt { transform: rotate(1.1deg); }
-.p-home .diorama { aspect-ratio: 960 / 830; position: relative; overflow: hidden; background: var(--night); }
-.p-home .diorama > div { position: absolute; inset: 0; }
-.p-home .hero-art .cap { font-size: var(--t-meta); color: var(--ink-soft); margin: 18px 0 0 8px; max-width: 40ch; }
+.p-home .hero-note { grid-column: 8 / span 5; margin-top: 88px; position: relative; z-index: 1; background: var(--paper-deep); border-top: 3px solid var(--ink); box-shadow: var(--lift); padding: 28px 30px 26px; transform: rotate(.7deg); }
+.p-home .hero-note h2 { font-size: 30px; line-height: 1.15; margin-bottom: 12px; }
+.p-home .hero-note p { font-size: 20px; line-height: 1.5; }
+.p-home .hero-note .mail-line { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hairline-strong); }
+.p-home .hero-note .mail { display: inline-block; margin-top: 4px; }
 .p-home .facts { border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
 .p-home .facts ul { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 1440px; margin: 0 auto; padding: 0 64px; }
 .p-home .facts li { font: 400 30px/1.2 var(--font-display); padding: 28px 20px 28px 0; border-right: 1px solid var(--hairline-strong); }
@@ -61,12 +62,13 @@
 @media (max-width: 720px) {
 .p-home .hero { padding-top: 28px; padding-bottom: 48px; }
 .p-home .hero-text,
-.p-home .hero-art { grid-column: 1 / -1; }
-.p-home .hero h1 { white-space: normal; font-size: 44px; margin-bottom: 20px; }
+.p-home .hero-note { grid-column: 1 / -1; }
+.p-home .hero h1 { font-size: 38px; margin-bottom: 20px; }
 .p-home .lede { font-size: 20px; margin-bottom: 24px; }
 .p-home .cta { flex-direction: column; align-items: stretch; gap: 10px; }
 .p-home .cta .linkbtn { justify-content: center; }
-.p-home .hero-art { margin-top: 36px; }
+.p-home .hero-note { margin-top: 28px; transform: none; padding: 22px 20px; }
+.p-home .hero-note .mail { font-size: 16px; }
 .p-home .facts ul { grid-template-columns: 1fr 1fr; padding: 0 16px; }
 .p-home .facts li { font-size: 24px; padding: 18px 12px 18px 0; border-right: 0; border-bottom: 1px solid var(--hairline-strong); }
 .p-home .facts li:nth-child(odd) { padding-left: 0; }

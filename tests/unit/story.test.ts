@@ -43,9 +43,10 @@ describe('story.json', () => {
     for (const w of ['unlock', 'supercharge', 'journey', 'empower', 'seamless', 'improves', 'proven', 'boosts']) expect(hay.includes(w), w).toBe(false);
   });
 
-  it('never claims a learning impact, has the wellbeing email, and still has the placeholders the team must fill', () => {
+  it('never claims a learning impact, has the wellbeing and group leader emails, and still has the survey placeholder', () => {
     expect(uiRaw).toContain('Wellbeing.Ambassadors@nottingham.edu.my');
-    expect(uiRaw).toContain('[Emergency contact: team to add]');
+    expect(uiRaw).toContain('hfywh4@nottingham.edu.my');
+    expect(uiRaw.toLowerCase()).not.toContain('emergency contact');
     expect(uiRaw).toContain('[usability survey link: team to add]');
   });
 

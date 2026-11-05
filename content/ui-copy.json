@@ -7,23 +7,30 @@
     "line": "SEGP Group 012. Prototype for supervisor feedback."
   },
   "contacts": {
-    "wellbeingEmail": "Wellbeing.Ambassadors@nottingham.edu.my"
+    "wellbeingEmail": "Wellbeing.Ambassadors@nottingham.edu.my",
+    "groupLeaderEmail": "hfywh4@nottingham.edu.my"
   },
   "placeholders": {
-    "emergency": "[Emergency contact: team to add]",
     "survey": "[usability survey link: team to add]"
   },
   "home": {
+    "eyebrow": "Digital citizenship · for adults 18 and over",
     "headline": [
-      "Stories about online life.",
-      "You choose.",
-      "Then you say why."
+      "Learn digital citizenship",
+      "through a short story.",
+      "Choose. Then say why."
     ],
     "headlineMark": "say why.",
-    "lede": "A short interactive story for adults. Three decisions, two written answers, about ten minutes. No points. No scores. Just your thinking.",
+    "lede": "DigiTales AI is a short interactive story about how we treat each other online: sharing, privacy, consent and who is responsible. You make three decisions and explain your thinking twice. About ten minutes. No points. No scores. Just your thinking.",
     "start": "Start the story",
+    "continue": "Continue the story",
+    "again": "Start again",
     "how": "How it works",
-    "dioramaCaption": "The room in scene 1. The phone pings every 6 seconds. Move the pointer or tilt your phone to look around.",
+    "notice": {
+      "title": "Before you start",
+      "text": "This story is made up. It is about a photo shared without someone's consent, so it might remind you of something real. You can stop at any time.",
+      "contact": "If it affects you, email the university wellbeing service:"
+    },
     "facts": [
       "About 10 minutes",
       "3 decisions",
@@ -88,7 +95,7 @@
     "note": {
       "title": "Before you begin",
       "text": "This story is made up. It is about a photo shared without someone’s consent. It might remind you of something real. You can stop at any time.",
-      "ok": "I understand"
+      "ok": "I understand this story is made up"
     },
     "input": {
       "q": "Tell us about an online moment that stayed with you.",
@@ -137,6 +144,7 @@
       "story": "The Photo in the Group Chat",
       "meta": "About 10 minutes. 3 decisions, 2 written answers.",
       "begin": "Begin",
+      "reminder": "A reminder: this story is made up, and it can bring up real feelings. You can stop at any time. To talk to someone, email the university wellbeing service:",
       "oneStory": "This pilot has one story. This is the closest fit.",
       "finding": "Finding the closest story..."
     }
@@ -269,7 +277,7 @@
     "title": "Need support?",
     "lead": "This story is fictional, but it can bring up real things. You can stop any time.",
     "wellbeing": "Wellbeing",
-    "emergency": "Emergency",
+    "groupLeader": "Group leader",
     "danger": "If you are in danger now, contact local emergency services.",
     "back": "Go back",
     "home": "Home"

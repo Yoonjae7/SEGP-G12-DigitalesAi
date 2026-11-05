@@ -115,6 +115,48 @@ test('sound and auto-play start on, and Pause and the sound button turn them off
   await expect(page.getByRole('button', { name: /Turn sound on/ })).toBeVisible();
 });
 
+test('Home says it is for learning digital citizenship, has the made-up note and wellbeing email, and shows no photo', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('digital citizenship');
+  await expect(page.getByText('This story is made up.').first()).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Wellbeing.Ambassadors@nottingham.edu.my' }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Start the story' })).toBeVisible();
+  await expect(page.locator('.photo-tile, .diorama')).toHaveCount(0);
+});
+
+test('Home offers Continue and Start again once a story is under way', async ({ page }) => {
+  await startStory(page);
+  await page.goto('/');
+  await expect(page.getByRole('link', { name: 'Continue the story' })).toBeVisible();
+  await page.getByRole('button', { name: 'Start again' }).click();
+  await expect(page).toHaveURL(/\/start/);
+  await expect(page.getByRole('button', { name: 'Yes, I am 18 or older' })).toBeVisible();
+});
+
+test('Support shows the wellbeing and group leader emails, and no emergency row', async ({ page }) => {
+  await page.goto('/support');
+  await expect(page.getByRole('link', { name: 'hfywh4@nottingham.edu.my' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Wellbeing.Ambassadors@nottingham.edu.my' })).toBeVisible();
+  await expect(page.getByText('Emergency', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('team to add')).toHaveCount(0);
+});
+
+test('before the story: a made-up note with the wellbeing email, and the reminder again before Begin', async ({ page }) => {
+  await page.goto('/start');
+  await page.getByRole('button', { name: 'Yes, I am 18 or older' }).click();
+  await expect(page.getByText('This story is made up.')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Wellbeing.Ambassadors@nottingham.edu.my' })).toBeVisible();
+  await page.getByRole('button', { name: 'I understand this story is made up' }).click();
+  await page.getByRole('button', { name: 'Skip writing' }).click();
+  await page.getByRole('button', { name: 'sad', exact: true }).click();
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await page.getByRole('radio', { name: 'Something someone did' }).click();
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await expect(page.getByText('A reminder: this story is made up')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Wellbeing.Ambassadors@nottingham.edu.my' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Begin' })).toBeVisible();
+});
+
 test('auto-play with sound: a line moves on a moment after its voice ends, and the voice files are served', async ({ page }) => {
   await page.addInitScript(() => {
     const w = window as unknown as { __played: string[]; Audio: unknown };
@@ -216,7 +258,7 @@ test('15a. a full run with the keyboard only', async ({ page }) => {
   const press = async (re: RegExp) => { await tabTo(re); await page.keyboard.press('Enter'); };
   await page.goto('/start');
   await press(/^Yes, I am 18 or older$/);
-  await press(/^I understand$/);
+  await press(/^I understand this story is made up$/);
   await press(/^Skip writing$/);
   await tabTo(/^sad$/); await page.keyboard.press('Enter');
   await press(/^Next$/);

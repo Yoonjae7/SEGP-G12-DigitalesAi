@@ -12,7 +12,10 @@ const line = `stroke="${INK}" stroke-width="2.5" stroke-linejoin="round"`;
 
 export const PHOTO_INNER = [
   // bus wall and window with a passing city
-  `<rect width="240" height="168" fill="#E7DFCE"/>`,
+  // a soft blur, so the picture looks like a hurried phone shot. The edge is drawn crisp, outside the blur.
+  `<defs><filter id="photo-soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.4"/></filter></defs>`,
+  `<g filter="url(#photo-soft)">`,
+  `<rect x="-30" y="-30" width="300" height="228" fill="#E7DFCE"/>`,
   `<rect x="128" y="14" width="100" height="74" rx="5" fill="#CFE8EF" ${line}/>`,
   `<path d="M131,87 V60 h13 V46 h16 V62 h12 V38 h18 V57 h14 V50 h13 V87 Z" fill="#8FB0B8" stroke="${INK}" stroke-width="1.5" stroke-linejoin="round"/>`,
   `<circle cx="208" cy="29" r="8" fill="#F0C75E"/>`,
@@ -44,6 +47,7 @@ export const PHOTO_INNER = [
   `<path d="M148,50 h8 l-8,10 h8 M160,34 h11 l-11,13 h11 M176,16 h13 l-13,15 h13" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`,
   // handrail in front, and a thin photo edge
   `<rect x="190" y="0" width="7" height="168" fill="#9A978F" stroke="${INK}" stroke-width="1.5"/>`,
+  `</g>`,
   `<rect x="1.5" y="1.5" width="237" height="165" fill="none" stroke="${INK}" stroke-opacity=".55" stroke-width="3"/>`,
 ].join('');
 

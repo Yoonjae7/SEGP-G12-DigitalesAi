@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { Footer, TopBar } from '@/components/Brand';
+import { WellbeingEmail } from '@/components/Contact';
 import { DeletedNotice } from '@/components/DeletedNotice';
-import { HomeDiorama } from '@/components/HomeDiorama';
 import { Mark } from '@/components/Marks';
+import { StartButtons } from '@/components/StartButtons';
 import { copy } from '@/lib/copy';
 import { story } from '@/lib/story';
 
@@ -20,6 +21,7 @@ export default function Home() {
         <DeletedNotice />
         <section className="hero grid">
           <div className="hero-text">
+            <span className="eyebrow">{h.eyebrow}</span>
             <h1>
               <span>{l1}</span>
               <span>{l2}</span>
@@ -29,15 +31,13 @@ export default function Home() {
               </span>
             </h1>
             <p className="lede">{h.lede}</p>
-            <div className="cta">
-              <Link className="btn" href="/start">{h.start}</Link>
-              <a className="linkbtn" href="#how">{h.how}</a>
-            </div>
+            <StartButtons />
           </div>
-          <div className="hero-art">
-            <HomeDiorama />
-            <p className="cap">{h.dioramaCaption}</p>
-          </div>
+          <aside className="hero-note" aria-labelledby="note-h">
+            <h2 id="note-h">{h.notice.title}</h2>
+            <p>{h.notice.text}</p>
+            <p className="mail-line">{h.notice.contact} <WellbeingEmail /></p>
+          </aside>
         </section>
 
         <section className="facts" aria-label="At a glance">
