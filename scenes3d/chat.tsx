@@ -79,7 +79,7 @@ export function drawChat(g: CanvasRenderingContext2D, chat: ChatShot | null, tit
     } });
   }
   // keep the newest messages that fit, and lay them out from the top, so the hand never covers them
-  let room = H - 64 - 24, from = boxes.length;
+  let room = H - 64 - 24 - 84, from = boxes.length; // the last 84 px are under the thumb that holds the phone
   while (from > 0 && room - (boxes[from - 1].h + 12) >= 0) { room -= boxes[from - 1].h + 12; from--; }
   let y = 76;
   for (let i = from; i < boxes.length; i++) { boxes[i].draw(y); y += boxes[i].h + 12; }

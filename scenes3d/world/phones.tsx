@@ -7,13 +7,13 @@ import { useChatTexture, type ChatShot } from '../chat';
 import { Blk, canvasTexture, Flat } from '../kit';
 
 /**
- * Scene 3: the photo is in three chats now. Three big phones stand on a dark table, each showing the photo in a different
- * group, and a chain of paper links joins them. Small prints of the photo slide along the chain from one phone to the next.
+ * Scene 3: the clip is in three chats now. Three big phones stand on a dark table, each showing the clip in a different
+ * group, and a chain of paper links joins them. Small prints of the clip slide along the chain from one phone to the next.
  */
 const CHATS: { x: number; chat: ChatShot }[] = [
-  { x: -1.5, chat: { title: 'Close Friends', people: 12, items: [{ who: 'Lisa', text: '', photo: true }, { who: 'Lisa', text: 'Haha, look who fell asleep on the bus.' }] } },
-  { x: 0, chat: { title: 'Study Group', people: 31, items: [{ who: 'Dev', text: '', photo: true }, { who: 'Dev', text: 'Just sent it to our study group chat.' }] } },
-  { x: 1.5, chat: { title: 'Football Group', people: 24, items: [{ who: 'Marco', text: '', photo: true }, { who: 'Marco', text: 'Sent it to my football group too.' }] } },
+  { x: -1.5, chat: { title: 'Close Friends', people: 12, items: [{ who: 'Lisa', text: '', photo: true }, { who: 'Lisa', text: "Haha, I can't stop watching this." }] } },
+  { x: 0, chat: { title: 'Housemates', people: 8, items: [{ who: 'Dev', text: '', photo: true }, { who: 'Dev', text: 'Haha, you have to watch this.' }] } },
+  { x: 1.5, chat: { title: 'Football Group', people: 24, items: [{ who: 'Marco', text: '', photo: true }, { who: 'Marco', text: 'Guys, you have to see this.' }] } },
 ];
 
 function BigPhone({ x, chat, tilt }: { x: number; chat: ChatShot; tilt: number }) {

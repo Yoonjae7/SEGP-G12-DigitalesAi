@@ -21,12 +21,16 @@ import { RoomSet } from './world/room';
  */
 export interface Act { pose?: string; expression?: string; to?: string }
 export interface Override { speaker: string; pose?: string; expression?: string; talking?: boolean }
+/** A name tag over a person while they are introduced. */
+export interface Tag { id: CharId; name: string; about: string }
 export interface CinemaProps {
   art: string;
   lineId: string | null;
   override: Override | null;
   acts: Partial<Record<CharId, Act>>;
   chat: ChatShot | null;
+  tags: Tag[];
+  deciding: boolean; // a choice is on screen, so the scene moves left to make room for it
   reduced: boolean;
   onReady: () => void;
   onFail: (why: string) => void;
@@ -36,13 +40,20 @@ const SETS: Record<string, ComponentType> = { s0: BusSet, s1: RoomSet, s2: RoomS
 const PERSON = 0.0177; // metres per figure unit: a standard figure is about 1.7 m
 
 export default function Cinema(props: CinemaProps) {
+  // The name tags are ordinary elements over the picture. The camera loop moves them to follow the people (see Director).
+  const tagEls = useRef<Record<string, HTMLDivElement | null>>({});
   return (
     <div className="art stage3d" aria-hidden="true">
       <Canvas flat dpr={[1, 1.5]} shadows={false} frameloop="always" gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         camera={{ fov: 40, position: [0, 1.5, -3.4], near: 0.05, far: 60 }} style={{ position: 'absolute', inset: 0 }}
         onCreated={({ gl }) => { gl.setClearColor(0x0a1822, 1); gl.domElement.addEventListener('webglcontextlost', () => props.onFail('context lost')); }}>
-        <Director key={props.art} {...props} />
+        <Director key={props.art} {...props} tagEls={tagEls} />
       </Canvas>
+      {props.tags.map((t) => (
+        <div key={t.id} className="tag-pos" ref={(e) => { tagEls.current[t.id] = e; }}>
+          <div className="tag3d"><b>{t.name}</b><span>{t.about}</span></div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -54,7 +65,7 @@ const lerpAngle = (a: number, b: number, k: number) => {
 };
 
 /** One person on stage. They stay where they are put, and walk to a named spot when a line says so. */
-function Actor({ id, place, spot, pose, expression, talking }: { id: CharId; place: Place; spot?: { x: number; z: number; rotY: number }; pose: string; expression: string; talking: boolean }) {
+function Actor({ id, place, spot, pose, expression, talking, hideHead }: { id: CharId; place: Place; spot?: { x: number; z: number; rotY: number }; pose: string; expression: string; talking: boolean; hideHead: boolean }) {
   const g = useRef<THREE.Group>(null);
   const cur = useRef({ x: place.pos[0], z: place.pos[2], ry: place.rotY });
   const movingRef = useRef(false);
@@ -81,12 +92,14 @@ function Actor({ id, place, spot, pose, expression, talking }: { id: CharId; pla
   const s = PERSON * C.ht;
   return (
     <group ref={g} position={place.pos} rotation={[0, place.rotY, 0]} scale={[s, s, s]}>
-      <Model id={id} pose={moving ? 'walk' : pose} expression={expression} view="front" talking={talking && !moving} />
+      <Model id={id} pose={moving ? 'walk' : pose} expression={expression} view="front" talking={talking && !moving} hideHead={hideHead} />
     </group>
   );
 }
 
-function Director({ art, lineId, override, acts, chat, reduced, onReady }: CinemaProps) {
+const DECIDE_SHIFT = 0.2; // how far the scene moves aside for a choice, as a fraction of the picture
+
+function Director({ art, lineId, override, acts, chat, tags, deciding, reduced, onReady, tagEls }: CinemaProps & { tagEls: React.MutableRefObject<Record<string, HTMLDivElement | null>> }) {
   const Set = SETS[art];
   const shot = shotFor(art, lineId);
   const { camera } = useThree();
@@ -110,7 +123,7 @@ function Director({ art, lineId, override, acts, chat, reduced, onReady }: Cinem
     return () => window.removeEventListener('pointermove', onMove);
   }, [reduced]);
 
-  useFrame((_, dt) => {
+  useFrame((st, dt) => {
     if (!shot) return;
     const cam = camera as THREE.PerspectiveCamera;
     const key = `${art}:${shot.pos.join(',')}`;
@@ -121,6 +134,21 @@ function Director({ art, lineId, override, acts, chat, reduced, onReady }: Cinem
     p.x += (p.tx - p.x) * (1 - Math.exp(-dt * 4)); p.y += (p.ty - p.y) * (1 - Math.exp(-dt * 4));
     const want = new THREE.Vector3(shot.pos[0] + d[0] * since.current + p.x * 0.18, shot.pos[1] + d[1] * since.current - p.y * 0.08, shot.pos[2] + d[2] * since.current);
     const wantLook = new THREE.Vector3(shot.look[0], shot.look[1], shot.look[2]);
+    // Move the whole picture aside: sideways on a wide screen (the choice sits on the right), up on a tall one (it sits below).
+    const aspect = st.size.width / st.size.height;
+    const wide = aspect > 1.15;
+    const side = deciding ? (wide ? DECIDE_SHIFT : 0) : shot.shift ?? 0;
+    const lift = deciding && !wide ? 0.2 : 0;
+    if (side || lift) {
+      const fwd = wantLook.clone().sub(want);
+      const dist = fwd.length();
+      fwd.normalize();
+      const right = new THREE.Vector3().crossVectors(fwd, new THREE.Vector3(0, 1, 0)).normalize();
+      const upv = new THREE.Vector3().crossVectors(right, fwd).normalize();
+      const h = 2 * dist * Math.tan(THREE.MathUtils.degToRad(shot.fov / 2));
+      const off = right.multiplyScalar(side * h * aspect).add(upv.multiplyScalar(-lift * h));
+      want.add(off); wantLook.add(off);
+    }
     if (!started.current) { started.current = true; cam.position.copy(want); look.current.copy(wantLook); cam.fov = shot.fov; }
     const k = 1 - Math.exp(-dt * (reduced ? 40 : 2.6));
     cam.position.lerp(want, k);
@@ -128,6 +156,19 @@ function Director({ art, lineId, override, acts, chat, reduced, onReady }: Cinem
     cam.fov += (shot.fov - cam.fov) * k;
     cam.updateProjectionMatrix();
     cam.lookAt(look.current);
+    // Name tags: follow each person on the screen, a little above their head.
+    for (const t of tags) {
+      const el = tagEls.current[t.id];
+      const at = (PLACE[art] ?? {})[t.id];
+      if (!el || !at) continue;
+      const c = charactersFor(art).find((x) => x.id === t.id);
+      const pose = acts[t.id]?.pose || c?.pose || '';
+      const ht = SPEC[t.id].ht;
+      const p = new THREE.Vector3(at.pos[0], at.pos[1] + (pose.startsWith('sit') ? 0.9 + 0.5 * ht : 1.2 + 0.8 * ht), at.pos[2]).project(cam);
+      const visible = p.z < 1 && Math.abs(p.x) < 1.1 && Math.abs(p.y) < 1.1;
+      el.style.opacity = visible ? '1' : '0';
+      el.style.transform = `translate(${((p.x * 0.5 + 0.5) * st.size.width).toFixed(1)}px, ${((-p.y * 0.5 + 0.5) * st.size.height).toFixed(1)}px) translate(-50%, -100%)`;
+    }
   });
 
   const cast = charactersFor(art);
@@ -143,7 +184,7 @@ function Director({ art, lineId, override, acts, chat, reduced, onReady }: Cinem
         const pose = (speaking && override!.pose) || act?.pose || c.pose;
         const expression = (speaking && override!.expression) || act?.expression || c.expression || 'calm';
         const spot = act?.to ? SPOTS[art]?.[act.to] : undefined;
-        return <Actor key={c.id} id={c.id as CharId} place={at} spot={spot} pose={pose} expression={expression} talking={speaking && !!override!.talking} />;
+        return <Actor key={c.id} id={c.id as CharId} place={at} spot={spot} pose={pose} expression={expression} talking={speaking && !!override!.talking} hideHead={shot?.pov === c.id} />;
       })}
     </PhoneScreenContext.Provider>
   );

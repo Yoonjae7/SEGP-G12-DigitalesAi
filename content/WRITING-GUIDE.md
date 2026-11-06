@@ -71,6 +71,12 @@ Write the way a person would tell a friend what happened. Then read it out loud.
 - Two endings, picked from the written answers and not from the options chosen.
 - A content note before the story, and a link to support (wellbeing email: Wellbeing.Ambassadors@nottingham.edu.my).
 - Every line has an `id`. The `id` is also the audio file name.
-- Run `npm test`. It catches brand names, banned words and the stiff phrases listed above. Add a phrase to the test in `tests/unit/story.test.ts` when you spot a new one.
+- Every line is read aloud (`"voiced": true`). Text that appears on screen (a `screen` line) is read by the narrator: add `"voice": "narrator"`. The learner's own typed or spoken lines (`you`) have their own voice in `voices.json`.
+- Introduce each person the first time they appear, in one line that says who they are and one thing they like or do (for example "Marco plays football for the university team"). Put the same words in `cast` and mark the line with `intro: ["marco"]`, so the screen shows a name tag over them.
+- Every scene and ending has a `time` ("Tuesday · 11:40 pm"), shown in the top left corner, so the learner always knows when it is.
+- Check what the story says against what the learner just saw. A line must not say two people agreed when nobody did, or that someone has not replied when they just did. Build the reason for the next scene into the one before it (why Sarah has not seen the messages, how the photo got to people who were not in the chat).
+- No one is passive for convenience. The incident should be something that really happens to people (a clip, a screenshot, a forward) and its effect on the person should fit what happened.
+- Run `npm test`. It catches brand names, banned words and the stiff phrases listed above, lines with no voice, and a scene with no time. Add a phrase to the test in `tests/unit/story.test.ts` when you spot a new one.
+- After you change a line, delete its old recording in `public/audio` and make a new one (`npm run audio`). A recording that was made for different words must never stay.
 
 The app plays one story today. A second story needs its own file in the same shape as `content/story.json` and a small change to load it. The tone rules above apply either way.

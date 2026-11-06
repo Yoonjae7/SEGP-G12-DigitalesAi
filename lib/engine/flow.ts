@@ -80,20 +80,29 @@ export interface ChatView {
   items: { line: Line; mine: boolean }[];
 }
 export function chatAt(story: Story, items: TItem[], pos: number): ChatView | null {
-  const cur = items[pos];
+  // While a choice is open the phone still shows the chat as it was on the last line.
+  let at = pos;
+  while (at > 0 && items[at]?.type !== 'line') at--;
+  const cur = items[at];
   if (!cur || cur.type !== 'line') return null;
   const scene = story.scenes.find((s) => s.id === cur.sceneId);
   if (!scene?.chat) return null;
   const isChatLine = (l: Line) => l.kind === 'chat' || (l.speaker === 'you' && l.kind === 'screen') || !!l.showPhotoTile;
-  const group = (it: TItem) => (it.type === 'line' && it.sceneId === cur.sceneId ? (it.beat ?? 'main') : null);
-  const key = group(cur);
-  const seen: ChatView['items'] = [];
-  for (let i = 0; i <= pos; i++) {
-    const it = items[i];
-    if (it.type === 'line' && group(it) === key && isChatLine(it.line)) seen.push({ line: it.line, mine: it.line.speaker === 'you' });
-  }
-  // Only show the panel once a chat line has appeared in this part of the scene.
-  if (seen.length === 0) return null;
   const privateWithLisa = cur.beat === 'd1_private';
+  // A private message to Lisa is a chat of its own. The group chat carries on from the scene before when the scene says so,
+  // and the group reply (the beat) is part of it.
+  const sceneIds = new Set([cur.sceneId]);
+  if (!privateWithLisa && scene.chatContinues) {
+    const before = story.scenes[story.scenes.findIndex((s) => s.id === scene.id) - 1];
+    if (before?.chat === scene.chat) sceneIds.add(before.id);
+  }
+  const inChat = (it: TItem) => it.type === 'line' && sceneIds.has(it.sceneId) && (privateWithLisa ? it.beat === 'd1_private' : it.beat !== 'd1_private');
+  const seen: ChatView['items'] = [];
+  for (let i = 0; i <= at; i++) {
+    const it = items[i];
+    if (it.type === 'line' && inChat(it) && isChatLine(it.line)) seen.push({ line: it.line, mine: it.line.speaker === 'you' });
+  }
+  // Only show the panel once a chat line has appeared.
+  if (seen.length === 0) return null;
   return { title: privateWithLisa ? 'Lisa' : scene.chat, people: privateWithLisa ? 2 : 12, items: seen };
 }

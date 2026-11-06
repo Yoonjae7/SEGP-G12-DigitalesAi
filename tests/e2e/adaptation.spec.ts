@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { D1, choose, localSession, startStory, toWhy, writeWhy } from './helpers';
+import { D1, D2, choose, localSession, startStory, toWhy, writeWhy } from './helpers';
 import { story } from '../../lib/story';
 
 const w1 = story.whys.why1;
@@ -63,7 +63,7 @@ test.describe('adaptation: the follow-up fits the answer', () => {
     // and a skipped follow-up
     await page.goto('/start'); // resumes the story
     await expect(page).toHaveURL(/play/);
-    await choose(page, 'Ask Marco and Dev to delete it first.');
+    await choose(page, D2.delete);
     // a picked choice lights up for a moment before it is recorded
     await expect.poll(async () => (await localSession(page)).choices.d2).toBe('delete');
   });

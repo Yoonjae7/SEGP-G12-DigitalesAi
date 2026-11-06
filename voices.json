@@ -1,11 +1,12 @@
 {
-  "_help": "Pick each voice from the ElevenLabs library using design/motion-voice.html (the casting sheet), then paste its voice ID over the placeholder. The settings are starting points. Tune them by ear. The learner (\"you\") has no voice, and screen text is not voiced.",
+  "_help": "The voice for each speaker, from the ElevenLabs library. The settings are starting points. Tune them by ear. The learner (\"you\") has a voice for their own typed and spoken lines, and the narrator reads the on-screen text (a line can say \"voice\": \"narrator\").",
   "model": "eleven_v4",
   "speakers": {
-    "narrator": { "voiceId": "iAQ8JnVyb6JWIhvcjWww", "voiceName": "Johnny B - Mature Male Calm Confident", "direction": "Calm, warm, mid-range, slightly slow. Late-night documentary, not a trailer.", "settings": { "stability": 0.6, "similarity_boost": 0.75, "style": 0.1, "speed": 0.92 } },
+    "narrator": { "voiceId": "oaGwHLz3csUaSnc2NBD4", "voiceName": "Benedict", "direction": "Deep, clear, British. Calm and warm, slightly slow. Late-night documentary, not a trailer.", "settings": { "stability": 0.6, "similarity_boost": 0.75, "style": 0.1, "speed": 0.92 } },
     "lisa":     { "voiceId": "XBAbO8JMywNrx3MgaEgN", "voiceName": "Rita - Friendly", "direction": "Bright, quick, young adult. Light laugh. Softer when sorry.", "settings": { "stability": 0.4, "similarity_boost": 0.75, "style": 0.3, "speed": 1.05 } },
     "sarah":    { "voiceId": "yBzpvmCzHPLhU7AQsjdh", "voiceName": "Serena - Calm & Friendly", "direction": "Soft, steady, young adult. Quiet strength. Not tearful, not dramatic.", "settings": { "stability": 0.65, "similarity_boost": 0.8, "style": 0.1, "speed": 0.95 } },
     "marco":    { "voiceId": "lokPEPM3ylgSBdAgOXFm", "voiceName": "Gerard - Relaxed, Conversational", "direction": "Relaxed, easy, lower register.", "settings": { "stability": 0.5, "similarity_boost": 0.75, "style": 0.15, "speed": 1.0 } },
+    "you":      { "voiceId": "z3F2EkSTCKN7zCfB6PAJ", "voiceName": "Vinny - Friendly and Expressive", "direction": "Young, natural, a little unsure. Reads as the learner speaking or typing.", "settings": { "stability": 0.55, "similarity_boost": 0.75, "style": 0.15, "speed": 1.0 } },
     "dev":      { "voiceId": "OEHTkiHZj6OczWZHu0Aj", "voiceName": "John", "direction": "Dry, flat, a little bored.", "settings": { "stability": 0.7, "similarity_boost": 0.75, "style": 0.0, "speed": 0.97 } }
   }
 }

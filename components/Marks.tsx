@@ -20,7 +20,7 @@ export function Icon({ id, size = 24 }: { id: 'ic-sound' | 'ic-sound-off' | 'ic-
   );
 }
 
-/** The photo in the story: a cut-paper cartoon of Sarah asleep on the bus. Never a real photograph. */
+/** The clip in the story: a cut-paper cartoon of Sarah frozen in her presentation. Never a real photograph. */
 export function PhotoTile({ w = 240, h = 168 }: { w?: number; h?: number }) {
   return (
     <svg

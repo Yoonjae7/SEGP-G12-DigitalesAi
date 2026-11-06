@@ -69,12 +69,20 @@ function Chair({ x, z, rot = 0 }: { x: number; z: number; rot?: number }) {
   );
 }
 
-/** A faceless pastel paper person waiting in the queue. */
-function Extra({ x, z, color, h = 1.5 }: { x: number; z: number; color: string; h?: number }) {
+/** A pastel paper person waiting in the queue, with a face and a phone. `look` turns them (radians, 0 faces the camera side). */
+function Extra({ x, z, color, h = 1.5, look = 0 }: { x: number; z: number; color: string; h?: number; look?: number }) {
+  const head = h * 0.72;
   return (
-    <group position={[x, 0, z]}>
+    <group position={[x, 0, z]} rotation={[0, look, 0]}>
       <Cyl r={0.2} h={h * 0.6} r2={0.17} pos={[0, h * 0.3, 0]} color={color} line={0.02} />
-      <Sph r={0.17} pos={[0, h * 0.72, 0]} color={color} line={0.02} />
+      <Sph r={0.17} pos={[0, head, 0]} color={color} line={0.02} />
+      {/* eyes and a small mouth */}
+      <Sph r={0.022} pos={[-0.06, head + 0.02, 0.155]} color="#1C1B19" line={false} />
+      <Sph r={0.022} pos={[0.06, head + 0.02, 0.155]} color="#1C1B19" line={false} />
+      <Blk size={[0.07, 0.014, 0.01]} pos={[0, head - 0.05, 0.165]} color="#1C1B19" line={false} />
+      {/* an arm up, holding a phone in front of the chest */}
+      <Cyl r={0.04} h={0.3} pos={[0.16, h * 0.5, 0.1]} rot={[-0.9, 0, -0.15]} color={color} line={0.012} />
+      <Blk size={[0.09, 0.16, 0.015]} pos={[0.1, h * 0.58, 0.22]} rot={[-0.35, 0.2, 0]} color="#10242B" line={0.008} />
     </group>
   );
 }
@@ -128,9 +136,9 @@ export function CafeSet({ mood }: { mood: 'morning' | 'soft' | 'flat' }) {
       <Blk size={[2.4, 0.8, 0.07]} pos={[2.6, 2.4, -3.56]} color="#10242B" />
       <Flat size={[2.3, 0.72]} pos={[2.6, 2.4, -3.51]} map={menu} />
       {/* the queue, the tables and the plants */}
-      <Extra x={0.6} z={-2.35} color="#A9B7C2" />
-      <Extra x={2.0} z={-2.35} color="#C9B8A6" h={1.6} />
-      <Extra x={-0.1} z={-2.6} color="#8FA796" h={1.45} />
+      <Extra x={0.6} z={-2.35} color="#A9B7C2" look={0.9} />
+      <Extra x={2.0} z={-2.35} color="#C9B8A6" h={1.6} look={-0.9} />
+      <Extra x={-0.1} z={-2.6} color="#8FA796" h={1.45} look={1.1} />
       <Table x={-2.0} z={-1.6} />
       <Chair x={-2.0} z={-2.2} rot={Math.PI} />
       <Chair x={-2.0} z={-1.0} />

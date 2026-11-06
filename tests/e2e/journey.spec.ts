@@ -36,7 +36,7 @@ test.describe('the whole journey', () => {
     // the same choices as the Ending A run above, but thin reasoning
     await playThrough(page, ['private', 'tell', 'hold'], 'Lisa posted it, so it is her fault.', 'I do not agree with Lisa about this one.', 'It is mostly Lisa.', 'Because I think so.');
     expect((await localSession(page)).ending).toBe('B');
-    await expect(page.getByRole('heading', { name: 'The photo is still in two chats. What do you think would help most now?' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'The clip is still in two chats and on the campus page. What do you think would help most now?' })).toBeVisible();
   });
 
   test('16. refresh at a decision, a Why and the feedback resumes at the same step with choices intact', async ({ page }) => {

@@ -11,7 +11,7 @@ import type { Line, Speaker } from '@/lib/story/types';
 import { useDeckle } from '@/lib/useDeckle';
 import { useLabFlags } from '@/lib/useLabFlags';
 import { useVoice } from '@/lib/useVoice';
-import { audioSrc, VOICE_ENABLED } from '@/lib/voice/manifest';
+import { audioSrc, promptLine, VOICE_ENABLED } from '@/lib/voice/manifest';
 import { AnswerEditor } from './AnswerEditor';
 import { Icon, PhotoTile } from './Marks';
 import { SceneArt } from './SceneArt';
@@ -55,7 +55,7 @@ export function Stage() {
   }, [items, state.pos, item]);
   // The chat on the phone in the 3D scene: the messages so far (the photo, then the words).
   const chat = useMemo<ChatShot | null>(() => {
-    const v = line ? chatAt(story, items, state.pos) : null;
+    const v = item?.type === 'ending-title' ? null : chatAt(story, items, state.pos);
     if (!v) return null;
     return {
       title: v.title, people: v.people,
@@ -71,7 +71,9 @@ export function Stage() {
   }, [items, state.pos]);
   const [settled, setSettled] = useState<{ id: string; ok: boolean } | null>(null);
   const onSettle = useCallback((id: string, ok: boolean) => setSettled({ id, ok }), []);
-  const { replay, speaking } = useVoice(line, soundOn, ahead, onSettle);
+  // The question on a choice or a written answer is read aloud by the narrator when it appears.
+  const voiceLine = line ?? (item?.type === 'decision' ? promptLine('decision', item.id) : item?.type === 'why' ? promptLine('why', item.id) : null);
+  const { replay, speaking } = useVoice(voiceLine, soundOn, ahead, onSettle);
 
   // Who is speaking. With sound, the character's mouth moves while the voice plays. With sound off, it moves for about as
   // long as the line takes to read, so the story still shows who is talking.
@@ -131,6 +133,8 @@ export function Stage() {
   const nextRaw = items.slice(state.pos + 1).find((i) => i.art !== item.art)?.art;
   const nextArt = nextRaw && nextRaw !== 's7' ? nextRaw : null;
   const override = line ? { speaker: line.speaker, pose: line.pose, expression: line.expression, talking } : null;
+  const tags = (line?.intro ?? []).map((id) => ({ id, name: story.cast[id].name, about: story.cast[id].about }));
+  const when = scene?.time ?? ending?.time ?? '';
 
   const onStageClick = (e: React.MouseEvent) => {
     if (!canAdvance) return;
@@ -142,10 +146,10 @@ export function Stage() {
     <div className="on-night">
       <div className="viewport">
         <main className={`stage${split ? ' split' : ''}`} aria-label="Story" onClick={onStageClick}>
-          <Visuals art={art} nextArt={nextArt} override={override} lineId={line?.id ?? null} acts={acts} chat={chat} photo={!!line?.showPhotoTile} />
-          {line?.id === 's0_04' ? <div className="flash" key={line.id} aria-hidden="true" /> : null}
+          <Visuals art={art} nextArt={nextArt} override={override} lineId={line?.id ?? null} acts={acts} chat={chat} photo={!!line?.showPhotoTile} tags={tags} deciding={item.type === 'decision'} />
           {dim ? <div className="dim" /> : null}
-          <p className="sr" role="status" aria-live="polite">{item.n > 0 ? `${fill(P.scene, { n: item.n })}. ` : ''}{sceneTitle}.</p>
+          {when ? <p className="when" key={when}>{when}</p> : null}
+          <p className="sr" role="status" aria-live="polite">{item.n > 0 ? `${fill(P.scene, { n: item.n })}. ` : ''}{sceneTitle}. {when}.</p>
           <Controls voiceOn={voiceOn} soundOn={soundOn}
             onSound={() => dispatch({ t: 'settings', patch: { sound: !state.settings.sound } })}
             onSettings={() => setDrawer(true)} onExit={() => setExitOpen(true)} />

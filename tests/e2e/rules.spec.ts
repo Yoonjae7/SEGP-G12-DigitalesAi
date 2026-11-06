@@ -96,15 +96,15 @@ test('14. with 3D off, voice off and audio blocked, the story still plays start 
   await expect(page.locator('.banner')).toBeVisible();
 });
 
-test('18. the photo is a cut-paper cartoon of Sarah asleep, never a real photograph', async ({ page }) => {
+test('18. the clip is a cut-paper cartoon of Sarah frozen in her presentation, never a real picture or a real person', async ({ page }) => {
   await startStory(page);
-  await page.keyboard.press('Space'); // s1_02: the photo line
+  await page.keyboard.press('Space'); // s1_02: the clip line
   await expect(page.locator('.chat .photo-tile')).toBeVisible();
   expect(await page.locator('img').count()).toBe(0); // no photographs at all
   const label = await page.locator('.photo-tile').first().getAttribute('aria-label');
-  expect(label).toBe('Photo of Sarah asleep on the bus with her mouth open');
-  expect(await page.locator('.chat .photo-tile text').count()).toBe(0); // no "hidden" label any more
-  expect(await page.locator('.chat .photo-tile ellipse').count()).toBeGreaterThan(3); // it is drawn
+  expect(label).toBe('A clip of Sarah freezing in her presentation, with a joke caption');
+  await expect(page.locator('.chat .photo-tile text', { hasText: 'buffering...' })).toHaveCount(1); // the joke caption
+  expect(await page.locator('.chat .photo-tile ellipse').count()).toBeGreaterThan(1); // it is drawn
 });
 
 test('sound and auto-play start on, and Pause and the sound button turn them off', async ({ page }) => {
@@ -177,7 +177,7 @@ test('before the story: a made-up note with the wellbeing email, then the story 
 
 test('the screen is minimal: the words, a name only when a person speaks, a few small buttons, and no face pop-up', async ({ page }) => {
   await startStory(page); // paused, on the narrator's first line
-  await expect(page.locator('.plate .line')).toContainText('Tuesday, 11:40 pm');
+  await expect(page.locator('.plate .line')).toContainText('your phone buzzes');
   await expect(page.locator('.plate .who-line')).toHaveCount(0); // the narrator has no name tag
   await expect(page.locator('.plate .portrait, .hud, .chat')).toHaveCount(0);
   await page.keyboard.press('Space'); // s1_02: Lisa, in the chat
@@ -215,11 +215,21 @@ test('the debrief after the story: what happened, who should have seen it, how i
   for (let k = 0; k < 2; k++) await next.click();
   await expect(page.getByRole('heading', { name: 'Who should have seen it coming?' })).toBeVisible();
   await expect(page.locator('.db-people li')).toHaveCount(4);
-  await expect(page.getByText('Ask Sarah first, or don\'t post it.')).toBeVisible();
-  for (let k = 0; k < 3; k++) await next.click();
+  await expect(page.getByText('Ask Sarah first, or don\'t share it.')).toBeVisible();
+  // each person is lit while the narrator talks about them, and only that person
+  await next.click(); // Lisa
+  await expect(page.locator('.db-people li.on')).toHaveCount(1);
+  await expect(page.locator('.db-people li.on.lisa')).toHaveCount(1);
+  for (let k = 0; k < 4; k++) await next.click();
   await expect(page.getByRole('heading', { name: 'How it could have gone' })).toBeVisible();
   await expect(page.locator('.db-steps li')).toHaveCount(4);
-  for (let k = 0; k < 2; k++) await next.click();
+  // the four steps are lit one at a time, in order, as the narrator reaches each one
+  for (let step = 1; step <= 4; step++) {
+    await expect(page.locator('.db-steps li.on')).toHaveCount(1);
+    await expect(page.locator('.db-steps li.on .num')).toHaveText(String(step));
+    if (step < 4) await next.click();
+  }
+  await next.click();
   await expect(page.getByRole('heading', { name: 'The moral' })).toBeVisible();
   await next.click(); // the last line
   await expect(page.getByText('Ask before you share. If it goes wrong, own it and make it right.').first()).toBeVisible();
@@ -249,18 +259,74 @@ test('auto-play with sound: a line moves on a moment after its voice ends, and t
   expect(file.headers()['content-type']).toContain('audio');
 });
 
-test('the story opens on the bus: Lisa takes a photo of Sarah asleep, you see it and say nothing, then the dorm room', async ({ page }) => {
+test('the story opens on the bus: everyone is introduced, then Lisa shows the clip, you see it and say nothing, then the dorm room', async ({ page }) => {
   await startStory(page, { prologue: true });
   const line = page.locator('.plate .line');
-  await expect(line).toContainText("It's Tuesday evening, and you're on the last bus home");
+  const when = page.locator('.when');
+  await expect(line).toContainText("It's Tuesday night, and you're on the last bus home with Lisa, Marco, Dev and Sarah");
+  await expect(when).toHaveText('Tuesday · 11:15 pm');
   await expect(page.locator('.plate .who-line')).toHaveCount(0); // the narrator has no name tag
-  for (const t of ['Sarah has had a long day', 'Lisa sees her and quietly takes out her phone', "She takes a photo, and Sarah doesn't wake up", "You see it happen, but you don't say anything"]) {
+  const rest = [
+    'Sarah is your closest friend. She works hard',
+    'Lisa is the funny one. She films and posts almost everything',
+    'Marco plays football for the university team',
+    'Dev is quiet.',
+    'The presentation was hard for Sarah. She froze',
+    "Now she's looking out of the window",
+    "Lisa is watching something on her phone. She filmed Sarah's moment",
+    'She shows it to Marco and Dev, and they laugh quietly',
+    "You notice, but you don't say anything",
+  ];
+  for (const t of rest) {
     await page.keyboard.press('Space');
     await expect(line).toContainText(t);
-    await expect(page.locator('.flash')).toHaveCount(t.startsWith('She takes a photo') ? 1 : 0); // the flash, only at the photo
   }
   await page.keyboard.press('Space');
-  await expect(line).toContainText('Tuesday, 11:40 pm');
+  await expect(line).toContainText('your phone buzzes');
+  await expect(when).toHaveText('Tuesday · 11:40 pm'); // the clock moves on with the story
+});
+
+test('the day and time stay in the top left corner, and move on as the story does', async ({ page }) => {
+  await startStory(page);
+  const when = page.locator('.when');
+  await expect(when).toHaveText('Tuesday · 11:40 pm');
+  await toDecision(page);
+  await expect(when).toHaveText('Tuesday · 11:45 pm');
+  const box = (await when.boundingBox())!;
+  const stage = (await page.locator('.stage').boundingBox())!;
+  expect(box.x - stage.x).toBeLessThan(40); // top left of the picture
+  expect(box.y - stage.y).toBeLessThan(40);
+});
+
+test('a choice sits to one side of the scene, the two options stacked, so the scene stays in view', async ({ page }) => {
+  await startStory(page);
+  await toDecision(page);
+  const w = page.viewportSize()!.width;
+  const a = (await page.locator('.decide .co').nth(0).boundingBox())!;
+  const b = (await page.locator('.decide .co').nth(1).boundingBox())!;
+  expect(a.x).toBeGreaterThan(w * 0.45); // on the right
+  expect(Math.abs(a.x - b.x)).toBeLessThan(4); // one above the other
+  expect(b.y).toBeGreaterThan(a.y + a.height - 2);
+});
+
+test('every line is read aloud: when a recording is missing, the browser voice reads it', async ({ page }) => {
+  await page.addInitScript(() => {
+    const w = window as unknown as { __spoken: string[] };
+    w.__spoken = [];
+    // no recording: playing a file fails, as it does for a line that has not been recorded yet
+    (window as unknown as { Audio: unknown }).Audio = class { currentTime = 0; preload = ''; src = ''; onended: null | (() => void) = null; onerror: null | (() => void) = null; play() { return Promise.reject(new Error('missing')); } pause() { /* nothing */ } };
+    class Utter { text: string; voice: unknown; lang = ''; rate = 1; pitch = 1; onstart: null | (() => void) = null; onend: null | (() => void) = null; onerror: null | (() => void) = null; constructor(t: string) { this.text = t; } }
+    (window as unknown as { SpeechSynthesisUtterance: unknown }).SpeechSynthesisUtterance = Utter;
+    Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
+      getVoices: () => [{ name: 'Test British Male', lang: 'en-GB' }, { name: 'Test American Female', lang: 'en-US' }],
+      cancel() { /* nothing */ },
+      speak(u: Utter) { w.__spoken.push(u.text); setTimeout(() => u.onstart?.(), 0); setTimeout(() => u.onend?.(), 200); },
+    } });
+  });
+  await startStory(page, { keepAuto: true });
+  await expect.poll(() => page.evaluate(() => (window as unknown as { __spoken: string[] }).__spoken.length), { timeout: 8000 }).toBeGreaterThan(1);
+  const spoken = await page.evaluate(() => (window as unknown as { __spoken: string[] }).__spoken);
+  expect(spoken[0]).toContain('last bus home'); // the story opens with the narrator, read in full
 });
 
 test('auto-play: lines move on by themselves, Pause holds, and a decision always waits', async ({ page }) => {

@@ -15,7 +15,7 @@
     "label": "Stories",
     "one": {
       "name": "Story 1",
-      "title": "The Photo in the Group Chat"
+      "title": "The Clip in the Group Chat"
     },
     "soon": [
       "Story 2",
@@ -39,7 +39,7 @@
     "start": "Start the story",
     "notice": {
       "title": "Before you start",
-      "text": "This story is made up. It is about a photo shared without someone's consent, so it might remind you of something real. You can stop at any time.",
+      "text": "This story is made up. It is about a video clip shared without someone's consent, so it might remind you of something real. You can stop at any time.",
       "contact": "If it affects you, email the university wellbeing service:",
       "sound": "For the best experience, turn your sound on. The story has voices."
     }
@@ -56,7 +56,7 @@
     },
     "note": {
       "title": "Before you begin",
-      "text": "This story is made up. It is about a photo shared without someone’s consent. It might remind you of something real. You can stop at any time.",
+      "text": "This story is made up. s’s consent. It might remind you of something real. You can stop at any time.",
       "ok": "I understand this story is made up",
       "sound": "Recommended: turn your sound on. The story has voices."
     },
@@ -111,7 +111,7 @@
     "settingsPanel": {
       "title": "Settings",
       "sound": "Sound",
-      "soundHelp": "Voices and quiet sounds. Starts off.",
+      "soundHelp": "Voices and quiet sounds.",
       "simple": "Simple visuals",
       "simpleHelp": "Flat pictures. No 3D. The story is the same.",
       "size": "Text size",
@@ -126,7 +126,7 @@
       "keep": "Keep playing",
       "leave": "Leave"
     },
-    "photo": "Photo of Sarah asleep on the bus with her mouth open",
+    "photo": "A clip of Sarah freezing in her presentation, with a joke caption",
     "next": "Next",
     "decisionHint": "Choose one. Press 1 or 2, or tap a choice."
   },

@@ -82,7 +82,7 @@ function PhoneProp({ lit, screen }: { lit: boolean; screen: THREE.Texture | null
   );
 }
 
-export function ClayCharacter({ id, pose, expression, view, yaw, talking }: CharacterModelProps) {
+export function ClayCharacter({ id, pose, expression, view, yaw, talking, hideHead }: CharacterModelProps) {
   const C = SPEC[id];
   const wf = C.wf, hf = C.hf;
   const screenTex = usePhoneScreen();
@@ -134,12 +134,16 @@ export function ClayCharacter({ id, pose, expression, view, yaw, talking }: Char
     }
     if (elL.current) { elL.current.rotation.z = -rad(c.L[1]); elL.current.rotation.x = -rad(c.eL); }
     if (elR.current) { elR.current.rotation.z = rad(c.R[1]); elR.current.rotation.x = -rad(c.eR); }
-    if (phoneG.current) phoneG.current.rotation.x = rad(target.hand === 'L' ? c.fL + c.eL : c.fR + c.eR) + 0.35;
+    if (phoneG.current) {
+      phoneG.current.rotation.x = rad(target.hand === 'L' ? c.fL + c.eL : c.fR + c.eR) + 0.35;
+      phoneG.current.rotation.z = target.hand === 'L' ? rad(c.L[0] + c.L[1]) : -rad(c.R[0] + c.R[1]);
+    }
     const hipY = 30 - SIT_DROP * sit;
     if (shL.current) shL.current.position.y = 64 - 30 + c.rise - 3; // shoulders
     if (shR.current) shR.current.position.y = 64 - 30 + c.rise - 3;
     if (upper.current) { upper.current.rotation.z = -rad(c.lean); upper.current.position.y = hipY - c.drop; }
     if (headG.current) {
+      headG.current.visible = !hideHead;
       headG.current.rotation.z = -rad(c.tilt);
       headG.current.rotation.x = c.pitch * 0.2 + (speak ? Math.sin(now * 5.5) * 0.045 : 0);
     }

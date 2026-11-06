@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { Component, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useLabFlags } from '@/lib/useLabFlags';
 import type { ChatShot } from '@/scenes3d/chat';
+import type { Tag } from '@/scenes3d/Cinema';
 import { CINEMA_SETS } from '@/scenes3d/direction';
 import { copy } from '@/lib/copy';
 import { PhotoTile } from './Marks';
@@ -50,7 +51,7 @@ class Boundary extends Component<{ onError: () => void; children: ReactNode }, {
  * Either one off (the flag, the "Simple visuals" setting, the Lab switch) gives 2D. If WebGL cannot start,
  * or anything in 3D fails, it falls back to 2D without a word and logs fallback_2d. The story never depends on it.
  */
-export function Visuals({ art, nextArt, override, lineId, acts, chat, photo }: { art: string; nextArt?: string | null; override?: LineOverride | null; lineId?: string | null; acts?: Acts; chat?: ChatShot | null; photo?: boolean }) {
+export function Visuals({ art, nextArt, override, lineId, acts, chat, photo, tags, deciding }: { art: string; nextArt?: string | null; override?: LineOverride | null; lineId?: string | null; acts?: Acts; chat?: ChatShot | null; photo?: boolean; tags?: Tag[]; deciding?: boolean }) {
   const { state, dispatch } = useSession();
   const lab = useLabFlags();
   const reduced = useReducedMotion();
@@ -81,7 +82,7 @@ export function Visuals({ art, nextArt, override, lineId, acts, chat, photo }: {
       {use3D ? (
         <Boundary onError={() => fail('error')}>
           <div className={`stage3d-wrap${show3D ? ' on' : ''}`}>
-            <Cinema art={art} lineId={lineId ?? null} override={override ?? null} acts={acts ?? {}} chat={chat ?? null} reduced={reduced} onReady={() => setReady(art)} onFail={fail} />
+            <Cinema art={art} lineId={lineId ?? null} override={override ?? null} acts={acts ?? {}} chat={chat ?? null} tags={tags ?? []} deciding={!!deciding} reduced={reduced} onReady={() => setReady(art)} onFail={fail} />
           </div>
         </Boundary>
       ) : null}

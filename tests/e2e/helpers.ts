@@ -1,11 +1,11 @@
 import { expect, type Page } from '@playwright/test';
 
 export const D1 = { private: 'Message Lisa privately.', group: 'Reply in the group chat.' };
-export const D2 = { tell: 'Tell Sarah what is happening.', delete: 'Ask Marco and Dev to delete it first.' };
+export const D2 = { tell: 'Tell Sarah what is happening.', delete: 'Report the post and ask Marco and Dev to delete it.' };
 export const D3 = { accept: 'Accept her excuse.', hold: 'Hold her responsible.' };
 
 /** The story opens on a short scene on the bus. Most tests start at the dorm room, after it. */
-export const PROLOGUE_LINES = 5;
+export const PROLOGUE_LINES = 10;
 
 /** Gets through the start flow. Leaves the page on the first line of the story (after the bus scene, unless `prologue` is set). */
 export async function startStory(page: Page, opts: { url?: string; keepAuto?: boolean; prologue?: boolean } = {}) {
@@ -21,7 +21,7 @@ export async function startStory(page: Page, opts: { url?: string; keepAuto?: bo
     await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur()); // so Space goes on, not back to the button
     if (!opts.prologue) {
       for (let i = 0; i < PROLOGUE_LINES; i++) { await page.keyboard.press('Space'); await page.waitForTimeout(60); }
-      await expect(page.locator('.plate .line')).toContainText('Tuesday, 11:40 pm');
+      await expect(page.locator('.plate .line')).toContainText('your phone buzzes');
     }
   }
 }

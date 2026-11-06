@@ -1,6 +1,7 @@
 /**
- * The "photo" Lisa posts: a cut-paper picture of Sarah asleep on the bus with her mouth open.
- * It is a cartoon in the game's own style, never a real photograph, and no real person is shown.
+ * The clip Lisa shares: a cut-paper still of Sarah frozen in the middle of her presentation, with a joke caption and the
+ * controls of a video. It is a cartoon in the game's own style, never a real photograph or a real person.
+ * (The names and the file stay "photo" because the story engine calls it a photo tile.)
  * Drawn in a 240 x 168 box. The shapes are self-contained (no shared defs), so it also works when a scene is
  * turned into a 3D texture.
  */
@@ -9,45 +10,45 @@ export const PHOTO_H = 168;
 
 const INK = '#1C1B19';
 const line = `stroke="${INK}" stroke-width="2.5" stroke-linejoin="round"`;
+const FONT = 'font-family="Verdana, Arial, sans-serif" font-weight="700"';
 
 export const PHOTO_INNER = [
-  // bus wall and window with a passing city
-  // a soft blur, so the picture looks like a hurried phone shot. The edge is drawn crisp, outside the blur.
-  `<defs><filter id="photo-soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.4"/></filter></defs>`,
+  // a soft blur, so the picture looks like a hurried phone recording. The edge and the video controls are drawn crisp, outside the blur.
+  `<defs><filter id="photo-soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.6"/></filter></defs>`,
   `<g filter="url(#photo-soft)">`,
+  // the lecture room wall, and the projector screen with a slide on it
   `<rect x="-30" y="-30" width="300" height="228" fill="#E7DFCE"/>`,
-  `<rect x="128" y="14" width="100" height="74" rx="5" fill="#CFE8EF" ${line}/>`,
-  `<path d="M131,87 V60 h13 V46 h16 V62 h12 V38 h18 V57 h14 V50 h13 V87 Z" fill="#8FB0B8" stroke="${INK}" stroke-width="1.5" stroke-linejoin="round"/>`,
-  `<circle cx="208" cy="29" r="8" fill="#F0C75E"/>`,
-  // seat back and headrest
-  `<rect x="22" y="44" width="146" height="130" rx="22" fill="#B8864F" ${line}/>`,
-  `<rect x="70" y="22" width="84" height="52" rx="16" fill="#A5733E" ${line}/>`,
-  // neck and shoulders (Sarah's teal)
-  `<rect x="102" y="92" width="20" height="26" rx="6" fill="#D9A27C" stroke="${INK}" stroke-width="2"/>`,
-  `<path d="M44,168 C44,128 74,110 112,110 C150,110 180,128 180,168 Z" fill="#2E7D7A" ${line}/>`,
-  // head, tipped back against the seat
-  `<g transform="rotate(-16 112 74)">`,
-  `<ellipse cx="112" cy="72" rx="27" ry="30" fill="#E3B08A" ${line}/>`,
-  `<path d="M84,70 C80,42 98,36 114,38 C134,40 144,54 139,72 C134,60 124,54 112,54 C100,54 90,60 84,70 Z" fill="#2B2320" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>`,
-  `<path d="M84,70 C82,82 84,92 90,98 C86,88 87,80 90,72 Z" fill="#2B2320"/>`,
-  `<path d="M96,72 q6,5 12,0 M118,72 q6,5 12,0" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>`,
-  `<path d="M96,65 q6,-3 12,0 M118,65 q6,-3 12,0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>`,
-  `<circle cx="97" cy="84" r="5" fill="#E58A7A" opacity=".55"/><circle cx="127" cy="84" r="5" fill="#E58A7A" opacity=".55"/>`,
-  `<ellipse cx="112" cy="90" rx="9" ry="11" fill="#5B1F1F" stroke="${INK}" stroke-width="2"/>`,
-  `<ellipse cx="112" cy="96" rx="5.5" ry="3.5" fill="#D96B6B"/>`,
-  `<path d="M120,94 q4,8 1,15" fill="none" stroke="#CFE8EF" stroke-width="3" stroke-linecap="round"/>`,
-  `<circle cx="121" cy="112" r="2.6" fill="#CFE8EF" stroke="${INK}" stroke-width="1"/>`,
+  `<rect x="112" y="10" width="116" height="78" rx="3" fill="#F8F4EA" ${line}/>`,
+  `<rect x="124" y="20" width="58" height="6" rx="2" fill="${INK}" opacity=".55"/>`,
+  `<rect x="124" y="32" width="38" height="4" rx="2" fill="${INK}" opacity=".3"/>`,
+  `<rect x="128" y="58" width="16" height="22" fill="#4F7080" stroke="${INK}" stroke-width="1.5"/>`,
+  `<rect x="150" y="46" width="16" height="34" fill="#B8864F" stroke="${INK}" stroke-width="1.5"/>`,
+  `<rect x="172" y="64" width="16" height="16" fill="#6F8F72" stroke="${INK}" stroke-width="1.5"/>`,
+  `<rect x="194" y="52" width="16" height="28" fill="#CDBB84" stroke="${INK}" stroke-width="1.5"/>`,
+  // Sarah behind the lectern: shoulders (her teal top), neck, head
+  `<path d="M16,126 C16,98 38,86 62,86 C86,86 108,98 108,126 Z" fill="#2E7D7A" ${line}/>`,
+  `<rect x="52" y="74" width="20" height="16" rx="6" fill="#D9A27C" stroke="${INK}" stroke-width="2"/>`,
+  `<ellipse cx="62" cy="54" rx="22" ry="25" fill="#E3B08A" ${line}/>`,
+  `<path d="M39,52 C36,28 50,20 64,22 C80,24 88,36 85,54 C80,44 72,38 62,38 C52,38 44,44 39,52 Z" fill="#2B2320" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>`,
+  `<path d="M39,52 C37,64 39,74 44,80 C41,70 42,62 44,54 Z" fill="#2B2320"/>`,
+  // wide eyes, raised brows, a small open mouth, and a drop of sweat: she has lost her place
+  `<circle cx="53" cy="56" r="5" fill="#fff" stroke="${INK}" stroke-width="1.8"/><circle cx="72" cy="56" r="5" fill="#fff" stroke="${INK}" stroke-width="1.8"/>`,
+  `<circle cx="54" cy="57" r="2.2" fill="${INK}"/><circle cx="73" cy="57" r="2.2" fill="${INK}"/>`,
+  `<path d="M46,46 q7,-6 14,0 M65,46 q7,-6 14,0" fill="none" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/>`,
+  `<ellipse cx="62" cy="71" rx="4.5" ry="5.5" fill="#5B1F1F" stroke="${INK}" stroke-width="1.8"/>`,
+  `<circle cx="45" cy="64" r="4" fill="#E58A7A" opacity=".55"/><circle cx="80" cy="64" r="4" fill="#E58A7A" opacity=".55"/>`,
+  `<path d="M90,40 q5,8 0,13 q-5,-5 0,-13 Z" fill="#CFE8EF" stroke="${INK}" stroke-width="1.4"/>`,
+  // the lectern in front of her
+  `<rect x="10" y="118" width="104" height="60" rx="4" fill="#8F6A3E" ${line}/>`,
+  `<rect x="22" y="128" width="80" height="6" rx="2" fill="#6F4F2C" opacity=".6"/>`,
   `</g>`,
-  // bag on her lap and hands
-  `<rect x="64" y="136" width="96" height="44" rx="10" fill="#3F6B4F" ${line}/>`,
-  `<path d="M84,136 q28,-18 56,0" fill="none" stroke="${INK}" stroke-width="3"/>`,
-  `<ellipse cx="84" cy="143" rx="11" ry="7" fill="#E3B08A" stroke="${INK}" stroke-width="2"/>`,
-  `<ellipse cx="140" cy="143" rx="11" ry="7" fill="#E3B08A" stroke="${INK}" stroke-width="2"/>`,
-  // zzz
-  `<path d="M148,50 h8 l-8,10 h8 M160,34 h11 l-11,13 h11 M176,16 h13 l-13,15 h13" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`,
-  // handrail in front, and a thin photo edge
-  `<rect x="190" y="0" width="7" height="168" fill="#9A978F" stroke="${INK}" stroke-width="1.5"/>`,
-  `</g>`,
+  // the joke caption across the picture
+  `<rect x="30" y="100" width="180" height="28" rx="3" fill="${INK}" opacity=".88"/>`,
+  `<text x="120" y="120" text-anchor="middle" fill="#fff" font-size="17" ${FONT}>buffering...</text>`,
+  // video controls: a play mark, a progress bar and the time
+  `<path d="M12,146 L12,160 L24,153 Z" fill="#fff" stroke="${INK}" stroke-width="1.2" stroke-linejoin="round"/>`,
+  `<rect x="32" y="150" width="150" height="6" rx="3" fill="#fff" opacity=".6"/><rect x="32" y="150" width="62" height="6" rx="3" fill="#E5502B"/>`,
+  `<text x="226" y="158" text-anchor="end" fill="#fff" font-size="11" ${FONT} stroke="${INK}" stroke-width=".6">0:12</text>`,
   `<rect x="1.5" y="1.5" width="237" height="165" fill="none" stroke="${INK}" stroke-opacity=".55" stroke-width="3"/>`,
 ].join('');
 

@@ -26,7 +26,7 @@ import { Rig } from './rig';
 
   /* ---------- shared pieces ---------- */
   function photo(x, y, w, h) {
-    return photoNested(x, y, w, h); // a cut-paper picture of Sarah asleep on the bus, never a real photograph
+    return photoNested(x, y, w, h); // a cut-paper picture of Sarah frozen in her presentation, never a real photograph
   }
   // chat bubbles inside a phone screen. items: {k:'photo'|'text'|'bars', side:'l'|'r', who, lines, n, h}
   function chat(sx, sy, sw, sh, title, sub, items) {
@@ -132,14 +132,14 @@ import { Rig } from './rig';
     o += LY(.14, curtain(-40, 0, 230, 800) + curtain(1410, 0, 230, 800));
     const chatC = (sx, sy, sw, sh) => chat(sx, sy, sw, sh, 'Close Friends', '12 people', [
       { k: 'photo', side: 'l', who: 'Lisa', h: sw * .42 },
-      { k: 'text', side: 'l', who: 'Marco', lines: ['Ha! This is great.'] },
-      { k: 'text', side: 'l', who: 'Dev', lines: ['Send this to our', 'study group chat.'] },
+      { k: 'text', side: 'l', who: 'Marco', lines: ['Haha, this is so good.'] },
+      { k: 'text', side: 'l', who: 'Dev', lines: ['Send this to the', "housemates' chat too."] },
       { k: 'text', side: 'l', who: 'Lisa', lines: ['This is so funny, right?'] }]) +
       rr(sx + sw * .04, sy + sh - sh * .075, sw * .92, sh * .055, sh * .028, K.deep) + `<text x="${sx + sw * .08}" y="${sy + sh - sh * .037}" ${FONT} font-size="${sw * .05}" fill="#4A4741">Message</text>`;
     o += LY(.5, phone(800, 450, 540, 880, { rot: -3, content: chatC }));
     // floating paper cut-out bubbles, nearest depth
     const fl = (x, y, rot, w, h, t, f) => cutN(`<g transform="translate(${x} ${y}) rotate(${rot})">${rr(-w / 2, -h / 2, w, h, h / 2.2, f || K.paper, OUT)}<text x="0" y="${h * .16}" text-anchor="middle" ${FONT} font-weight="700" font-size="${h * .4}" fill="#1C1B19">${t}</text></g>`);
-    o += LY(1.1, fl(1220, 250, 7, 520, 90, 'This is so funny, right?') + fl(310, 600, -8, 380, 84, 'Ha! This is great.') + fl(1130, 770, -5, 700, 84, 'Send this to our study group chat.', K.morning));
+    o += LY(1.1, fl(1220, 250, 7, 520, 90, 'This is so funny, right?') + fl(310, 600, -8, 380, 84, 'Haha, this is so good.') + fl(1130, 770, -5, 700, 84, "Send this to the housemates' chat too.", K.morning));
     o += LY(1.0, cutN(`<g transform="translate(1300 480) rotate(8)">${photo(-95, -75, 190, 150)}</g>`));
     return o;
   }
@@ -160,7 +160,7 @@ import { Rig } from './rig';
     for (let i = 0; i < 18; i++) chain += link(i * 95 - 10, 470 + (i % 2 ? 0 : 0), 118, 54, cs[i % 3]);
     o += LY(.4, cutN(chain));
     o += LY(.6, phone(340, 450, 330, 580, { rot: -4, content: mk('Close Friends', '12', items) }));
-    o += LY(.7, phone(800, 450, 330, 580, { rot: 0, content: mk('Study Group', '31', items) }));
+    o += LY(.7, phone(800, 450, 330, 580, { rot: 0, content: mk('Housemates', '8', items) }));
     o += LY(.8, phone(1260, 450, 330, 580, { rot: 4, content: mk('Football Group', '24', items) }));
     return o;
   }
@@ -295,8 +295,8 @@ import { Rig } from './rig';
     wall += cutN(rr(190, 36, 330, 54, 6, K.ping, OUT)) + cutN(rr(900, 36, 330, 54, 6, K.butter, OUT));
     wall += r(0, 0, 1600, 16, '#FFF3C8', 'opacity=".9"') + po('0,16 1600,16 1700,300 -100,300', '#FFF3C8', 'opacity=".05"');
     o += LY(.22, wall);
-    // Sarah asleep by the left window, and Lisa across the aisle with her phone up
-    o += LY(.5, tint('tint-night', Rg('sarah', { view: 'front', pose: 'slump', expr: 'calm', yaw: .15, scale: 7.2, x: 330, y: 1010, blob: false })));
+    // Sarah by the left window, looking out, and Lisa across the aisle with her phone up
+    o += LY(.5, tint('tint-night', Rg('sarah', { view: 'front', pose: 'idle-breathe', expr: 'worried', yaw: .15, scale: 7.2, x: 330, y: 1010, blob: false })));
     o += LY(.55, tint('tint-night', Rg('lisa', { view: 'front', pose: 'look-phone', expr: 'smirk', yaw: -.25, scale: 6.4, x: 1180, y: 1000, blob: false })));
     // seat backs in front of them, so they look seated
     let seats = '';

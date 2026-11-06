@@ -13,7 +13,7 @@ const words = (t: string) => norm(t).match(/[a-z0-9']+/g) ?? [];
 
 /** Cue lists. A trailing * means "any ending" (humiliat* matches humiliated). Everything else is a whole word or phrase. */
 const CUES = {
-  responsibility: ['posted', 'shared', 'forwarded', 'sent', 'took the photo', 'should have asked', 'did not ask', 'consent*', 'should delete', 'should report', 'should tell', 'should stop', 'responsib*', 'their job', 'up to', 'her fault', 'his fault'],
+  responsibility: ['posted', 'shared', 'forwarded', 'sent', 'took the photo', 'filmed', 'recorded', 'took the video', 'shared the clip', 'posted the clip', 'should have asked', 'did not ask', 'consent*', 'should delete', 'should report', 'should tell', 'should stop', 'responsib*', 'their job', 'up to', 'her fault', 'his fault'],
   consequence: ['hurt*', 'embarrass*', 'humiliat*', 'upset', 'ashamed', 'spread*', 'saved', 'screenshot*', 'bullied', 'laughed at', 'trust*', 'lonely', 'anxious', 'stays online', 'cannot be undone', 'never go away', 'reputation', 'skip class', 'avoid*'],
   reason: ['because', 'since', 'so that', 'which means', 'that means', 'therefore', 'if'],
   counterview: ['but', 'however', 'although', 'on the other hand', 'some people', 'fair point', 'even if'],

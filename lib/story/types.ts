@@ -3,6 +3,7 @@ import { z } from 'zod';
 /** Everything the learner reads or hears comes from content/story.json. These are its types. */
 export const SpeakerSchema = z.enum(['narrator', 'lisa', 'sarah', 'marco', 'dev', 'you', 'screen']);
 export type Speaker = z.infer<typeof SpeakerSchema>;
+export const CharIdSchema = z.enum(['sarah', 'lisa', 'marco', 'dev', 'you']);
 
 export const ConditionSchema = z.object({
   d1: z.enum(['private', 'group']).optional(),
@@ -12,14 +13,16 @@ export const ConditionSchema = z.object({
 export type Condition = z.infer<typeof ConditionSchema>;
 
 /** What the other people on stage are doing while a line plays (3D only). It stays until a later line in the scene changes it. */
-export const ActSchema = z.partialRecord(z.enum(['sarah', 'lisa', 'marco', 'dev', 'you']), z.object({ pose: z.string().optional(), expression: z.string().optional(), to: z.string().optional() }));
+export const ActSchema = z.partialRecord(CharIdSchema, z.object({ pose: z.string().optional(), expression: z.string().optional(), to: z.string().optional() }));
 
 export const LineSchema = z.object({
   id: z.string(), // "s1_03". Also the audio file name.
   speaker: SpeakerSchema,
   kind: z.enum(['narration', 'dialogue', 'chat', 'screen']),
   text: z.string(),
-  voiced: z.boolean(), // false for 'screen' and 'you'
+  voiced: z.boolean(), // every line is read aloud. On-screen text is read by the narrator, and your own words by your voice.
+  voice: SpeakerSchema.optional(), // who reads it, when that is not the speaker (the narrator reads on-screen text)
+  intro: z.array(CharIdSchema).optional(), // show a name tag with a short background over these people while the line plays (3D)
   pose: z.string().optional(),
   expression: z.string().optional(),
   showPhotoTile: z.boolean().optional(),
@@ -69,7 +72,9 @@ export const SceneSchema = z.object({
   title: z.string(),
   art: z.string(),
   description: z.string(),
+  time: z.string(), // shown top left: "Tuesday · 11:40 pm"
   chat: z.string().optional(),
+  chatContinues: z.boolean().optional(), // the phone still shows the chat from the scene before
   stage: z.object({ set: z.string(), characters: z.array(StageCharacterSchema) }),
   lines: z.array(LineSchema),
 });
@@ -79,6 +84,7 @@ export const EndingSchema = z.object({
   id: z.enum(['A', 'B']),
   title: z.string(),
   art: z.string(),
+  time: z.string(),
   description: z.string(),
   stage: z.object({ set: z.string(), characters: z.array(StageCharacterSchema) }),
   lines: z.array(LineSchema),
@@ -108,6 +114,8 @@ export const StorySchema = z.object({
   id: z.string(),
   title: z.string(),
   banner: z.string(),
+  /** Who is who. A name tag shows the name and this line when a person is introduced. */
+  cast: z.record(CharIdSchema, z.object({ name: z.string(), about: z.string() })),
   scenes: z.array(SceneSchema),
   decisions: z.object({ d1: DecisionSchema, d2: DecisionSchema, d3: DecisionSchema }),
   whys: z.object({ why1: WhySchema, why2: WhySchema }),

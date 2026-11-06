@@ -9,13 +9,18 @@ const SOLID1 = 'Lisa posted it without asking. Marco and Dev forwarded it, which
 const SOLID2 = 'I disagree with her because Sarah could be humiliated once it spreads, even if Lisa meant it as a joke.';
 
 async function goto(page: Page, text: string) {
-  for (let i = 0; i < 40; i++) {
-    const now = (await page.locator('.plate .line').textContent({ timeout: 400 }).catch(() => '')) ?? '';
+  for (let i = 0; i < 60; i++) {
+    const now = await page.locator('.plate .line').textContent({ timeout: 1500 }).catch(() => null); // press Space only after a caption was read
+    if (now === null) {
+      if (await page.locator('.titlecard').count()) await page.keyboard.press('Space'); // the ending title card
+      await page.waitForTimeout(400);
+      continue;
+    }
     if (now.includes(text)) return;
     await page.keyboard.press('Space');
-    await page.waitForTimeout(70);
+    await page.waitForTimeout(150);
   }
-  expect(await page.locator('.plate .line').textContent()).toContain(text);
+  expect(await page.locator('.plate .line').textContent({ timeout: 2000 }), `looking for "${text}"`).toContain(text);
 }
 
 test('the good ending in 3D', async ({ page }) => {
@@ -36,7 +41,7 @@ test('the good ending in 3D', async ({ page }) => {
   await finishWhy(page, 'Someone could argue Lisa was only joking, but it does not change that Sarah was hurt.');
   await goto(page, 'two days later'); await shot('eA-0', 4500);
   await goto(page, 'Sarah asks to meet'); await shot('eA-1', 4500);
-  await goto(page, 'I posted a photo of you'); await shot('eA-2');
+  await goto(page, 'I filmed you without asking'); await shot('eA-2');
   await goto(page, 'Thank you. I want it gone'); await shot('eA-3');
   await goto(page, 'Within an hour'); await shot('eA-5');
   await goto(page, 'Sarah finally smiles'); await shot('eA-6');
